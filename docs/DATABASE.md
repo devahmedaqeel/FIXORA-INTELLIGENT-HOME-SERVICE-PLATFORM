@@ -6,8 +6,8 @@ Conventions
 
 * Document IDs: Firebase Auth UID for per-user documents (`users`, `customers`, `providers`, `availability`); auto IDs elsewhere, except `reviews` (ID = booking ID, which makes duplicate reviews impossible) and `settings/platform`.
 * Timestamps are ISO-8601 UTC strings (`createdAt`, `updatedAt`, …).
-* Booking dates/times are Pakistan local time: `bookingDate` `YYYY-MM-DD`, `startTime`/`endTime` `HH:mm`.
-* Money is PKR as numbers.
+* Booking dates/times are UK local time (GMT/BST): `bookingDate` `YYYY-MM-DD`, `startTime`/`endTime` `HH:mm`.
+* Money is GBP as numbers.
 * Some fields are **denormalised** (e.g. provider `postalCodes`, booking `serviceTitle`) so lists and search need a single query. The service layer keeps them in sync.
 
 ## Collections
@@ -57,16 +57,16 @@ Conventions
 ### `areas/{areaId}`
 | Field | Example |
 |---|---|
-| areaName | New Mirpur City |
-| city | Mirpur |
-| district | Mirpur |
-| province | Azad Jammu and Kashmir |
-| postalCode | 10250 |
-| country | Pakistan |
+| areaName | Camden |
+| city | London |
+| district | Greater London |
+| province | England |
+| postalCode | NW1 6XE |
+| country | United Kingdom |
 | active | true |
 | createdAt, updatedAt | |
 
-Seeded areas cover all provinces/territories. Many Pakistani neighbourhoods share one postal code (e.g. most Islamabad sectors use 44000). Verify codes with Pakistan Post before production; admins can edit them in **Admin → Areas**.
+Seeded areas cover England, Scotland, Wales and Northern Ireland. `province` holds the UK constituent country and `district` holds the county/region. Verify postcodes against Royal Mail before production; admins can edit them in **Admin → Areas**.
 
 ### `availability/{providerId}`
 ```json

@@ -35,7 +35,7 @@ export const env = Object.freeze({
 
   notifications: {
     emailProvider: (process.env.EMAIL_PROVIDER || 'console').toLowerCase(),
-    emailFrom: process.env.EMAIL_FROM || 'Fixora <no-reply@fixora.pk>',
+    emailFrom: process.env.EMAIL_FROM || 'Fixora <no-reply@fixora.com>',
     smtp: {
       host: process.env.SMTP_HOST || '',
       port: toInt(process.env.SMTP_PORT, 587),

@@ -1,12 +1,12 @@
 # Fixora
 
-**Intelligent Home Service Platform** — a full-stack marketplace connecting customers in Pakistan with verified local home-service providers: plumbers, electricians, cleaners, AC technicians, carpenters, painters, tutors and more.
+**Intelligent Home Service Platform** — a full-stack marketplace connecting customers in the United Kingdom with verified local home-service providers: plumbers, electricians, cleaners, heating engineers, carpenters, painters, tutors and more.
 
 ## Features
 
-* **Customer marketplace** — search by service category plus area name or 5-digit postal code, compare ratings and prices, save favourites
+* **Customer marketplace** — search by service category plus area name or postcode, compare ratings and prices, save favourites
 * **Verified providers** — every provider starts as *pending* and is hidden from search until an admin approves them
-* **Area / ZIP search** — database-driven Pakistani locations (area, city, district, province, postal code); no map APIs
+* **Area / postcode search** — database-driven UK locations (area, city, district, province, postcode); no map APIs
 * **Booking & scheduling** — weekly availability, days off, slot generation from service duration, transactional **double-booking prevention**
 * **Cancellation policy** — free until a configurable cutoff (default 2 hours), then warn / fee / block
 * **Reviews & ratings** — only after completed bookings, one per booking, averages maintained transactionally
@@ -65,7 +65,7 @@ cp server/.env.example server/.env     # Firebase service account
 firebase use --add
 npm run deploy:rules
 
-# 4. Seed categories, Pakistan areas and (optionally) demo data
+# 4. Seed categories, UK areas and (optionally) demo data
 npm run seed:demo
 
 # 5. Create your own admin account
@@ -75,7 +75,7 @@ npm run create-admin -- --email you@example.com --password "StrongPass123" --nam
 npm run dev
 ```
 
-Demo accounts created by `seed:demo` all use the password `Demo@12345` (e.g. `admin@fixora.demo`, `ayesha@fixora.demo`, `usman.plumber@fixora.demo`).
+Quick demo login (created by `seed:demo`): `admin@fixora.com` / `Admin@123`, `customer@fixora.com` / `Customer@123`, `provider@fixora.com` / `Provider@123`. Every other seeded account uses the password `Demo@12345`.
 
 Full step-by-step instructions, including Firebase console setup, optional AI/email/payment integrations and deployment: **[docs/SETUP.md](docs/SETUP.md)**.
 

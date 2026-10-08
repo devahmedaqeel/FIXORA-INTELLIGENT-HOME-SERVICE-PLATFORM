@@ -55,10 +55,10 @@ Access levels used below: **Public** (no token), **Optional** (token used if pre
 
 ### Formats
 
-* Dates: `YYYY-MM-DD`; times: `HH:mm` (24-hour). Booking dates/times are **Pakistan Standard Time (UTC+5)**.
+* Dates: `YYYY-MM-DD`; times: `HH:mm` (24-hour). Booking dates/times are **UK local time (GMT/BST)**.
 * Timestamps (`createdAt`, `updatedAt`): ISO-8601 UTC strings.
-* Phone: Pakistani format `03001234567` or `+923001234567`. Postal code: 5 digits.
-* Prices: PKR, numbers.
+* Phone: UK format `07911123456` or `+447911123456`. Postcode: UK format, e.g. `SW1A 1AA`.
+* Prices: GBP, numbers.
 
 ---
 
@@ -168,7 +168,7 @@ Database-driven location search. No maps or geocoding APIs.
 | GET | `/areas/facets` | Public | Distinct cities and provinces |
 | GET | `/areas/:id` | Public | One area |
 | GET | `/admin/areas` | Admin | All areas incl. inactive, same filters |
-| POST | `/admin/areas` | Admin | `{ areaName, city, district, province, postalCode, active? }` — province must be a Pakistani province/territory |
+| POST | `/admin/areas` | Admin | `{ areaName, city, district, province, postalCode, active? }` — province must be a UK constituent country (England, Scotland, Wales or Northern Ireland) |
 | PUT | `/admin/areas/:id` | Admin | Update; providers serving the area are re-synced |
 | DELETE | `/admin/areas/:id` | Admin | Refused (409) while providers serve it — deactivate instead |
 

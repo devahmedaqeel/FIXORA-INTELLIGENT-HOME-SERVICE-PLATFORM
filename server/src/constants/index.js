@@ -139,8 +139,8 @@ export const DEFAULT_SETTINGS = Object.freeze({
   lateCancellationFeePercent: 0,
   slotIntervalMinutes: 30,
   maxAdvanceBookingDays: 60,
-  supportEmail: 'support@fixora.pk',
-  supportPhone: '+92 300 0000000',
+  supportEmail: 'support@fixora.com',
+  supportPhone: '+44 20 7946 0000',
   platformName: 'Fixora',
 });
 

@@ -4,7 +4,7 @@ import Icon from '../components/common/Icon';
 
 const POINTS = [
   'Only verified providers appear in search',
-  'Search by area or 5-digit postal code',
+  'Search by area or postcode',
   'Free cancellation up to the cutoff time',
 ];
 
@@ -15,7 +15,7 @@ export default function AuthLayout() {
       <aside className="auth-shell__brand">
         <Logo light />
         <div>
-          <h2>Trusted help for every home in Pakistan.</h2>
+          <h2>Trusted help for every home in the UK.</h2>
           <ul className="auth-shell__points">
             {POINTS.map((p) => (
               <li key={p}>

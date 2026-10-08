@@ -16,7 +16,7 @@ import { bookingPathFor } from '../../features/booking/booking.utils';
 import { categoryIcon } from '../../constants/categoryIcons';
 
 const STEPS = [
-  { icon: 'search', title: 'Search your area', text: 'Pick a service and enter your area or 5-digit postal code.' },
+  { icon: 'search', title: 'Search your area', text: 'Pick a service and enter your area or postcode.' },
   { icon: 'shield', title: 'Compare verified pros', text: 'Every provider is checked by our team. Compare ratings, reviews and prices.' },
   { icon: 'calendar', title: 'Book a time slot', text: 'Choose a free slot that suits you. No double bookings — ever.' },
   { icon: 'star', title: 'Get it done & review', text: 'Pay after the job and rate your provider to help others.' },
@@ -24,14 +24,14 @@ const STEPS = [
 
 const REASONS = [
   { icon: 'shield', title: 'Verified professionals', text: 'Providers are hidden from search until our team verifies them.' },
-  { icon: 'map-pin', title: 'Truly local', text: 'Search by neighbourhood or postal code across Pakistan — no map apps needed.' },
-  { icon: 'wallet', title: 'Clear prices', text: 'Fixed, starting-from or hourly rates shown upfront in rupees.' },
+  { icon: 'map-pin', title: 'Truly local', text: 'Search by neighbourhood or postcode across the UK — no map apps needed.' },
+  { icon: 'wallet', title: 'Clear prices', text: 'Fixed, starting-from or hourly rates shown upfront in pounds.' },
   { icon: 'clock', title: 'Flexible cancellation', text: 'Cancel free of charge before the cutoff time shown on your booking.' },
 ];
 
 const FAQ = [
   ['How are providers verified?', 'Our team reviews every provider’s profile and documents before they can appear in search. Verified providers carry a green badge.'],
-  ['Which areas does Fixora cover?', 'We list neighbourhoods and postal codes across Punjab, Sindh, KP, Balochistan, Islamabad, AJK and Gilgit-Baltistan. Search by your area name or 5-digit postal code.'],
+  ['Which areas does Fixora cover?', 'We list towns, cities and postcodes across England, Scotland, Wales and Northern Ireland. Search by your area name or postcode.'],
   ['How do I pay?', 'By default you pay the provider in cash once the job is done. Prices are shown before you book.'],
   ['Can I cancel a booking?', 'Yes. Cancellations are free up to the cutoff time before the appointment (2 hours by default). Later cancellations show a warning first.'],
   ['I am a professional. How do I join?', 'Create a provider account, complete your profile, add your services and areas, and our team will verify you.'],
@@ -50,14 +50,14 @@ export default function Home() {
     <>
       <section className="hero">
         <div className="container hero__inner">
-          <p className="eyebrow eyebrow--light">Home services across Pakistan</p>
+          <p className="eyebrow eyebrow--light">Home services across the UK</p>
           <h1 className="hero__title">
             Reliable pros for every fix, <span className="hero__accent">booked in minutes.</span>
           </h1>
-          <p className="hero__subtitle">Plumbers, electricians, cleaners, AC technicians, tutors and more — verified, rated and available in your area.</p>
+          <p className="hero__subtitle">Plumbers, electricians, cleaners, heating engineers, tutors and more — verified, rated and available in your area.</p>
           <SearchBar action={user?.role === 'customer' ? '/customer/search' : '/search'} />
           <p className="hero__hint">
-            Try <Link to="/search?postalCode=10250">10250</Link> for New Mirpur City, or browse <Link to="/services">all services</Link>.
+            Try <Link to="/search?postalCode=SW1A%201AA">SW1A 1AA</Link> for Westminster, or browse <Link to="/services">all services</Link>.
           </p>
         </div>
       </section>

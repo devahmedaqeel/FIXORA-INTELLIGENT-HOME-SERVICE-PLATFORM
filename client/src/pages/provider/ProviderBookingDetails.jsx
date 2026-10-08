@@ -14,7 +14,7 @@ import { useToast } from '../../context/ToastContext';
 import { getBooking, updateBookingStatus, updatePaymentStatus } from '../../features/booking/booking.service';
 import { PROVIDER_ACTIONS } from '../../features/booking/booking.constants';
 import { PAYMENT_STATUS_LABELS } from '../../constants';
-import { todayPk } from '../../utils/date';
+import { todayUk } from '../../utils/date';
 
 export default function ProviderBookingDetails() {
   useDocumentTitle('Booking details');
@@ -29,7 +29,7 @@ export default function ProviderBookingDetails() {
   if (error) return <ErrorMessage error={error} onRetry={reload} />;
 
   const providerNotes = notes ?? booking.providerNotes ?? '';
-  const actions = (PROVIDER_ACTIONS[booking.status] || []).filter((a) => a.status !== 'completed' || booking.bookingDate <= todayPk());
+  const actions = (PROVIDER_ACTIONS[booking.status] || []).filter((a) => a.status !== 'completed' || booking.bookingDate <= todayUk());
 
   const run = async (action) => {
     setBusy(true);
@@ -79,7 +79,7 @@ export default function ProviderBookingDetails() {
                   </Button>
                 ))}
               </div>
-              {booking.status === 'confirmed' && booking.bookingDate > todayPk() && <p className="muted small">You can mark the job completed on or after the booking date.</p>}
+              {booking.status === 'confirmed' && booking.bookingDate > todayUk() && <p className="muted small">You can mark the job completed on or after the booking date.</p>}
             </>
           )}
           {['confirmed', 'in_progress', 'completed'].includes(booking.status) && (

@@ -12,7 +12,7 @@ import { useToast } from '../../context/ToastContext';
 import { getOwnAvailability, updateOwnAvailability } from '../../features/providers/provider.service';
 import { WEEKDAYS } from '../../constants';
 import { formatDate } from '../../utils/format';
-import { todayPk } from '../../utils/date';
+import { todayUk } from '../../utils/date';
 
 export default function ProviderAvailability() {
   useDocumentTitle('Availability');
@@ -40,7 +40,7 @@ export default function ProviderAvailability() {
   const setDay = (day, changes) => setWeekly((w) => ({ ...w, [day]: { ...w[day], ...changes } }));
 
   const addException = () => {
-    if (!newException.date || newException.date < todayPk()) {
+    if (!newException.date || newException.date < todayUk()) {
       toast.error('Choose today or a future date');
       return;
     }
@@ -127,7 +127,7 @@ export default function ProviderAvailability() {
       <section className="card stack">
         <h2 className="card__title">Days off & exceptions</h2>
         <div className="form-grid form-grid--end">
-          <Input label="Date" type="date" min={todayPk()} value={newException.date} onChange={(e) => setNewException((x) => ({ ...x, date: e.target.value }))} />
+          <Input label="Date" type="date" min={todayUk()} value={newException.date} onChange={(e) => setNewException((x) => ({ ...x, date: e.target.value }))} />
           <Input label="Reason (optional)" value={newException.reason} maxLength={120} onChange={(e) => setNewException((x) => ({ ...x, reason: e.target.value }))} />
           <Button variant="secondary" icon="plus" onClick={addException}>
             Add date

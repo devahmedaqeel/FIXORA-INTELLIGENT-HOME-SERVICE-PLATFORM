@@ -3,7 +3,7 @@ import Icon from '../common/Icon';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
 import { getAvailableSlots } from '../../features/providers/provider.service';
-import { addDays, nextDays, todayPk, weekdayKey } from '../../utils/date';
+import { addDays, nextDays, todayUk, weekdayKey } from '../../utils/date';
 import { formatDate, formatTime } from '../../utils/format';
 
 const WINDOW = 7;
@@ -14,7 +14,7 @@ const WINDOW = 7;
  * value: { date, startTime } · onChange(next)
  */
 export default function AvailabilityCalendar({ providerId, serviceId, weekly, value, onChange, refreshKey = 0, maxDays = 60 }) {
-  const today = todayPk();
+  const today = todayUk();
   const [windowStart, setWindowStart] = useState(today);
   const [slotsState, setSlotsState] = useState({ loading: false, error: null, data: null });
   const days = useMemo(() => nextDays(WINDOW, windowStart), [windowStart]);

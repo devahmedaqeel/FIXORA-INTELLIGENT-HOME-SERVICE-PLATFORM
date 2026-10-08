@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
  * Fixora Firestore seed.
- *   npm run seed        → categories, Pakistan areas, platform settings (safe to re-run)
+ *   npm run seed        → categories, UK areas, platform settings (safe to re-run)
  *   npm run seed:demo   → the above + demo admin/customers/providers/services/reviews
  * Run from the repository root (or `cd server && npm run seed`). Uses server/.env credentials.
  */
@@ -18,8 +18,8 @@ const DEFAULT_SETTINGS = {
   lateCancellationFeePercent: 0,
   slotIntervalMinutes: 30,
   maxAdvanceBookingDays: 60,
-  supportEmail: 'support@fixora.pk',
-  supportPhone: '+92 300 0000000',
+  supportEmail: 'support@fixora.com',
+  supportPhone: '+44 20 7946 0000',
   platformName: 'Fixora',
 };
 
@@ -32,7 +32,7 @@ async function seedCatalogue(db) {
     })),
     ...AREAS.map((area) => ({
       ref: db.collection('areas').doc(areaId(area)),
-      data: { ...area, country: 'Pakistan', active: true, createdAt: ts, updatedAt: ts },
+      data: { ...area, country: 'United Kingdom', active: true, createdAt: ts, updatedAt: ts },
     })),
   ]);
 

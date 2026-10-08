@@ -1,7 +1,7 @@
-import { minutesUntil, todayPk } from '../../utils/date';
+import { minutesUntil, todayUk } from '../../utils/date';
 import { ACTIVE_STATUSES } from './booking.constants';
 
-export const isUpcoming = (booking) => ACTIVE_STATUSES.includes(booking.status) && booking.bookingDate >= todayPk();
+export const isUpcoming = (booking) => ACTIVE_STATUSES.includes(booking.status) && booking.bookingDate >= todayUk();
 
 /** UI hint only — the server decides via /cancellation-preview using admin settings. */
 export const canCustomerCancel = (booking) =>

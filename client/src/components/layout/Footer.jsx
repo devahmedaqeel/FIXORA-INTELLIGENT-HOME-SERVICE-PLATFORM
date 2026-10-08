@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container footer__grid">
         <div className="footer__brand">
           <Logo light />
-          <p>Verified home-service professionals across Pakistan — booked in minutes, by area or postal code.</p>
+          <p>Verified home-service professionals across the UK — booked in minutes, by area or postcode.</p>
         </div>
         <nav aria-label="Customers">
           <h2 className="footer__heading">Customers</h2>
@@ -37,7 +37,7 @@ export default function Footer() {
         </nav>
       </div>
       <div className="container footer__bottom">
-        <p>© {year} Fixora. Made for homes across Pakistan.</p>
+        <p>© {year} Fixora. Made for homes across the UK.</p>
       </div>
     </footer>
   );

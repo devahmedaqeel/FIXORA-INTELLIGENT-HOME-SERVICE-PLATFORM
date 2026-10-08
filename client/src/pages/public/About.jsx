@@ -7,7 +7,7 @@ const SECTIONS = [
     icon: 'users',
     title: 'For customers',
     points: [
-      'Search by service category plus your area name or 5-digit postal code.',
+      'Search by service category plus your area name or postcode.',
       'Compare verified providers by rating, reviews and starting price.',
       'Pick a free time slot — the system prevents overlapping bookings automatically.',
       'Track every booking from your dashboard and review the provider once the job is done.',
@@ -43,8 +43,8 @@ export default function About() {
         <p className="eyebrow">About Fixora</p>
         <h1>A smarter way to get things fixed at home</h1>
         <p className="lead">
-          Fixora connects households across Pakistan with verified local professionals — plumbers, electricians, cleaners, AC technicians,
-          tutors and more — using simple area and postal-code search instead of map apps.
+          Fixora connects households across the UK with verified local professionals — plumbers, electricians, cleaners, heating engineers,
+          tutors and more — using simple area and postcode search instead of map apps.
         </p>
       </header>
       <div className="feature-grid feature-grid--3">

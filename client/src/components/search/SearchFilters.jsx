@@ -2,7 +2,7 @@ import Select from '../common/Select';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import { SEARCH_SORTS } from '../../constants';
-import { todayPk } from '../../utils/date';
+import { todayUk } from '../../utils/date';
 
 /** Rating / price / availability / sort filters. Values live in the URL. */
 export default function SearchFilters({ values, onChange, onReset }) {
@@ -22,7 +22,7 @@ export default function SearchFilters({ values, onChange, onReset }) {
         ]}
       />
       <Input label="Max starting price (Rs)" type="number" min="0" step="100" inputMode="numeric" value={values.maxPrice || ''} onChange={set('maxPrice')} placeholder="Any price" />
-      <Input label="Available on" type="date" min={todayPk()} value={values.availableOn || ''} onChange={set('availableOn')} />
+      <Input label="Available on" type="date" min={todayUk()} value={values.availableOn || ''} onChange={set('availableOn')} />
       <Select label="Sort by" value={values.sort || 'rating'} onChange={set('sort')} options={SEARCH_SORTS} />
       <Button variant="ghost" size="sm" onClick={onReset}>
         Clear filters

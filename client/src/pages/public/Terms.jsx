@@ -21,7 +21,7 @@ export default function Terms() {
       <h2>7. Complaints</h2>
       <p>Raise any issue through the complaints section of your dashboard. Our team will review it and respond.</p>
       <h2>8. Liability</h2>
-      <p>To the extent permitted by law, Fixora is not liable for losses arising from services performed by providers. Nothing in these terms limits rights you have under Pakistani consumer protection law.</p>
+      <p>To the extent permitted by law, Fixora is not liable for losses arising from services performed by providers. Nothing in these terms limits rights you have under UK consumer protection law.</p>
     </article>
   );
 }

@@ -24,7 +24,7 @@ This installs the root tooling (`concurrently`), the API (`server/`) and the Rea
 2. **Authentication** → *Get started* → *Sign-in method* → enable **Email/Password**.
    * *Templates* lets you customise verification and password-reset emails.
    * *Settings → Authorized domains*: `localhost` is included; add your production domain later.
-3. **Firestore Database** → *Create database* → **Production mode** → choose a location close to Pakistan (e.g. `asia-south1` Mumbai). The location cannot be changed later.
+3. **Firestore Database** → *Create database* → **Production mode** → choose a location close to the UK (e.g. `europe-west2` London). The location cannot be changed later.
 4. **Storage** → *Get started* → production mode → same region. (New projects may need the Blaze plan for Storage; the app runs without uploads if Storage is unavailable — photos/documents are simply disabled.)
 
 ## 4. Web app credentials (client)
@@ -92,18 +92,19 @@ Index builds take a few minutes. Without the CLI you can paste `firebase/firesto
 ## 7. Seed data
 
 ```bash
-npm run seed         # 12 categories, 60+ Pakistan areas with postal codes, platform settings
+npm run seed         # 17 categories, 40+ UK areas with postcodes, platform settings
 npm run seed:demo    # the above + demo admin, customers, providers, services, reviews
 ```
 
-Demo accounts (password `Demo@12345` for all — change or delete before going live):
+Three accounts use fixed, documented credentials for quick demo login; every other seeded account shares the password `Demo@12345` — change or delete them before going live:
 
-| Role | Email |
-|---|---|
-| Admin | admin@fixora.demo |
-| Customer | ayesha@fixora.demo, bilal@fixora.demo |
-| Provider (verified) | usman.plumber@fixora.demo, sana.cleaning@fixora.demo, hamza.electric@fixora.demo, farah.tutor@fixora.demo |
-| Provider (pending) | kamran.pending@fixora.demo |
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@fixora.com | Admin@123 |
+| Customer | customer@fixora.com | Customer@123 |
+| Provider (verified) | provider@fixora.com | Provider@123 |
+
+Plus ~60 more generated customers/providers across England, Scotland, Wales and Northern Ireland, all using `Demo@12345`.
 
 Create a real administrator (admin can never be self-registered):
 
@@ -124,7 +125,7 @@ npm run dev
 
 Or run them separately: `npm run dev:server` and `npm run dev:client`.
 
-Try it: search **Plumbing** + postal code **10250** on the home page, open *Raza Plumbing Works*, sign in as `ayesha@fixora.demo`, book a slot, then sign in as `usman.plumber@fixora.demo` to accept it.
+Try it: search **Plumbing** + postcode **SW1A 1AA** on the home page, open *London Plumbing Experts*, sign in as `customer@fixora.com`, book a slot, then sign in as `provider@fixora.com` to accept it.
 
 ## 9. Tests
 
@@ -132,7 +133,7 @@ Try it: search **Plumbing** + postal code **10250** on the home page, open *Raza
 npm test
 ```
 
-Runs the API test suite (Node's built-in test runner + supertest) against an in-memory Firestore/Auth double — no Firebase project or network needed. It covers registration, login, role authorization, provider verification, services, area and ZIP search, booking creation, double-booking (including concurrent requests), cancellation policy, reviews, complaints, admin access and chatbot privacy.
+Runs the API test suite (Node's built-in test runner + supertest) against an in-memory Firestore/Auth double — no Firebase project or network needed. It covers registration, login, role authorization, provider verification, services, area and postcode search, booking creation, double-booking (including concurrent requests), cancellation policy, reviews, complaints, admin access and chatbot privacy.
 
 ## 10. Production build
 
@@ -142,7 +143,7 @@ npm start            # starts the API (NODE_ENV=production recommended)
 ```
 
 * Host `client/dist` on any static host (Firebase Hosting, Netlify, Vercel, Nginx). Configure SPA fallback to `index.html`.
-* Set `VITE_API_BASE_URL` to the API's public URL (e.g. `https://api.fixora.pk/api`) **before** building.
+* Set `VITE_API_BASE_URL` to the API's public URL (e.g. `https://api.fixora.com/api`) **before** building.
 * Run the API on Cloud Run, Render, Railway, a VM, etc. Set `NODE_ENV=production`, `CLIENT_URL=https://your-frontend-domain` and the Firebase variables as environment secrets.
 * Add the frontend domain to Firebase Auth → *Authorized domains*.
 
