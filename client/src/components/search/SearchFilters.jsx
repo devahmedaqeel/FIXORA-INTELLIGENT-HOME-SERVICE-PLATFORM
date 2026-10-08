@@ -21,7 +21,7 @@ export default function SearchFilters({ values, onChange, onReset }) {
           { value: '3', label: '3 ★ and up' },
         ]}
       />
-      <Input label="Max starting price (Rs)" type="number" min="0" step="100" inputMode="numeric" value={values.maxPrice || ''} onChange={set('maxPrice')} placeholder="Any price" />
+      <Input label="Max starting price (£)" type="number" min="0" step="10" inputMode="decimal" value={values.maxPrice || ''} onChange={set('maxPrice')} placeholder="Any price" />
       <Input label="Available on" type="date" min={todayUk()} value={values.availableOn || ''} onChange={set('availableOn')} />
       <Select label="Sort by" value={values.sort || 'rating'} onChange={set('sort')} options={SEARCH_SORTS} />
       <Button variant="ghost" size="sm" onClick={onReset}>

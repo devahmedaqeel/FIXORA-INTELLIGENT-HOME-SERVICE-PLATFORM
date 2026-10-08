@@ -71,7 +71,7 @@ export default function ServiceForm({ initial, onSubmit, submitLabel = 'Save ser
       <Input label="Service title" value={form.title} onChange={set('title')} error={errors.title} maxLength={100} placeholder="e.g. Kitchen tap repair" required />
       <Input as="textarea" rows={4} label="Description" value={form.description} onChange={set('description')} maxLength={1500} hint="What's included, what customers should prepare." />
       <div className="form-grid">
-        <Input label="Price (Rs)" type="number" min="0" step="50" inputMode="numeric" value={form.price} onChange={set('price')} error={errors.price} required />
+        <Input label="Price (£)" type="number" min="0" step="5" inputMode="decimal" value={form.price} onChange={set('price')} error={errors.price} required />
         <Select label="Pricing type" value={form.pricingType} onChange={set('pricingType')} options={PRICING_TYPES} error={errors.pricingType} />
         <Select label="Typical duration" value={form.duration} onChange={set('duration')} options={DURATIONS} hint="Used to calculate free time slots" error={errors.duration} />
       </div>
