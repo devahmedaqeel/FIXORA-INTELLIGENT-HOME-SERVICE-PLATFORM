@@ -52,6 +52,7 @@ const ProviderEarnings = page(() => import('../pages/provider/ProviderEarnings')
 const ProviderSettings = page(() => import('../pages/provider/ProviderSettings'));
 const ProviderNotifications = page(() => import('../pages/provider/ProviderNotifications'));
 const ProviderComplaints = page(() => import('../pages/provider/ProviderComplaints'));
+const ProviderOnboarding = page(() => import('../pages/provider/ProviderOnboarding'));
 
 // Admin
 const AdminDashboard = page(() => import('../pages/admin/AdminDashboard'));
@@ -111,6 +112,7 @@ export default function AppRoutes() {
         </Route>
 
         <Route path="provider" element={<ProtectedRoute roles={['provider']} />}>
+          <Route path="onboarding" element={<ProviderOnboarding />} />
           <Route element={<DashboardLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<ProviderDashboard />} />

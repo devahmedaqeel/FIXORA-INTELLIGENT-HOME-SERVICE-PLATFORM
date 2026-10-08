@@ -58,7 +58,8 @@ export default function Register() {
       const payload = { role: form.role, displayName: form.displayName.trim(), phone: form.phone.trim() };
       const session = completing ? await completeProfile(payload) : await register({ ...payload, email: form.email, password: form.password });
       const redirect = safeRedirect(params.get('redirect'));
-      navigate(redirect && redirect.startsWith(`/${session.user.role}`) ? redirect : dashboardPathFor(session.user.role), { replace: true });
+      const fallback = session.user.role === 'provider' ? '/provider/onboarding' : dashboardPathFor(session.user.role);
+      navigate(redirect && redirect.startsWith(`/${session.user.role}`) ? redirect : fallback, { replace: true });
     } catch (err) {
       setErrors(fieldErrorsFromApi(err));
       setError(authErrorMessage(err));

@@ -13,7 +13,7 @@ const DURATIONS = [15, 30, 45, 60, 90, 120, 180, 240, 300, 360, 480].map((m) => 
 }));
 
 /** Create/edit form for a provider service. onSubmit(payload) must return a promise. */
-export default function ServiceForm({ initial, onSubmit, submitLabel = 'Save service' }) {
+export default function ServiceForm({ initial, onSubmit, submitLabel = 'Save service', onCancel }) {
   const { categories } = useCategories();
   const [form, setForm] = useState({
     categoryId: initial?.categoryId || '',
@@ -81,9 +81,15 @@ export default function ServiceForm({ initial, onSubmit, submitLabel = 'Save ser
       </label>
       <ErrorMessage error={error} compact />
       <div className="row row--end">
-        <Button to="/provider/services" variant="ghost">
-          Cancel
-        </Button>
+        {onCancel === null ? null : onCancel ? (
+          <Button type="button" variant="ghost" onClick={onCancel}>
+            Cancel
+          </Button>
+        ) : (
+          <Button to="/provider/services" variant="ghost">
+            Cancel
+          </Button>
+        )}
         <Button type="submit" loading={saving}>
           {submitLabel}
         </Button>

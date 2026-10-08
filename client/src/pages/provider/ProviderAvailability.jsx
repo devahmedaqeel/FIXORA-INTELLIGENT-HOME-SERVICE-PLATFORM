@@ -14,7 +14,7 @@ import { WEEKDAYS } from '../../constants';
 import { formatDate } from '../../utils/format';
 import { todayUk } from '../../utils/date';
 
-export default function ProviderAvailability() {
+export default function ProviderAvailability({ onSaved }) {
   useDocumentTitle('Availability');
   const toast = useToast();
   const { data, loading, error, reload } = useAsync(getOwnAvailability, []);
@@ -61,6 +61,7 @@ export default function ProviderAvailability() {
     try {
       await updateOwnAvailability({ weekly, exceptions, slotIntervalMinutes: Number(slotInterval), bufferMinutes: Number(buffer) });
       toast.success('Availability saved');
+      onSaved?.();
     } catch (err) {
       toast.error(err);
     } finally {
@@ -151,7 +152,7 @@ export default function ProviderAvailability() {
 
       <div className="row row--end sticky-actions">
         <Button size="lg" onClick={save} loading={saving}>
-          Save availability
+          {onSaved ? 'Save & continue' : 'Save availability'}
         </Button>
       </div>
     </div>

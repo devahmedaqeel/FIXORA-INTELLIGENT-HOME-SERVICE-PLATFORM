@@ -20,7 +20,7 @@ import { uploadVerificationDocument } from '../../services/storage.service';
 import { fieldErrorsFromApi, isUkPhone } from '../../utils/validation';
 import { PROVIDER_LANGUAGES, RESPONSE_TIME_OPTIONS } from '../../constants';
 
-export default function ProviderProfile() {
+export default function ProviderProfile({ onSaved }) {
   useDocumentTitle('Provider profile');
   const { user, updateLocal } = useAuth();
   const toast = useToast();
@@ -96,6 +96,7 @@ export default function ProviderProfile() {
         responseTime: form.responseTime,
         serviceRadiusKm: form.serviceRadiusKm === '' ? undefined : Number(form.serviceRadiusKm),
       });
+      onSaved?.();
     } catch (err) {
       setErrors(fieldErrorsFromApi(err));
       toast.error(err);
@@ -230,7 +231,7 @@ export default function ProviderProfile() {
 
         <div className="row row--end sticky-actions">
           <Button type="submit" loading={saving} size="lg">
-            Save profile
+            {onSaved ? 'Save & continue' : 'Save profile'}
           </Button>
         </div>
       </form>
