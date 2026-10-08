@@ -42,7 +42,7 @@ export default function SearchResultsView({ action, profilePathFor, bookPathFor,
   const category = categories.find((c) => c.id === query.categoryId);
   const area = data?.context?.area;
   const zipAreas = data?.context?.areasForPostalCode;
-  const where = area ? `${area.areaName}, ${area.city}` : query.postalCode ? `postal code ${query.postalCode}` : 'all areas';
+  const where = area ? `${area.areaName}, ${area.city}` : query.postalCode ? `postcode ${query.postalCode}` : 'all areas';
 
   return (
     <div className="search-page">
@@ -75,7 +75,7 @@ export default function SearchResultsView({ action, profilePathFor, bookPathFor,
             <EmptyState
               icon="search"
               title="No providers found in this area."
-              message="Try a nearby area, a different postal code, or remove some filters."
+              message="Try a nearby area, a different postcode, or remove some filters."
             />
           )}
           {!loading && !error && data?.items.length > 0 && (

@@ -41,7 +41,7 @@ export function evaluateCancellation(booking, settings) {
     minutesUntilStart,
     message:
       fee > 0
-        ? `This is a late cancellation (less than ${hours} hour(s) before the start). A cancellation fee of PKR ${fee} applies.`
+        ? `This is a late cancellation (less than ${hours} hour(s) before the start). A cancellation fee of £${fee} applies.`
         : `This is a late cancellation (less than ${hours} hour(s) before the start). Frequent late cancellations may affect your account.`,
   };
 }

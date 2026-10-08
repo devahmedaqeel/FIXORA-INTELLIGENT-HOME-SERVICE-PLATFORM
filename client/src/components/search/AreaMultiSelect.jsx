@@ -9,7 +9,7 @@ export default function AreaMultiSelect({ value = [], onChange, label = 'Service
   };
   return (
     <div className="stack stack--sm">
-      <AreaPicker key={value.length} label={label} value={null} onChange={add} excludeIds={value.map((a) => a.id)} placeholder="Search and add an area or postal code" />
+      <AreaPicker key={value.length} label={label} value={null} onChange={add} excludeIds={value.map((a) => a.id)} placeholder="Search and add an area or postcode" />
       {value.length === 0 ? (
         <p className="muted small">No areas selected. Customers search by area, so add every area you serve.</p>
       ) : (

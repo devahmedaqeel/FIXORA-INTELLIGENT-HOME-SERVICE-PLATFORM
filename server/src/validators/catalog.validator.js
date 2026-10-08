@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { requiredText, trimmed, postalCode, paginationQuery, booleanString } from './common.validator.js';
-import { PAKISTAN_PROVINCES } from '../constants/index.js';
+import { requiredText, trimmed, postalCode, postalCodePrefix, paginationQuery, booleanString } from './common.validator.js';
+import { UK_CONSTITUENT_COUNTRIES } from '../constants/index.js';
 
 /* ---------- Categories ---------- */
 
@@ -29,10 +29,10 @@ export const listCategoriesQuery = z.object({ includeInactive: booleanString.opt
 const areaFields = {
   areaName: requiredText('Area name', 2, 100),
   city: requiredText('City', 2, 60),
-  district: requiredText('District', 2, 60),
-  province: z.enum(PAKISTAN_PROVINCES, { errorMap: () => ({ message: 'Select a valid Pakistani province/territory' }) }),
+  district: requiredText('County', 2, 60),
+  province: z.enum(UK_CONSTITUENT_COUNTRIES, { errorMap: () => ({ message: 'Select a valid UK country (England, Scotland, Wales or Northern Ireland)' }) }),
   postalCode,
-  country: z.literal('Pakistan').optional().default('Pakistan'),
+  country: z.literal('United Kingdom').optional().default('United Kingdom'),
   active: z.boolean().optional().default(true),
 };
 
@@ -51,7 +51,7 @@ export const updateAreaSchema = z
 
 export const searchAreasQuery = paginationQuery.extend({
   q: z.string().trim().max(80).optional(),
-  postalCode: z.string().trim().regex(/^\d{1,5}$/, 'Postal code must be digits').optional(),
+  postalCode: postalCodePrefix.optional(),
   city: z.string().trim().max(60).optional(),
   province: z.string().trim().max(60).optional(),
   includeInactive: booleanString.optional(),

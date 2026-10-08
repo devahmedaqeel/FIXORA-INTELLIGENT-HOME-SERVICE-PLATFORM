@@ -75,7 +75,7 @@ describe('cancellation policy', () => {
   });
 
   test('late inside the cutoff, with fee when configured', () => {
-    setClock('2030-01-08T04:00:00.000Z'); // 09:00 PKT → 60 minutes before
+    setClock('2030-01-08T09:00:00.000Z'); // 09:00 GMT → 60 minutes before
     const warn = evaluateCancellation(booking, DEFAULT_SETTINGS);
     assert.equal(warn.isLate, true);
     assert.equal(warn.canCancel, true);

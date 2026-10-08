@@ -49,7 +49,7 @@ export const env = Object.freeze({
   payment: {
     provider: (process.env.PAYMENT_PROVIDER || 'cash').toLowerCase(),
     stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
-    currency: (process.env.PAYMENT_CURRENCY || 'pkr').toLowerCase(),
+    currency: (process.env.PAYMENT_CURRENCY || 'gbp').toLowerCase(),
   },
 
   rateLimit: {

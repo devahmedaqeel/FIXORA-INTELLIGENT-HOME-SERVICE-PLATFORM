@@ -9,7 +9,7 @@ import { setClock } from '../../src/utils/time.js';
 import { setAiProvider, createAiProvider } from '../../src/chatbot/providers/aiProvider.js';
 import { WEEKDAYS } from '../../src/constants/index.js';
 
-/** Monday 2030-01-07 08:00 Pakistan time. Bookings in tests use Tuesday 2030-01-08. */
+/** Monday 2030-01-07 03:00 GMT. Bookings in tests use Tuesday 2030-01-08. */
 export const FIXED_NOW = '2030-01-07T03:00:00.000Z';
 export const BOOKING_DATE = '2030-01-08';
 
@@ -61,32 +61,32 @@ export function createTestContext() {
 
   const seedArea = (id, extra = {}) =>
     db.seed('areas', id, {
-      areaName: 'New Mirpur City',
-      city: 'Mirpur',
-      district: 'Mirpur',
-      province: 'Azad Jammu and Kashmir',
-      postalCode: '10250',
-      country: 'Pakistan',
+      areaName: 'Camden',
+      city: 'London',
+      district: 'Greater London',
+      province: 'England',
+      postalCode: 'NW1 6XE',
+      country: 'United Kingdom',
       active: true,
       createdAt: TS,
       updatedAt: TS,
       ...extra,
     });
 
-  const seedProvider = (uid, { verificationStatus = 'verified', areaIds = ['mirpur'], postalCodes = ['10250'], categoryIds = ['plumbing'], ...extra } = {}) => {
+  const seedProvider = (uid, { verificationStatus = 'verified', areaIds = ['mirpur'], postalCodes = ['NW1 6XE'], categoryIds = ['plumbing'], ...extra } = {}) => {
     seedUser(uid, 'provider', { displayName: extra.displayName || uid });
     db.seed('providers', uid, {
       userId: uid,
       displayName: extra.displayName || uid,
       businessName: '',
       bio: '',
-      phone: '03001234567',
+      phone: '07911123456',
       showPhonePublicly: false,
       photoURL: '',
       categoryIds,
       areaIds,
       postalCodes,
-      cities: ['Mirpur'],
+      cities: ['London'],
       serviceAreas: [],
       verificationStatus,
       verificationDocuments: [],
@@ -143,7 +143,7 @@ export function createTestContext() {
     serviceId: 'svc1',
     bookingDate: BOOKING_DATE,
     startTime: '10:00',
-    customerAddress: 'House 1, Sector F-1, Mirpur',
+    customerAddress: '1 Camden High Street, London, NW1 6XE',
     ...overrides,
   });
 

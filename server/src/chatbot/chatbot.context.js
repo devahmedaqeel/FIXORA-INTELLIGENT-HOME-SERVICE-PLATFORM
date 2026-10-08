@@ -9,7 +9,7 @@ import { ACTIVE_BOOKING_STATUSES, BOOKING_STATUS, ROLES } from '../constants/ind
  * retrieve their own records.
  */
 
-const pkr = (n) => `PKR ${Number(n || 0).toLocaleString('en-PK')}`;
+const gbp = (n) => `£${Number(n || 0).toLocaleString('en-GB')}`;
 const label = (status) => status.replace('_', ' ');
 
 export async function customerBookingStatus(user) {
@@ -42,7 +42,7 @@ export async function providerEarnings(user) {
   const total = completed.reduce((s, b) => s + (Number(b.price) || 0), 0);
   const thisMonth = completed.filter((b) => b.bookingDate.startsWith(month)).reduce((s, b) => s + (Number(b.price) || 0), 0);
   return {
-    text: `You have earned ${pkr(total)} from ${completed.length} completed job(s), including ${pkr(thisMonth)} this month.`,
+    text: `You have earned ${gbp(total)} from ${completed.length} completed job(s), including ${gbp(thisMonth)} this month.`,
     link: { label: 'Earnings details', to: '/provider/earnings' },
   };
 }

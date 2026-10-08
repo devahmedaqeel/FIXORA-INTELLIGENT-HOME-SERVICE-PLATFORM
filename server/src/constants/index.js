@@ -19,15 +19,7 @@ export const COLLECTIONS = Object.freeze({
 
 export const ROLES = Object.freeze({ CUSTOMER: 'customer', PROVIDER: 'provider', ADMIN: 'admin' });
 
-export const PAKISTAN_PROVINCES = Object.freeze([
-  'Punjab',
-  'Sindh',
-  'Khyber Pakhtunkhwa',
-  'Balochistan',
-  'Islamabad Capital Territory',
-  'Azad Jammu and Kashmir',
-  'Gilgit-Baltistan',
-]);
+export const UK_CONSTITUENT_COUNTRIES = Object.freeze(['England', 'Scotland', 'Wales', 'Northern Ireland']);
 
 export const ADDRESS_LABELS = Object.freeze(['home', 'work', 'other']);
 export const MAX_SAVED_ADDRESSES = 10;
@@ -46,7 +38,7 @@ export const PRICING_TYPES = Object.freeze(['fixed', 'starting_from', 'hourly'])
 
 export const RESPONSE_TIME_VALUES = Object.freeze(['within_hour', 'within_few_hours', 'within_day', 'within_few_days']);
 
-export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Urdu', 'Punjabi', 'Pashto', 'Sindhi', 'Saraiki', 'Balochi']);
+export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Welsh', 'Polish', 'Urdu', 'Punjabi', 'Bengali', 'Gujarati', 'Romanian', 'Portuguese', 'Arabic']);
 
 export const BOOKING_STATUS = Object.freeze({
   PENDING: 'pending',
@@ -152,10 +144,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   platformName: 'Fixora',
 });
 
-/** Pakistan Standard Time has no DST, so a fixed offset is exact. */
-export const PLATFORM_UTC_OFFSET = '+05:00';
-export const PLATFORM_UTC_OFFSET_MINUTES = 300;
-export const DEFAULT_COUNTRY = 'Pakistan';
+export const DEFAULT_COUNTRY = 'United Kingdom';
 
 export const ERROR_CODES = Object.freeze({
   VALIDATION_ERROR: 'VALIDATION_ERROR',

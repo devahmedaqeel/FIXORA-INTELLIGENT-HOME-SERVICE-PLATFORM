@@ -8,7 +8,7 @@ const labelIcon = { home: 'home', work: 'briefcase', other: 'map-pin' };
 
 /** One saved address with edit/delete/default actions. */
 export default function AddressCard({ address, onEdit, onDelete }) {
-  const line2 = [address.city, address.district, address.province].filter(Boolean).join(', ');
+  const line2 = [address.city, address.county].filter(Boolean).join(', ');
   return (
     <div className="card stack stack--sm">
       <div className="row row--between row--wrap">
@@ -23,12 +23,11 @@ export default function AddressCard({ address, onEdit, onDelete }) {
         </div>
       </div>
       <p className="small">
-        {[address.houseNumber, address.street].filter(Boolean).join(', ') || <span className="muted">No street details</span>}
+        {[address.addressLine1, address.addressLine2].filter(Boolean).join(', ') || <span className="muted">No address details</span>}
       </p>
       <p className="muted small">
-        {address.area}
-        {line2 ? `, ${line2}` : ''}
-        {address.postalCode ? ` · ${address.postalCode}` : ''}
+        {line2}
+        {address.postcode ? `${line2 ? ' · ' : ''}${address.postcode}` : ''}
       </p>
       {address.additionalDetails && <p className="muted small">{address.additionalDetails}</p>}
     </div>

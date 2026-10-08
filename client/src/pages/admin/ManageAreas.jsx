@@ -13,8 +13,8 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { useToast } from '../../context/ToastContext';
 import { adminListAreas, createArea, deleteArea, updateArea } from '../../services/catalog.service';
-import { PAKISTAN_PROVINCES } from '../../constants';
-import { fieldErrorsFromApi, isPostalCode } from '../../utils/validation';
+import { UK_COUNTRY_OPTIONS } from '../../constants';
+import { fieldErrorsFromApi, isPostcode } from '../../utils/validation';
 
 const EMPTY = { areaName: '', city: '', district: '', province: '', postalCode: '', active: true };
 
@@ -48,8 +48,8 @@ export default function ManageAreas() {
     ['areaName', 'city', 'district'].forEach((f) => {
       if (form[f].trim().length < 2) next[f] = 'Required';
     });
-    if (!form.province) next.province = 'Select a province';
-    if (!isPostalCode(form.postalCode)) next.postalCode = 'Postal code must be 5 digits';
+    if (!form.province) next.province = 'Select a country';
+    if (!isPostcode(form.postalCode)) next.postalCode = 'Enter a valid UK postcode, e.g. SW1A 1AA';
     setErrors(next);
     if (Object.keys(next).length) return;
     setSaving(true);
@@ -93,18 +93,18 @@ export default function ManageAreas() {
   return (
     <div className="stack stack--lg">
       <PageHeader
-        title="Areas & postal codes"
-        description="Pakistan locations used for provider service areas and customer search (no map APIs)."
+        title="Areas & postcodes"
+        description="UK locations used for provider service areas and customer search (no map APIs)."
         actions={<Button icon="plus" onClick={() => open(null)}>Add area</Button>}
       />
       <div className="toolbar">
-        <Input label="Search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Area, city, district or postal code" className="toolbar__grow" />
+        <Input label="Search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Area, city, county or postcode" className="toolbar__grow" />
         <Select
-          label="Province"
+          label="Country"
           value={list.filters.province}
           onChange={(e) => list.setFilter('province', e.target.value)}
-          placeholder="All provinces"
-          options={PAKISTAN_PROVINCES.map((p) => ({ value: p, label: p }))}
+          placeholder="All countries"
+          options={UK_COUNTRY_OPTIONS}
         />
       </div>
       <ListState list={list} emptyTitle="No areas found." emptyIcon="map-pin">
@@ -114,9 +114,9 @@ export default function ManageAreas() {
           columns={[
             { key: 'areaName', label: 'Area', render: (a) => <strong>{a.areaName}</strong> },
             { key: 'city', label: 'City' },
-            { key: 'district', label: 'District' },
-            { key: 'province', label: 'Province' },
-            { key: 'postalCode', label: 'Postal code' },
+            { key: 'district', label: 'County' },
+            { key: 'province', label: 'Country' },
+            { key: 'postalCode', label: 'Postcode' },
             { key: 'active', label: 'Status', render: (a) => <Badge tone={a.active ? 'success' : 'neutral'}>{a.active ? 'Active' : 'Inactive'}</Badge> },
             {
               key: 'actions',
@@ -155,9 +155,9 @@ export default function ManageAreas() {
         <form id="area-form" className="form-grid" onSubmit={save} noValidate>
           <Input label="Area name" value={form.areaName} onChange={set('areaName')} error={errors.areaName} required />
           <Input label="City" value={form.city} onChange={set('city')} error={errors.city} required />
-          <Input label="District" value={form.district} onChange={set('district')} error={errors.district} required />
-          <Select label="Province / territory" value={form.province} onChange={set('province')} placeholder="Select" options={PAKISTAN_PROVINCES.map((p) => ({ value: p, label: p }))} error={errors.province} required />
-          <Input label="Postal code" inputMode="numeric" maxLength={5} value={form.postalCode} onChange={set('postalCode')} error={errors.postalCode} required />
+          <Input label="County" value={form.district} onChange={set('district')} error={errors.district} required />
+          <Select label="Country" value={form.province} onChange={set('province')} placeholder="Select" options={UK_COUNTRY_OPTIONS} error={errors.province} required />
+          <Input label="Postcode" maxLength={8} placeholder="SW1A 1AA" value={form.postalCode} onChange={set('postalCode')} error={errors.postalCode} required />
           <label className="checkbox">
             <input type="checkbox" checked={form.active} onChange={set('active')} />
             <span>Active</span>

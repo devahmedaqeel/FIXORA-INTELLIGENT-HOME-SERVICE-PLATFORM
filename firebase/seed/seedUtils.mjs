@@ -4,6 +4,7 @@
  */
 import { getAuth, getDb } from '../../server/src/config/firebase.js';
 import { assertServerConfig } from '../../server/src/config/environment.js';
+import { ukOffsetMinutes } from '../../server/src/utils/time.js';
 
 export { getAuth, getDb, assertServerConfig };
 
@@ -20,10 +21,11 @@ export const categoryId = (name) => slugify(name);
 
 export const nowIso = () => new Date().toISOString();
 
-/** Returns YYYY-MM-DD in Pakistan time, offset by n days. */
-export const pktDate = (offsetDays = 0) => {
-  const d = new Date(Date.now() + 5 * 3600000 + offsetDays * 86400000);
-  return d.toISOString().slice(0, 10);
+/** Returns YYYY-MM-DD in UK local time (GMT/BST-aware), offset by n days. */
+export const ukDate = (offsetDays = 0) => {
+  const base = new Date(Date.now() + offsetDays * 86400000);
+  const shifted = new Date(base.getTime() + ukOffsetMinutes(base) * 60000);
+  return shifted.toISOString().slice(0, 10);
 };
 
 /** Creates the Firebase Auth user, or returns the existing one with the same email. */

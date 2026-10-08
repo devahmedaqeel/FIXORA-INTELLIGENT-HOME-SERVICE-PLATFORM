@@ -1,11 +1,11 @@
 import { BOOKING_STATUS_LABELS, PRICING_TYPES } from '../constants';
 
-const pkrFormatter = new Intl.NumberFormat('en-PK', { maximumFractionDigits: 0 });
+const gbpFormatter = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
 
-export const formatPKR = (amount) => `Rs ${pkrFormatter.format(Number(amount) || 0)}`;
+export const formatGBP = (amount) => gbpFormatter.format(Number(amount) || 0);
 
 export function formatPrice(price, pricingType) {
-  const value = formatPKR(price);
+  const value = formatGBP(price);
   if (pricingType === 'starting_from') return `From ${value}`;
   if (pricingType === 'hourly') return `${value}/hr`;
   return value;
@@ -32,7 +32,7 @@ export const formatTimeRange = (start, end) => `${formatTime(start)} – ${forma
 
 export function formatDateTime(iso) {
   if (!iso) return '';
-  return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Karachi' });
+  return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Europe/London' });
 }
 
 export function timeAgo(iso) {

@@ -5,10 +5,10 @@ import Select from '../common/Select';
 import Button from '../common/Button';
 import { useCategories } from '../../hooks/useCategories';
 import { getArea } from '../../services/catalog.service';
-import { isPostalCode } from '../../utils/validation';
+import { isPostcode } from '../../utils/validation';
 
 /**
- * Category + Area + Postal code search. Submits to `action` (e.g. /search or /customer/search)
+ * Category + Area + Postcode search. Submits to `action` (e.g. /search or /customer/search)
  * as query-string params so results are shareable and survive refresh.
  */
 export default function SearchBar({ action = '/search', initial = {}, variant = 'hero' }) {
@@ -30,12 +30,12 @@ export default function SearchBar({ action = '/search', initial = {}, variant = 
   const submit = (event) => {
     event.preventDefault();
     const code = postalCode.trim();
-    if (code && !isPostalCode(code)) {
-      setError('Postal code must be 5 digits, e.g. 10250');
+    if (code && !isPostcode(code)) {
+      setError('Enter a valid UK postcode, e.g. SW1A 1AA');
       return;
     }
     if (!area && !code && !categoryId) {
-      setError('Choose a service, an area or a postal code');
+      setError('Choose a service, an area or a postcode');
       return;
     }
     setError('');
@@ -58,17 +58,16 @@ export default function SearchBar({ action = '/search', initial = {}, variant = 
       <AreaPicker value={area} onChange={setArea} label="Area" />
       <div className="field search-bar__zip">
         <label htmlFor={`zip-${variant}`} className="field__label">
-          Postal code
+          Postcode
         </label>
         <input
           id={`zip-${variant}`}
           className="field__control"
-          inputMode="numeric"
-          maxLength={5}
-          placeholder="10250"
+          maxLength={8}
+          placeholder="SW1A 1AA"
           value={postalCode}
           disabled={Boolean(area)}
-          onChange={(e) => setPostalCode(e.target.value.replace(/\D/g, ''))}
+          onChange={(e) => setPostalCode(e.target.value.toUpperCase())}
           aria-describedby={error ? `search-error-${variant}` : undefined}
         />
       </div>

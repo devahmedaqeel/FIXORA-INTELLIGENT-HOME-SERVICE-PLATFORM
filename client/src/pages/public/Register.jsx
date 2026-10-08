@@ -7,7 +7,7 @@ import Icon from '../../components/common/Icon';
 import { useAuth } from '../../features/auth/auth.context';
 import { authErrorMessage, dashboardPathFor, safeRedirect } from '../../features/auth/auth.utils';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import { isEmail, isPakistaniPhone, passwordProblem, fieldErrorsFromApi } from '../../utils/validation';
+import { isEmail, isUkPhone, passwordProblem, fieldErrorsFromApi } from '../../utils/validation';
 
 const ROLE_OPTIONS = [
   { value: 'customer', icon: 'home', title: 'I need a service', text: 'Book verified professionals' },
@@ -43,7 +43,7 @@ export default function Register() {
       const pw = passwordProblem(form.password);
       if (pw) next.password = pw;
     }
-    if (form.phone && !isPakistaniPhone(form.phone)) next.phone = 'Enter a valid Pakistani number, e.g. 03001234567';
+    if (form.phone && !isUkPhone(form.phone)) next.phone = 'Enter a valid UK number, e.g. 07911 123456';
     if (!form.acceptTerms) next.acceptTerms = 'Please accept the terms to continue';
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -103,7 +103,7 @@ export default function Register() {
             />
           </>
         )}
-        <Input label="Phone (optional)" type="tel" autoComplete="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="03001234567" />
+        <Input label="Phone (optional)" type="tel" autoComplete="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="07911 123456" />
 
         {form.role === 'provider' && (
           <div className="notice notice--info">

@@ -3,7 +3,7 @@ import { logger } from '../../../utils/logger.js';
 
 /*
  * SMS delivery abstraction (SMS_PROVIDER = none | console).
- * To add a gateway (e.g. a Pakistani SMS aggregator), add an adapter here — no
+ * To add a gateway (e.g. a UK SMS aggregator), add an adapter here — no
  * booking or review code needs to change.
  */
 const adapters = {

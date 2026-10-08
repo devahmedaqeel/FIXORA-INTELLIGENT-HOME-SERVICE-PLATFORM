@@ -27,7 +27,7 @@ export const stripePaymentProvider = {
   isConfigured: () => Boolean(env.payment.stripeSecretKey),
 
   async initializeBookingPayment(booking) {
-    // Stripe amounts are in the smallest currency unit (paisa for PKR).
+    // Stripe amounts are in the smallest currency unit (pence for GBP).
     const intent = await stripeRequest('/payment_intents', {
       amount: String(Math.round(Number(booking.price) * 100)),
       currency: env.payment.currency,

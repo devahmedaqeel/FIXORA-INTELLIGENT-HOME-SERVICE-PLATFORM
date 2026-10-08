@@ -17,7 +17,7 @@ import { useAsync } from '../../hooks/useAsync';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { getArea } from '../../services/catalog.service';
 import { updateMe, listAddresses, addAddress, updateAddress, deleteAddress } from '../../services/account.service';
-import { fieldErrorsFromApi, isPakistaniPhone } from '../../utils/validation';
+import { fieldErrorsFromApi, isUkPhone } from '../../utils/validation';
 
 export default function CustomerProfile() {
   useDocumentTitle('Profile');
@@ -84,7 +84,7 @@ export default function CustomerProfile() {
     event.preventDefault();
     const next = {};
     if (form.displayName.trim().length < 2) next.displayName = 'Enter your name';
-    if (form.phone && !isPakistaniPhone(form.phone)) next.phone = 'Enter a valid Pakistani phone number';
+    if (form.phone && !isUkPhone(form.phone)) next.phone = 'Enter a valid UK phone number';
     setErrors(next);
     if (Object.keys(next).length) return;
     setSaving(true);
@@ -107,7 +107,7 @@ export default function CustomerProfile() {
         <form className="stack" onSubmit={submit} noValidate>
           <div className="form-grid">
             <Input label="Full name" value={form.displayName} onChange={set('displayName')} error={errors.displayName} required />
-            <Input label="Phone" type="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="03001234567" />
+            <Input label="Phone" type="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="07911 123456" />
             <Input label="City" value={form.city} onChange={set('city')} />
             <AreaPicker label="Home area" value={area} onChange={setArea} hint="Used to recommend providers near you" />
           </div>

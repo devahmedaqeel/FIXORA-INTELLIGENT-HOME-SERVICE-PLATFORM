@@ -14,7 +14,7 @@ import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { useAuth } from '../../features/auth/auth.context';
 import { getProviderDashboard } from '../../features/providers/provider.service';
 import { profileChecklist } from '../../features/providers/provider.utils';
-import { formatMonth, formatPKR } from '../../utils/format';
+import { formatMonth, formatGBP } from '../../utils/format';
 
 function VerificationBanner({ status, note, provider }) {
   if (status === 'verified') return null;
@@ -84,7 +84,7 @@ export default function ProviderDashboard() {
         <StatCard label="Pending requests" value={stats.pending} icon="inbox" tone="warning" to="/provider/bookings?status=pending" />
         <StatCard label="Confirmed" value={stats.confirmed} icon="calendar" to="/provider/bookings?status=confirmed" />
         <StatCard label="Completed" value={stats.completed} icon="check-circle" tone="success" to="/provider/bookings?status=completed" />
-        <StatCard label="Total earnings" value={formatPKR(stats.totalEarnings)} icon="wallet" tone="accent" to="/provider/earnings" />
+        <StatCard label="Total earnings" value={formatGBP(stats.totalEarnings)} icon="wallet" tone="accent" to="/provider/earnings" />
         <StatCard
           label="Average rating"
           value={stats.ratingCount ? stats.ratingAverage.toFixed(1) : '—'}
@@ -138,7 +138,7 @@ export default function ProviderDashboard() {
           <BarChart title="Bookings per month" data={data.monthly.map((m) => ({ label: formatMonth(m.month), value: m.bookings }))} />
         </section>
         <section className="card">
-          <BarChart title="Earnings per month" formatValue={formatPKR} data={data.monthly.map((m) => ({ label: formatMonth(m.month), value: m.earnings }))} />
+          <BarChart title="Earnings per month" formatValue={formatGBP} data={data.monthly.map((m) => ({ label: formatMonth(m.month), value: m.earnings }))} />
         </section>
       </div>
     </div>

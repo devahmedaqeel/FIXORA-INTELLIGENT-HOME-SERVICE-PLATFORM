@@ -13,8 +13,8 @@ export const passwordProblem = (value) => {
 };
 
 export const normalizePhone = (value = '') => value.replace(/[\s-]/g, '');
-export const isPakistaniPhone = (value) => /^(\+92|0)\d{9,10}$/.test(normalizePhone(value));
-export const isPostalCode = (value) => /^\d{5}$/.test(value.trim());
+export const isUkPhone = (value) => /^(\+44|0)\d{9,10}$/.test(normalizePhone(value));
+export const isPostcode = (value) => /^[A-Za-z]{1,2}\d[A-Za-z0-9]?\s?\d[A-Za-z]{2}$/.test(value.trim());
 
 /**
  * Runs a map of field → [rule, message] pairs and returns { field: message } for failures.

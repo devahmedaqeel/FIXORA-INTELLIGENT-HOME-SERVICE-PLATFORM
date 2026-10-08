@@ -17,7 +17,7 @@ import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../features/auth/auth.context';
 import { getOwnProfile, updateOwnProfile } from '../../features/providers/provider.service';
 import { uploadVerificationDocument } from '../../services/storage.service';
-import { fieldErrorsFromApi, isPakistaniPhone } from '../../utils/validation';
+import { fieldErrorsFromApi, isUkPhone } from '../../utils/validation';
 import { PROVIDER_LANGUAGES, RESPONSE_TIME_OPTIONS } from '../../constants';
 
 export default function ProviderProfile() {
@@ -74,8 +74,8 @@ export default function ProviderProfile() {
     event.preventDefault();
     const next = {};
     if (form.displayName.trim().length < 2) next.displayName = 'Enter your name';
-    if (form.phone && !isPakistaniPhone(form.phone)) next.phone = 'Enter a valid Pakistani phone number';
-    if (form.whatsapp && !isPakistaniPhone(form.whatsapp)) next.whatsapp = 'Enter a valid Pakistani phone number';
+    if (form.phone && !isUkPhone(form.phone)) next.phone = 'Enter a valid UK phone number';
+    if (form.whatsapp && !isUkPhone(form.whatsapp)) next.whatsapp = 'Enter a valid UK phone number';
     setErrors(next);
     if (Object.keys(next).length) return;
     setSaving(true);
@@ -158,7 +158,7 @@ export default function ProviderProfile() {
               placeholder="e.g. Licensed Electrician"
               hint="Shown under your name on your public profile."
             />
-            <Input label="Phone" type="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="03001234567" />
+            <Input label="Phone" type="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="07911 123456" />
             <Input label="WhatsApp (optional)" type="tel" value={form.whatsapp} onChange={set('whatsapp')} error={errors.whatsapp} />
             <Input label="Years of experience" type="number" min="0" max="70" value={form.experienceYears} onChange={set('experienceYears')} />
           </div>

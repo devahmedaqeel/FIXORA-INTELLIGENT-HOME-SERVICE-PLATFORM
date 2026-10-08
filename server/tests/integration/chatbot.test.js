@@ -45,7 +45,7 @@ describe('15. chatbot authentication & privacy', () => {
   test('providers get their own earnings; customers cannot trigger provider/admin intents', async () => {
     const provider = await ctx.as('prov1').post('/api/chatbot/message', { message: 'What are my earnings?' });
     assert.equal(provider.body.data.source, 'account');
-    assert.match(provider.body.data.reply, /PKR/);
+    assert.match(provider.body.data.reply, /£/);
 
     const customer = await ctx.as('cust1').post('/api/chatbot/message', { message: 'How many pending providers?' });
     assert.notEqual(customer.body.data.source, 'account');

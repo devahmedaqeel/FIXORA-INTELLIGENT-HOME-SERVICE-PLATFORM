@@ -8,7 +8,7 @@
 import { AREAS } from './data/areas.mjs';
 import { CATEGORIES } from './data/categories.mjs';
 import { DEMO_ADMIN, DEMO_CUSTOMERS, DEMO_HISTORY, DEMO_PASSWORD, DEMO_PROVIDERS } from './data/demo.mjs';
-import { areaId, assertServerConfig, categoryId, ensureAuthUser, getDb, nowIso, pktDate, writeInBatches } from './seedUtils.mjs';
+import { areaId, assertServerConfig, categoryId, ensureAuthUser, getDb, nowIso, ukDate, writeInBatches } from './seedUtils.mjs';
 
 const withDemo = process.argv.includes('--demo');
 
@@ -165,7 +165,7 @@ async function seedDemo(db) {
     const customer = DEMO_CUSTOMERS.find((c) => c.key === h.customer);
     const service = provider.services.find((s) => s.title === h.service);
     const bookingId = `demo-${h.customer}-${h.provider}-${Math.abs(h.dayOffset)}`;
-    const bookingDate = pktDate(h.dayOffset);
+    const bookingDate = ukDate(h.dayOffset);
     const area = resolveArea(provider.areas[0]);
 
     await db.collection('bookings').doc(bookingId).set({

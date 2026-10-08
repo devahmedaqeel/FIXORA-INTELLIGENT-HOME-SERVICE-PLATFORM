@@ -9,7 +9,7 @@ export const areaLabel = (area) => `${area.areaName}, ${area.city}`;
  * Accessible area autocomplete backed by the `areas` collection (no maps API).
  * value: { id, label } | null · onChange(area | null)
  */
-export default function AreaPicker({ value, onChange, label = 'Area', placeholder = 'e.g. New Mirpur City', id, excludeIds = [], hint }) {
+export default function AreaPicker({ value, onChange, label = 'Area', placeholder = 'e.g. Camden, London', id, excludeIds = [], hint }) {
   const autoId = useId();
   const inputId = id || autoId;
   const listId = `${inputId}-list`;
@@ -114,7 +114,7 @@ export default function AreaPicker({ value, onChange, label = 'Area', placeholde
       {showList && (
         <ul id={listId} className="combobox__list" role="listbox">
           {loading && <li className="combobox__empty">Searching…</li>}
-          {!loading && options.length === 0 && <li className="combobox__empty">No matching areas. Try a city or postal code.</li>}
+          {!loading && options.length === 0 && <li className="combobox__empty">No matching areas. Try a city or postcode.</li>}
           {options.map((area, index) => (
             <li
               key={area.id}

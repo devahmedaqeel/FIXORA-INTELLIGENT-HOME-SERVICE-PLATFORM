@@ -50,17 +50,9 @@ export const COMPLAINT_TYPES = Object.freeze([
 
 export const COMPLAINT_STATUS_LABELS = Object.freeze({ open: 'Open', in_review: 'In review', resolved: 'Resolved', rejected: 'Rejected' });
 
-export const PAKISTAN_PROVINCES = Object.freeze([
-  'Punjab',
-  'Sindh',
-  'Khyber Pakhtunkhwa',
-  'Balochistan',
-  'Islamabad Capital Territory',
-  'Azad Jammu and Kashmir',
-  'Gilgit-Baltistan',
-]);
+export const UK_CONSTITUENT_COUNTRIES = Object.freeze(['England', 'Scotland', 'Wales', 'Northern Ireland']);
 
-export const PROVINCE_OPTIONS = Object.freeze(PAKISTAN_PROVINCES.map((p) => ({ value: p, label: p })));
+export const UK_COUNTRY_OPTIONS = Object.freeze(UK_CONSTITUENT_COUNTRIES.map((p) => ({ value: p, label: p })));
 
 export const ADDRESS_LABEL_OPTIONS = Object.freeze([
   { value: 'home', label: 'Home' },
@@ -78,7 +70,7 @@ export const WEEKDAYS = Object.freeze([
   { key: 'sunday', label: 'Sunday' },
 ]);
 
-export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Urdu', 'Punjabi', 'Pashto', 'Sindhi', 'Saraiki', 'Balochi']);
+export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Welsh', 'Polish', 'Urdu', 'Punjabi', 'Bengali', 'Gujarati', 'Romanian', 'Portuguese', 'Arabic']);
 
 export const RESPONSE_TIME_OPTIONS = Object.freeze([
   { value: 'within_hour', label: 'Within 1 hour' },

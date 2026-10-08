@@ -30,7 +30,7 @@ export const FAQ_ENTRIES = [
     roles: CUSTOMERS,
     keywords: ['search', 'find', 'look for', 'looking for', 'plumber', 'electrician', 'near me', 'postal code', 'zip', 'area', 'locate'],
     answer:
-      'Use the search bar on the home page: pick a service category (for example Plumbing), then either choose your area (like "New Mirpur City") or type your 5-digit postal code (like 10250). Only verified providers who serve that area are shown. You can then filter by rating, price and availability.',
+      'Use the search bar on the home page: pick a service category (for example Plumbing), then either choose your area (like "Camden") or type your postcode (like SW1A 1AA). Only verified providers who serve that area are shown. You can then filter by rating, price and availability.',
     link: { label: 'Search services', to: '/search' },
   },
   {
@@ -62,7 +62,7 @@ export const FAQ_ENTRIES = [
     roles: ALL,
     keywords: ['pay', 'payment', 'cash', 'card', 'price', 'cost', 'charges', 'fee'],
     answer:
-      'Prices are set by each provider and shown on their profile as fixed, "starting from", or hourly rates in PKR. By default you pay the provider in cash after the service. Any late-cancellation fee is shown before you confirm a cancellation.',
+      'Prices are set by each provider and shown on their profile as fixed, "starting from", or hourly rates in GBP (£). By default you pay the provider in cash after the service. Any late-cancellation fee is shown before you confirm a cancellation.',
   },
   {
     id: 'verified',
@@ -131,7 +131,7 @@ export const FAQ_ENTRIES = [
     roles: ['admin'],
     keywords: ['verify provider', 'approve provider', 'manage categories', 'manage areas', 'reports', 'settings', 'cutoff'],
     answer:
-      'Admin tools: Provider Verification (approve/reject/suspend), Categories, Areas & postal codes, Bookings, Reviews, Complaints, Reports and Settings (including the cancellation cutoff) are all in the admin sidebar.',
+      'Admin tools: Provider Verification (approve/reject/suspend), Categories, Areas & postcodes, Bookings, Reviews, Complaints, Reports and Settings (including the cancellation cutoff) are all in the admin sidebar.',
     link: { label: 'Admin dashboard', to: '/admin/dashboard' },
   },
 ];
@@ -145,8 +145,8 @@ export const QUICK_REPLIES = {
 
 export function buildSystemPrompt({ role, contextSummary, supportEmail }) {
   return [
-    'You are the Fixora assistant for a home-services marketplace in Pakistan (plumbers, electricians, cleaners, AC repair, tutors, etc.).',
-    'Customers search by service category and area or 5-digit postal code, book time slots with verified providers, cancel per policy, and review completed bookings.',
+    'You are the Fixora assistant for a home-services marketplace in the United Kingdom (plumbers, electricians, cleaners, boiler engineers, tutors, etc.).',
+    'Customers search by service category and area or postcode, book time slots with verified providers, cancel per policy, and review completed bookings.',
     'Providers manage profiles, services, prices, service areas, weekly availability and bookings. Admins verify providers and manage the platform.',
     `You are talking to a ${role}. Answer briefly (max 120 words), in the same language the user writes in.`,
     'Privacy rules: only use the account data given in CONTEXT, which belongs to the current user. Never reveal, guess or discuss other users\' personal data, bookings or earnings.',

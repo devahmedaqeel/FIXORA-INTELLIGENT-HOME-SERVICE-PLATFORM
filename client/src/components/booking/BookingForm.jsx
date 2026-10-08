@@ -7,7 +7,7 @@ import ErrorMessage from '../common/ErrorMessage';
 import Icon from '../common/Icon';
 import { createBooking } from '../../features/booking/booking.service';
 import { formatDate, formatDuration, formatPrice, formatTime } from '../../utils/format';
-import { fieldErrorsFromApi, isPakistaniPhone } from '../../utils/validation';
+import { fieldErrorsFromApi, isUkPhone } from '../../utils/validation';
 import { useToast } from '../../context/ToastContext';
 
 /**
@@ -38,7 +38,7 @@ export default function BookingForm({ profile, initialServiceId, customer, onBoo
     if (!serviceId) next.serviceId = 'Choose a service';
     if (!slot.date || !slot.startTime) next.slot = 'Choose a date and time';
     if (form.customerAddress.trim().length < 5) next.customerAddress = 'Enter the full address where the service is needed';
-    if (form.customerPhone && !isPakistaniPhone(form.customerPhone)) next.customerPhone = 'Enter a valid phone number, e.g. 03001234567';
+    if (form.customerPhone && !isUkPhone(form.customerPhone)) next.customerPhone = 'Enter a valid phone number, e.g. 07911 123456';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -126,7 +126,7 @@ export default function BookingForm({ profile, initialServiceId, customer, onBoo
                 options={provider.serviceAreas.map((a) => ({ value: a.id, label: `${a.areaName}, ${a.city} (${a.postalCode})` }))}
               />
             )}
-            <Input label="Phone for this booking" type="tel" value={form.customerPhone} onChange={update('customerPhone')} error={errors.customerPhone} placeholder="03001234567" />
+            <Input label="Phone for this booking" type="tel" value={form.customerPhone} onChange={update('customerPhone')} error={errors.customerPhone} placeholder="07911 123456" />
           </div>
           <Input
             as="textarea"

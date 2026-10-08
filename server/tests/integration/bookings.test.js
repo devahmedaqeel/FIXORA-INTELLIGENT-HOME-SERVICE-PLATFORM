@@ -81,7 +81,7 @@ describe('booking system', () => {
     assert.equal(ctx.db.read('bookings', early.body.data.id).lateCancellation, false);
 
     const late = await ctx.as('cust1').post('/api/bookings', ctx.bookingBody({ startTime: '14:00' }));
-    ctx.setClock('2030-01-08T08:00:00.000Z'); // 13:00 PKT → 60 min before
+    ctx.setClock('2030-01-08T13:00:00.000Z'); // 13:00 GMT → 60 min before
     const preview = await ctx.as('cust1').get(`/api/bookings/${late.body.data.id}/cancellation-preview`);
     assert.equal(preview.body.data.isLate, true);
 
@@ -98,7 +98,7 @@ describe('booking system', () => {
     const saved = await ctx.as('admin1').put('/api/admin/settings', { lateCancellationPolicy: 'block', bookingCancellationCutoffMinutes: 180 });
     assert.equal(saved.status, 200);
     const booking = await ctx.as('cust1').post('/api/bookings', ctx.bookingBody({ startTime: '14:00' }));
-    ctx.setClock('2030-01-08T07:00:00.000Z'); // 12:00 PKT → 120 min before, inside 180
+    ctx.setClock('2030-01-08T12:00:00.000Z'); // 12:00 GMT → 120 min before, inside 180
     const res = await ctx.as('cust1').patch(`/api/bookings/${booking.body.data.id}/cancel`, { acknowledgeLateCancellation: true });
     assert.equal(res.status, 409);
     assert.equal(res.body.errorCode, 'CANCELLATION_NOT_ALLOWED');

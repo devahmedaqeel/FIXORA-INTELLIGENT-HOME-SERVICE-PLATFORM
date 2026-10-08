@@ -7,7 +7,7 @@ describe('providers, services and search', () => {
   beforeEach(() => {
     ctx = createTestContext();
     ctx.seedMarketplace();
-    ctx.seedArea('lahore-gulberg', { areaName: 'Gulberg III', city: 'Lahore', district: 'Lahore', province: 'Punjab', postalCode: '54660' });
+    ctx.seedArea('manchester-centre', { areaName: 'City Centre', city: 'Manchester', district: 'Greater Manchester', province: 'England', postalCode: 'M1 1AE' });
     ctx.seedProvider('pending1', { verificationStatus: 'pending' });
     ctx.seedService('svcPending', 'pending1');
   });
@@ -60,21 +60,21 @@ describe('providers, services and search', () => {
   });
 
   test('6. area search matches by name and city', async () => {
-    const res = await ctx.as(null).get('/api/areas/search?q=mirpur');
+    const res = await ctx.as(null).get('/api/areas/search?q=camden');
     assert.equal(res.status, 200);
     assert.deepEqual(res.body.data.map((a) => a.id), ['mirpur']);
-    const byCity = await ctx.as(null).get('/api/areas/search?q=gulberg');
-    assert.equal(byCity.body.data[0].postalCode, '54660');
+    const byCity = await ctx.as(null).get('/api/areas/search?q=manchester');
+    assert.equal(byCity.body.data[0].postalCode, 'M1 1AE');
   });
 
-  test('7. ZIP/postal-code search finds providers serving that code', async () => {
-    const res = await ctx.as(null).get('/api/providers?categoryId=plumbing&postalCode=10250');
+  test('7. postcode search finds providers serving that code', async () => {
+    const res = await ctx.as(null).get('/api/providers?categoryId=plumbing&postalCode=NW1%206XE');
     assert.equal(res.status, 200);
     assert.equal(res.body.data.items[0].provider.id, 'prov1');
     assert.equal(res.body.data.items[0].startingPrice, 1000);
-    assert.equal(res.body.data.context.areasForPostalCode[0].areaName, 'New Mirpur City');
+    assert.equal(res.body.data.context.areasForPostalCode[0].areaName, 'Camden');
 
-    const none = await ctx.as(null).get('/api/providers?categoryId=plumbing&postalCode=54660');
+    const none = await ctx.as(null).get('/api/providers?categoryId=plumbing&postalCode=M1%201AE');
     assert.equal(none.body.data.items.length, 0);
 
     const invalid = await ctx.as(null).get('/api/providers?postalCode=12');
@@ -90,9 +90,9 @@ describe('providers, services and search', () => {
   });
 
   test('provider profile update resolves service areas into postal codes', async () => {
-    const res = await ctx.as('prov1').put('/api/providers/profile', { areaIds: ['mirpur', 'lahore-gulberg'], bio: 'Experienced plumber' });
+    const res = await ctx.as('prov1').put('/api/providers/profile', { areaIds: ['mirpur', 'manchester-centre'], bio: 'Experienced plumber' });
     assert.equal(res.status, 200);
-    assert.deepEqual(ctx.db.read('providers', 'prov1').postalCodes.sort(), ['10250', '54660']);
+    assert.deepEqual(ctx.db.read('providers', 'prov1').postalCodes.sort(), ['M1 1AE', 'NW1 6XE']);
     const bad = await ctx.as('prov1').put('/api/providers/profile', { areaIds: ['nowhere'] });
     assert.equal(bad.status, 400);
   });
