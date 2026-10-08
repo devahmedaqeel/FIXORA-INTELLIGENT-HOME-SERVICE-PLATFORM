@@ -39,9 +39,13 @@ export const NAVIGATION = {
   ],
 };
 
-/** Items shown in the bottom bar on phones (first 4 + "More" opens the sidebar). */
+/**
+ * Items shown in the bottom bar on phones. Customer/provider fill all 5 slots with
+ * real destinations; admin keeps a 4th "More" slot (opens the sidebar) since the full
+ * admin nav has too many destinations to flatten into a tab bar.
+ */
 export const MOBILE_PRIMARY = {
-  customer: ['/customer/dashboard', '/customer/search', '/customer/bookings', '/customer/notifications'],
-  provider: ['/provider/dashboard', '/provider/bookings', '/provider/services', '/provider/earnings'],
-  admin: ['/admin/dashboard', '/admin/provider-verification', '/admin/bookings', '/admin/reports'],
+  customer: ['/customer/dashboard', '/customer/search', '/customer/bookings', '/customer/notifications', '/customer/profile'],
+  provider: ['/provider/dashboard', '/provider/bookings', '/provider/services', '/provider/notifications', '/provider/profile'],
+  admin: ['/admin/dashboard', '/admin/users', '/admin/providers', '/admin/bookings'],
 };
