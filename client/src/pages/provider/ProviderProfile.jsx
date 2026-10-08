@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import Input from '../../components/common/Input';
+import Select from '../../components/common/Select';
+import TagInput from '../../components/common/TagInput';
 import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
@@ -16,6 +18,7 @@ import { useAuth } from '../../features/auth/auth.context';
 import { getOwnProfile, updateOwnProfile } from '../../features/providers/provider.service';
 import { uploadVerificationDocument } from '../../services/storage.service';
 import { fieldErrorsFromApi, isPakistaniPhone } from '../../utils/validation';
+import { PROVIDER_LANGUAGES, RESPONSE_TIME_OPTIONS } from '../../constants';
 
 export default function ProviderProfile() {
   useDocumentTitle('Provider profile');
@@ -34,6 +37,7 @@ export default function ProviderProfile() {
     setForm({
       displayName: provider.displayName,
       businessName: provider.businessName || '',
+      title: provider.title || '',
       bio: provider.bio || '',
       phone: provider.phone || '',
       whatsapp: provider.whatsapp || '',
@@ -41,6 +45,10 @@ export default function ProviderProfile() {
       experienceYears: provider.experienceYears || 0,
       categoryIds: provider.categoryIds || [],
       areas: provider.serviceAreas || [],
+      languages: provider.languages || [],
+      specializations: provider.specializations || [],
+      responseTime: provider.responseTime || '',
+      serviceRadiusKm: provider.serviceRadiusKm ?? '',
       verificationDocuments: provider.verificationDocuments || [],
     });
   }, [provider]);
@@ -51,6 +59,8 @@ export default function ProviderProfile() {
   const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
   const toggleCategory = (id) =>
     setForm((f) => ({ ...f, categoryIds: f.categoryIds.includes(id) ? f.categoryIds.filter((c) => c !== id) : [...f.categoryIds, id] }));
+  const toggleLanguage = (lang) =>
+    setForm((f) => ({ ...f, languages: f.languages.includes(lang) ? f.languages.filter((l) => l !== lang) : [...f.languages, lang] }));
 
   const persist = async (changes, message = 'Profile saved') => {
     const updated = await updateOwnProfile(changes);
@@ -73,6 +83,7 @@ export default function ProviderProfile() {
       await persist({
         displayName: form.displayName.trim(),
         businessName: form.businessName.trim(),
+        title: form.title.trim(),
         bio: form.bio.trim(),
         phone: form.phone.trim(),
         whatsapp: form.whatsapp.trim(),
@@ -80,6 +91,10 @@ export default function ProviderProfile() {
         experienceYears: Number(form.experienceYears) || 0,
         categoryIds: form.categoryIds,
         areaIds: form.areas.map((a) => a.id),
+        languages: form.languages,
+        specializations: form.specializations,
+        responseTime: form.responseTime,
+        serviceRadiusKm: form.serviceRadiusKm === '' ? undefined : Number(form.serviceRadiusKm),
       });
     } catch (err) {
       setErrors(fieldErrorsFromApi(err));
@@ -135,6 +150,14 @@ export default function ProviderProfile() {
           <div className="form-grid">
             <Input label="Your name" value={form.displayName} onChange={set('displayName')} error={errors.displayName} required />
             <Input label="Business name (optional)" value={form.businessName} onChange={set('businessName')} maxLength={100} />
+            <Input
+              label="Professional title (optional)"
+              value={form.title}
+              onChange={set('title')}
+              maxLength={80}
+              placeholder="e.g. Licensed Electrician"
+              hint="Shown under your name on your public profile."
+            />
             <Input label="Phone" type="tel" value={form.phone} onChange={set('phone')} error={errors.phone} placeholder="03001234567" />
             <Input label="WhatsApp (optional)" type="tel" value={form.whatsapp} onChange={set('whatsapp')} error={errors.whatsapp} />
             <Input label="Years of experience" type="number" min="0" max="70" value={form.experienceYears} onChange={set('experienceYears')} />
@@ -155,6 +178,48 @@ export default function ProviderProfile() {
                 <span>{c.name}</span>
               </label>
             ))}
+          </div>
+        </section>
+
+        <section className="card stack">
+          <h2 className="card__title">Professional details</h2>
+          <div className="field">
+            <span className="field__label">Languages you speak</span>
+            <div className="checkbox-grid" role="group" aria-label="Languages">
+              {PROVIDER_LANGUAGES.map((lang) => (
+                <label key={lang} className={`check-tile ${form.languages.includes(lang) ? 'is-selected' : ''}`}>
+                  <input type="checkbox" checked={form.languages.includes(lang)} onChange={() => toggleLanguage(lang)} />
+                  <span>{lang}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <TagInput
+            label="Specializations / skills (optional)"
+            value={form.specializations}
+            onChange={(specializations) => setForm((f) => ({ ...f, specializations }))}
+            max={15}
+            maxLength={40}
+            placeholder="e.g. Inverter repair"
+            hint="Add specific skills beyond your service categories."
+          />
+          <div className="form-grid">
+            <Select
+              label="Typical response time"
+              value={form.responseTime}
+              onChange={set('responseTime')}
+              options={RESPONSE_TIME_OPTIONS}
+              placeholder="Not set"
+            />
+            <Input
+              label="Service radius (km, optional)"
+              type="number"
+              min="0"
+              max="200"
+              value={form.serviceRadiusKm}
+              onChange={set('serviceRadiusKm')}
+              hint="How far you're willing to travel beyond your listed areas."
+            />
           </div>
         </section>
 

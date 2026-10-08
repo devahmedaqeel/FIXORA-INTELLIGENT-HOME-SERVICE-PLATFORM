@@ -70,6 +70,17 @@ export const WEEKDAYS = Object.freeze([
   { key: 'sunday', label: 'Sunday' },
 ]);
 
+export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Urdu', 'Punjabi', 'Pashto', 'Sindhi', 'Saraiki', 'Balochi']);
+
+export const RESPONSE_TIME_OPTIONS = Object.freeze([
+  { value: 'within_hour', label: 'Within 1 hour' },
+  { value: 'within_few_hours', label: 'Within a few hours' },
+  { value: 'within_day', label: 'Within a day' },
+  { value: 'within_few_days', label: 'A few days' },
+]);
+
+export const RESPONSE_TIME_LABELS = Object.freeze(Object.fromEntries(RESPONSE_TIME_OPTIONS.map((o) => [o.value, o.label])));
+
 export const SEARCH_SORTS = Object.freeze([
   { value: 'rating', label: 'Top rated' },
   { value: 'reviews', label: 'Most reviewed' },

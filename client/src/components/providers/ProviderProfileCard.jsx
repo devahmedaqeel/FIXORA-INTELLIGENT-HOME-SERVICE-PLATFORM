@@ -4,6 +4,7 @@ import ProviderRating from './ProviderRating';
 import ProviderVerificationBadge from './ProviderVerificationBadge';
 import { providerDisplayName } from '../../features/providers/provider.utils';
 import { formatDate } from '../../utils/format';
+import { RESPONSE_TIME_LABELS } from '../../constants';
 
 /** Header block of a provider profile: photo, name, verification, stats and contact. */
 export default function ProviderProfileCard({ provider, categories = [], actions }) {
@@ -18,7 +19,8 @@ export default function ProviderProfileCard({ provider, categories = [], actions
           </h1>
           <ProviderVerificationBadge status={provider.verificationStatus} />
         </div>
-        {provider.businessName && <p className="muted">{provider.displayName}</p>}
+        {provider.title && <p className="muted">{provider.title}</p>}
+        {!provider.title && provider.businessName && <p className="muted">{provider.displayName}</p>}
         <ProviderRating average={provider.ratingAverage} count={provider.ratingCount} size={16} />
         <ul className="profile-hero__facts">
           <li>
@@ -27,6 +29,16 @@ export default function ProviderProfileCard({ provider, categories = [], actions
           {provider.experienceYears > 0 && (
             <li>
               <Icon name="briefcase" size={16} /> {provider.experienceYears} years experience
+            </li>
+          )}
+          {provider.responseTime && (
+            <li>
+              <Icon name="clock" size={16} /> Typically responds {RESPONSE_TIME_LABELS[provider.responseTime]?.toLowerCase()}
+            </li>
+          )}
+          {provider.languages?.length > 0 && (
+            <li>
+              <Icon name="message" size={16} /> Speaks {provider.languages.join(', ')}
             </li>
           )}
           {provider.memberSince && (

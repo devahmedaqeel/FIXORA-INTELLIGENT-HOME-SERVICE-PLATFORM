@@ -31,6 +31,10 @@ export const VERIFICATION_STATUS = Object.freeze({
 
 export const PRICING_TYPES = Object.freeze(['fixed', 'starting_from', 'hourly']);
 
+export const RESPONSE_TIME_VALUES = Object.freeze(['within_hour', 'within_few_hours', 'within_day', 'within_few_days']);
+
+export const PROVIDER_LANGUAGES = Object.freeze(['English', 'Urdu', 'Punjabi', 'Pashto', 'Sindhi', 'Saraiki', 'Balochi']);
+
 export const BOOKING_STATUS = Object.freeze({
   PENDING: 'pending',
   CONFIRMED: 'confirmed',

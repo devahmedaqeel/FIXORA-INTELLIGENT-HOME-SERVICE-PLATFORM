@@ -26,7 +26,8 @@ export default function ProviderCard({ result, provider: providerProp, profilePa
             <Link to={profilePath}>{name}</Link>
             {provider.isVerified && <ProviderVerificationBadge status="verified" compact />}
           </h3>
-          {provider.businessName && <p className="muted small">{provider.displayName}</p>}
+          {provider.title && <p className="muted small">{provider.title}</p>}
+          {!provider.title && provider.businessName && <p className="muted small">{provider.displayName}</p>}
           <ProviderRating average={provider.ratingAverage} count={provider.ratingCount} />
         </div>
         {onSaveToggle && (

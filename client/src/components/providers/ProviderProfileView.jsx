@@ -31,12 +31,21 @@ export default function ProviderProfileView({ providerId, bookPathFor, headerAct
 
       <div className="profile-columns">
         <div className="stack stack--lg">
-          {provider.bio && (
-            <section className="card" aria-labelledby="about-heading">
+          {(provider.bio || provider.specializations?.length > 0) && (
+            <section className="card stack" aria-labelledby="about-heading">
               <h2 id="about-heading" className="card__title">
                 About
               </h2>
-              <p className="prewrap">{provider.bio}</p>
+              {provider.bio && <p className="prewrap">{provider.bio}</p>}
+              {provider.specializations?.length > 0 && (
+                <div className="chip-row" aria-label="Specializations">
+                  {provider.specializations.map((s) => (
+                    <span key={s} className="chip">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              )}
             </section>
           )}
 
@@ -105,6 +114,9 @@ export default function ProviderProfileView({ providerId, bookPathFor, headerAct
                   </li>
                 ))}
               </ul>
+            )}
+            {provider.serviceRadiusKm > 0 && (
+              <p className="muted small">Also travels up to {provider.serviceRadiusKm} km beyond these areas.</p>
             )}
           </section>
           <section className="card" aria-labelledby="hours-heading">

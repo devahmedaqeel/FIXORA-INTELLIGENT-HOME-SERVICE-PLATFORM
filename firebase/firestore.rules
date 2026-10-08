@@ -52,8 +52,9 @@ service cloud.firestore {
                   || isOwner(providerId) || isAdmin();
       // Providers edit their own descriptive fields; verification, ratings and counters are server-only.
       allow update: if (isOwner(providerId) && isProvider()
-                        && changesOnly(['displayName', 'businessName', 'bio', 'phone', 'whatsapp', 'showPhonePublicly',
-                                        'photoURL', 'experienceYears', 'verificationDocuments', 'updatedAt']))
+                        && changesOnly(['displayName', 'businessName', 'title', 'bio', 'phone', 'whatsapp', 'showPhonePublicly',
+                                        'photoURL', 'experienceYears', 'languages', 'specializations', 'responseTime',
+                                        'serviceRadiusKm', 'verificationDocuments', 'updatedAt']))
                     || isAdmin();
       allow create, delete: if isAdmin();
     }

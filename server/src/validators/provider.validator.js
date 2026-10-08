@@ -1,10 +1,12 @@
 import { z } from 'zod';
 import { trimmed, optionalPhone, httpsUrl, docId, postalCode, paginationQuery, isoDate } from './common.validator.js';
+import { RESPONSE_TIME_VALUES } from '../constants/index.js';
 
 export const updateProviderProfileSchema = z
   .object({
     displayName: trimmed(80).min(2, 'Name must be at least 2 characters').optional(),
     businessName: trimmed(100).optional(),
+    title: trimmed(80).optional(),
     bio: trimmed(1500).optional(),
     phone: optionalPhone,
     whatsapp: optionalPhone,
@@ -13,6 +15,10 @@ export const updateProviderProfileSchema = z
     photoURL: z.union([httpsUrl, z.literal('')]).optional(),
     categoryIds: z.array(docId).max(12, 'Choose at most 12 categories').optional(),
     areaIds: z.array(docId).max(50, 'Choose at most 50 service areas').optional(),
+    languages: z.array(trimmed(30).min(1)).max(8, 'Choose at most 8 languages').optional(),
+    specializations: z.array(trimmed(40).min(1)).max(15, 'Add at most 15 specializations').optional(),
+    responseTime: z.enum(RESPONSE_TIME_VALUES).optional(),
+    serviceRadiusKm: z.coerce.number().min(0).max(200).optional(),
     verificationDocuments: z
       .array(z.object({ name: trimmed(120).min(1), url: httpsUrl, path: trimmed(300).optional() }))
       .max(5)
