@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// Fixora Firebase Storage rules.
+//   providers/{uid}/profile/*        public provider photos (owner writes, anyone reads)
+//   users/{uid}/avatar/*             customer avatars (owner writes, anyone reads)
+//   verification/{uid}/*             provider verification documents (owner + admins only)
+//   services/{uid}/*                 service images (owner writes, anyone reads)
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() { return request.auth != null; }
+    function isOwner(userId) { return signedIn() && request.auth.uid == userId; }
+    function isAdmin() {
+      return signedIn()
+        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    function isImage() { return request.resource.contentType.matches('image/(jpeg|png|webp)'); }
+    function isDocument() {
+      return request.resource.contentType.matches('image/(jpeg|png|webp)')
+        || request.resource.contentType == 'application/pdf';
+    }
+    function under(mb) { return request.resource.size < mb * 1024 * 1024; }
+
+    match /providers/{userId}/profile/{fileName} {
+      allow read: if true;
+      allow write: if isOwner(userId) && isImage() && under(2);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    match /users/{userId}/avatar/{fileName} {
+      allow read: if true;
+      allow write: if isOwner(userId) && isImage() && under(2);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    match /services/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isOwner(userId) && isImage() && under(3);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    match /verification/{userId}/{fileName} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) && isDocument() && under(5);
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

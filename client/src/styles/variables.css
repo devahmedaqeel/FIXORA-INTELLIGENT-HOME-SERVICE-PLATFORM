@@ -1,0 +1,68 @@
+/* Design tokens. Every colour, radius and shadow in the app comes from here. */
+:root {
+  /* Brand */
+  --primary: #0b6b53;
+  --primary-hover: #08563f;
+  --primary-soft: #e6f2ee;
+  --primary-ring: rgba(11, 107, 83, 0.28);
+  --accent: #f2a541;
+  --accent-hover: #e0902a;
+  --accent-soft: #fdf1df;
+
+  /* Ink & surfaces */
+  --ink: #15222e;
+  --ink-2: #3c4954;
+  --muted: #5f6b76;
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --surface-2: #fbfaf7;
+  --border: #e2e3df;
+  --border-strong: #cfd2cc;
+  --sidebar-bg: #0f2a23;
+  --sidebar-ink: #d4e3dd;
+
+  /* Status (always paired with text/icon, never colour alone) */
+  --success: #1c7c45;
+  --success-soft: #e5f4ea;
+  --warning: #8a5a00;
+  --warning-soft: #fdf3dc;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --info: #1e5bb8;
+  --info-soft: #e8f0fc;
+  --neutral: #4b5560;
+  --neutral-soft: #eef0f1;
+
+  /* Type */
+  --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: clamp(2rem, 4.5vw, 3.25rem);
+
+  /* Space & shape */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(21, 34, 46, 0.06);
+  --shadow: 0 4px 16px rgba(21, 34, 46, 0.07);
+  --shadow-lg: 0 16px 40px rgba(21, 34, 46, 0.14);
+
+  --container: 1200px;
+  --sidebar-width: 256px;
+  --header-height: 64px;
+  --mobile-nav-height: 64px;
+  --transition: 160ms ease;
+}

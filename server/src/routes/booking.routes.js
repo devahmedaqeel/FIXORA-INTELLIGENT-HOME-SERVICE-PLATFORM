@@ -1,0 +1,39 @@
+import { Router } from 'express';
+import { authenticateUser, requireCustomer, requireRole } from '../middleware/auth.middleware.js';
+import { validate } from '../middleware/validate.middleware.js';
+import { bookingLimiter } from '../middleware/rateLimit.middleware.js';
+import { idParams } from '../validators/common.validator.js';
+import {
+  createBookingSchema,
+  updateBookingStatusSchema,
+  cancelBookingSchema,
+  listBookingsQuery,
+  paymentStatusSchema,
+} from '../validators/booking.validator.js';
+import { ROLES } from '../constants/index.js';
+import * as controller from '../controllers/booking.controller.js';
+
+const router = Router();
+
+// BR-7: every booking endpoint requires authentication.
+router.use(authenticateUser);
+
+router.post('/', bookingLimiter, requireCustomer, validate({ body: createBookingSchema }), controller.create);
+router.get('/my', requireRole(ROLES.CUSTOMER, ROLES.PROVIDER), validate({ query: listBookingsQuery }), controller.listMine);
+router.get('/:id', validate({ params: idParams }), controller.getById);
+router.patch(
+  '/:id/status',
+  requireRole(ROLES.PROVIDER, ROLES.ADMIN),
+  validate({ params: idParams, body: updateBookingStatusSchema }),
+  controller.updateStatus,
+);
+router.patch(
+  '/:id/payment',
+  requireRole(ROLES.PROVIDER, ROLES.ADMIN),
+  validate({ params: idParams, body: paymentStatusSchema }),
+  controller.updatePayment,
+);
+router.get('/:id/cancellation-preview', requireCustomer, validate({ params: idParams }), controller.cancellationPreview);
+router.patch('/:id/cancel', requireCustomer, validate({ params: idParams, body: cancelBookingSchema }), controller.cancel);
+
+export default router;

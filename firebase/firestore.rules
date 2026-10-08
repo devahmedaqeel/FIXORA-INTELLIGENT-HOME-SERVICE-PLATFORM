@@ -1,0 +1,134 @@
+rules_version = '2';
+
+// Fixora Firestore security rules.
+//
+// The Express API uses the Firebase Admin SDK, which bypasses these rules, and enforces all
+// business logic (double-booking prevention, cancellation policy, review eligibility, etc.).
+// These rules are defence in depth for any direct client SDK access:
+//   * public catalogue data is read-only,
+//   * users can only read their own private records,
+//   * every write that carries business meaning must go through the API,
+//   * admins (users/{uid}.role == 'admin') have full access.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+    function signedIn() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(uid())); }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(uid())); }
+    function isActive() { return hasProfile() && userDoc().data.status == 'active'; }
+    function role() { return userDoc().data.role; }
+    function isAdmin() { return isActive() && role() == 'admin'; }
+    function isCustomer() { return isActive() && role() == 'customer'; }
+    function isProvider() { return isActive() && role() == 'provider'; }
+    function isOwner(ownerId) { return signedIn() && uid() == ownerId; }
+    function changesOnly(fields) { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields); }
+
+    // ---------- users ----------
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      // Registration happens through POST /api/auth/register (role is server-assigned).
+      allow create: if false;
+      // Users may edit harmless profile fields only — never role or status.
+      allow update: if (isOwner(userId) && isActive()
+                        && changesOnly(['displayName', 'phone', 'city', 'address', 'photoURL', 'defaultAreaId', 'updatedAt']))
+                    || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ---------- customers (saved providers etc.) ----------
+    match /customers/{customerId} {
+      allow read: if isOwner(customerId) || isAdmin();
+      allow update: if (isOwner(customerId) && isCustomer() && changesOnly(['savedProviderIds', 'updatedAt'])) || isAdmin();
+      allow create, delete: if isAdmin();
+    }
+
+    // ---------- providers ----------
+    match /providers/{providerId} {
+      // Public can read verified, active providers (BR-1); owners and admins can read their own.
+      allow read: if (resource.data.verificationStatus == 'verified' && resource.data.accountActive != false)
+                  || isOwner(providerId) || isAdmin();
+      // Providers edit their own descriptive fields; verification, ratings and counters are server-only.
+      allow update: if (isOwner(providerId) && isProvider()
+                        && changesOnly(['displayName', 'businessName', 'bio', 'phone', 'whatsapp', 'showPhonePublicly',
+                                        'photoURL', 'experienceYears', 'verificationDocuments', 'updatedAt']))
+                    || isAdmin();
+      allow create, delete: if isAdmin();
+    }
+
+    // ---------- services ----------
+    match /services/{serviceId} {
+      allow read: if resource.data.active == true || isOwner(resource.data.providerId) || isAdmin();
+      // Created/updated through the API so provider stats and category checks stay consistent.
+      allow write: if isAdmin();
+    }
+
+    // ---------- catalogue ----------
+    match /categories/{categoryId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+    match /areas/{areaId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---------- availability ----------
+    match /availability/{providerId} {
+      allow read: if true; // weekly hours are public so customers can see when to book
+      allow write: if isAdmin(); // providers save through PUT /api/providers/availability (validated)
+    }
+
+    // ---------- bookings (BR-5, BR-7, BR-9, BR-10) ----------
+    match /bookings/{bookingId} {
+      allow read: if signedIn() && (resource.data.customerId == uid() || resource.data.providerId == uid() || isAdmin());
+      // Creation must go through the API transaction that prevents double booking.
+      allow create: if false;
+      allow update, delete: if isAdmin();
+    }
+    match /bookingLocks/{lockId} {
+      allow read, write: if false; // server-only concurrency guard
+    }
+
+    // ---------- reviews (BR-2) ----------
+    match /reviews/{reviewId} {
+      allow read: if resource.data.status == 'published' || isOwner(resource.data.customerId) || isAdmin();
+      // Created via API (verifies completed booking ownership and updates rating totals atomically).
+      allow create, update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ---------- complaints ----------
+    match /complaints/{complaintId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if false; // via POST /api/complaints
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------- notifications ----------
+    match /notifications/{notificationId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+      allow update: if isOwner(resource.data.userId) && changesOnly(['read', 'readAt']);
+      allow create, delete: if isAdmin();
+    }
+
+    // ---------- chatbot ----------
+    match /chatbotQueries/{queryId} {
+      allow read: if (resource.data.userId != null && isOwner(resource.data.userId)) || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---------- settings ----------
+    match /settings/{settingId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    // Deny everything not matched above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

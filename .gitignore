@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Builds
+client/dist/
+dist/
+coverage/
+
+# Environment & secrets — never commit
+.env
+.env.*
+!.env.example
+*serviceAccount*.json
+*-firebase-adminsdk-*.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Logs / OS / editors
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
