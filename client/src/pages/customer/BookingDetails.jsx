@@ -5,6 +5,7 @@ import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import BookingDetailsView from '../../components/booking/BookingDetailsView';
+import MessageThread from '../../components/booking/MessageThread';
 import CancelBookingDialog from '../../components/booking/CancelBookingDialog';
 import ReviewForm from '../../components/reviews/ReviewForm';
 import { useAsync } from '../../hooks/useAsync';
@@ -57,6 +58,8 @@ export default function BookingDetails() {
           </>
         }
       />
+
+      <MessageThread bookingId={booking.id} counterpartName={booking.providerName} />
 
       {canReview(booking) && (
         <section id="review" className="card">

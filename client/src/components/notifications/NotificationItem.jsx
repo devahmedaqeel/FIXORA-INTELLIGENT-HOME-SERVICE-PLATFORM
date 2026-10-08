@@ -12,6 +12,7 @@ const TYPE_ICONS = {
   provider_verified: 'shield',
   provider_status_changed: 'shield',
   complaint_update: 'alert',
+  new_message: 'message',
 };
 
 /** One notification row, shared by the dropdown panel and the full notification center page. */

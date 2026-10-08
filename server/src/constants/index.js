@@ -12,6 +12,7 @@ export const COLLECTIONS = Object.freeze({
   BOOKING_LOCKS: 'bookingLocks',
   REVIEWS: 'reviews',
   COMPLAINTS: 'complaints',
+  MESSAGES: 'messages',
   NOTIFICATIONS: 'notifications',
   CHATBOT_QUERIES: 'chatbotQueries',
   SETTINGS: 'settings',
@@ -91,6 +92,7 @@ export const NOTIFICATION_TYPES = Object.freeze({
   PROVIDER_VERIFIED: 'provider_verified',
   PROVIDER_STATUS_CHANGED: 'provider_status_changed',
   COMPLAINT_UPDATE: 'complaint_update',
+  NEW_MESSAGE: 'new_message',
 });
 
 /** Which notification-preference toggle governs each notification type. */
@@ -101,6 +103,7 @@ export const NOTIFICATION_TYPE_CATEGORY = Object.freeze({
   [NOTIFICATION_TYPES.BOOKING_CANCELLED]: 'bookingUpdates',
   [NOTIFICATION_TYPES.BOOKING_COMPLETED]: 'bookingUpdates',
   [NOTIFICATION_TYPES.BOOKING_UPDATED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.NEW_MESSAGE]: 'bookingUpdates',
   [NOTIFICATION_TYPES.NEW_REVIEW]: 'reviewUpdates',
   [NOTIFICATION_TYPES.PROVIDER_VERIFIED]: 'accountUpdates',
   [NOTIFICATION_TYPES.PROVIDER_STATUS_CHANGED]: 'accountUpdates',

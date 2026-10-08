@@ -106,6 +106,9 @@ Server-only concurrency guard: `providerId`, `bookingDate`, `bookingCount`, `upd
 ### `complaints/{complaintId}`
 `userId`, `userRole`, `userName`, `userEmail`, `type` (`booking` \| `provider` \| `payment` \| `platform`), `bookingId`, `bookingSummary`, `providerId`, `subject`, `description`, `status` (`open` \| `in_review` \| `resolved` \| `rejected`), `adminResponse`, `handledBy`, `closedAt`, `createdAt`, `updatedAt`.
 
+### `messages/{messageId}`
+Customer ↔ provider messaging, scoped to a booking: `bookingId`, `senderId`, `senderRole`, `receiverId`, `text`, `read`, `readAt`, `createdAt`, `updatedAt`. Authorization is inherited from the booking (only its customer, its provider, or an admin may read the thread; only the two participants may send). Viewing the thread via `GET /api/bookings/:id/messages` marks the other participant's messages read.
+
 ### `notifications/{notificationId}`
 `userId`, `type`, `title`, `message`, `link` (client route), `data`, `read`, `readAt`, `createdAt`.
 

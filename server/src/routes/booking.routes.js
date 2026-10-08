@@ -10,8 +10,10 @@ import {
   listBookingsQuery,
   paymentStatusSchema,
 } from '../validators/booking.validator.js';
+import { createMessageSchema } from '../validators/message.validator.js';
 import { ROLES } from '../constants/index.js';
 import * as controller from '../controllers/booking.controller.js';
+import * as messageController from '../controllers/message.controller.js';
 
 const router = Router();
 
@@ -35,5 +37,13 @@ router.patch(
 );
 router.get('/:id/cancellation-preview', requireCustomer, validate({ params: idParams }), controller.cancellationPreview);
 router.patch('/:id/cancel', requireCustomer, validate({ params: idParams, body: cancelBookingSchema }), controller.cancel);
+
+router.get('/:id/messages', validate({ params: idParams }), messageController.list);
+router.post(
+  '/:id/messages',
+  requireRole(ROLES.CUSTOMER, ROLES.PROVIDER),
+  validate({ params: idParams, body: createMessageSchema }),
+  messageController.send,
+);
 
 export default router;

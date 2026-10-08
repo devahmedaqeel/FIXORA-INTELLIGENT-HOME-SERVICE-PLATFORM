@@ -8,6 +8,7 @@ import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import BookingDetailsView from '../../components/booking/BookingDetailsView';
+import MessageThread from '../../components/booking/MessageThread';
 import { useAsync } from '../../hooks/useAsync';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { useToast } from '../../context/ToastContext';
@@ -65,6 +66,8 @@ export default function ProviderBookingDetails() {
         }
       />
       <BookingDetailsView booking={booking} perspective="provider" />
+
+      <MessageThread bookingId={booking.id} counterpartName={booking.customerName} />
 
       {(actions.length > 0 || booking.status === 'completed') && (
         <section className="card stack">

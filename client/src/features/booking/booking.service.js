@@ -8,3 +8,6 @@ export const updatePaymentStatus = (id, paymentStatus) => api.patch(`/bookings/$
 export const getCancellationPreview = (id) => api.get(`/bookings/${id}/cancellation-preview`);
 export const cancelBooking = (id, { reason, acknowledgeLateCancellation }) =>
   api.patch(`/bookings/${id}/cancel`, { reason, acknowledgeLateCancellation });
+
+export const listBookingMessages = (id) => api.get(`/bookings/${id}/messages`);
+export const sendBookingMessage = (id, text) => api.post(`/bookings/${id}/messages`, { text });

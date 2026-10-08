@@ -5,7 +5,7 @@ import { useToast } from '../../context/ToastContext';
 import { updateMe } from '../../services/account.service';
 
 const CATEGORY_TOGGLES = [
-  { key: 'bookingUpdates', label: 'Booking updates', hint: 'New requests, confirmations, cancellations and completions.' },
+  { key: 'bookingUpdates', label: 'Booking updates', hint: 'New requests, confirmations, cancellations, completions and messages.' },
   { key: 'reviewUpdates', label: 'Reviews', hint: 'New reviews and review reminders.' },
   { key: 'accountUpdates', label: 'Account & verification', hint: 'Verification status changes and complaint updates.' },
   { key: 'promotional', label: 'Promotional', hint: "Offers and news. We'll only use this when we have something to share." },

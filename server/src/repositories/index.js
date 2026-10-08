@@ -10,6 +10,7 @@ export { bookingRepository } from './booking.repository.js';
 export { bookingLockRepository } from './bookingLock.repository.js';
 export { reviewRepository } from './review.repository.js';
 export { complaintRepository } from './complaint.repository.js';
+export { messageRepository } from './message.repository.js';
 export { notificationRepository } from './notification.repository.js';
 export { chatbotQueryRepository } from './chatbotQuery.repository.js';
 export { settingsRepository } from './settings.repository.js';

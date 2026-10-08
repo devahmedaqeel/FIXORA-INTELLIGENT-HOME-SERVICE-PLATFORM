@@ -85,7 +85,7 @@ export default function BookingDetailsView({ booking, perspective = 'customer', 
               <dd>
                 Cancelled by {booking.cancelledBy || 'unknown'}
                 {booking.cancellationReason && ` — “${booking.cancellationReason}”`}
-                {booking.lateCancellation && <span className="muted"> (late cancellation{booking.cancellationFee ? `, fee Rs ${booking.cancellationFee}` : ''})</span>}
+                {booking.lateCancellation && <span className="muted"> (late cancellation{booking.cancellationFee ? `, fee £${booking.cancellationFee}` : ''})</span>}
               </dd>
             </div>
           )}

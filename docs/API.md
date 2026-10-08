@@ -183,6 +183,8 @@ Database-driven location search. No maps or geocoding APIs.
 | PATCH | `/bookings/:id/payment` | Provider (own) or Admin | `{ paymentStatus: unpaid\|paid\|refunded\|cash }` |
 | GET | `/bookings/:id/cancellation-preview` | Customer (owner) | `{ canCancel, isLate, cutoffMinutes, policy, fee, minutesUntilStart, message }` from current admin settings |
 | PATCH | `/bookings/:id/cancel` | Customer (owner — BR-9) | `{ reason?, acknowledgeLateCancellation? }`. Free before `bookingCancellationCutoffMinutes`; afterwards per `lateCancellationPolicy` (`warn`, `fee`, `block`). |
+| GET | `/bookings/:id/messages` | Customer/provider on the booking, or Admin | Returns the thread; viewing marks the other participant's messages read |
+| POST | `/bookings/:id/messages` | Customer or provider on the booking | `{ text }` — the other participant is notified |
 
 ## Reviews — `/api/reviews` (Customer)
 

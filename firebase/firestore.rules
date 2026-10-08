@@ -94,6 +94,15 @@ service cloud.firestore {
       allow read, write: if false; // server-only concurrency guard
     }
 
+    // ---------- messages (customer <-> provider, scoped to a booking) ----------
+    match /messages/{messageId} {
+      allow read: if signedIn() && (resource.data.senderId == uid() || resource.data.receiverId == uid() || isAdmin());
+      // Created via API (verifies the sender is a participant on the booking) and read-flag
+      // updates happen server-side when the thread is viewed.
+      allow create, update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
     // ---------- reviews (BR-2) ----------
     match /reviews/{reviewId} {
       allow read: if resource.data.status == 'published' || isOwner(resource.data.customerId) || isAdmin();
