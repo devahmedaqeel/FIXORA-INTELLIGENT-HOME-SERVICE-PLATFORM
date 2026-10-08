@@ -4,24 +4,10 @@ import Button from '../common/Button';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
 import EmptyState from '../common/EmptyState';
-import Icon from '../common/Icon';
+import NotificationItem from '../notifications/NotificationItem';
 import { useAsync } from '../../hooks/useAsync';
 import { useToast } from '../../context/ToastContext';
 import { listNotifications, markAllNotificationsRead, markNotificationRead } from '../../services/account.service';
-import { timeAgo } from '../../utils/format';
-
-const TYPE_ICONS = {
-  booking_created: 'calendar',
-  booking_confirmed: 'check-circle',
-  booking_rejected: 'x',
-  booking_cancelled: 'x',
-  booking_completed: 'check-circle',
-  booking_updated: 'clock',
-  new_review: 'star',
-  provider_verified: 'shield',
-  provider_status_changed: 'shield',
-  complaint_update: 'alert',
-};
 
 /** In-app notifications page body (customer & provider). */
 export default function NotificationsList() {
@@ -64,17 +50,7 @@ export default function NotificationsList() {
         <ul className="notification-list">
           {data.items.map((n) => (
             <li key={n.id}>
-              <button type="button" className={`notification ${n.read ? '' : 'is-unread'}`} onClick={() => open(n)}>
-                <span className="notification__icon">
-                  <Icon name={TYPE_ICONS[n.type] || 'bell'} size={18} />
-                </span>
-                <span className="notification__body">
-                  <span className="notification__title">{n.title}</span>
-                  <span className="notification__text">{n.message}</span>
-                  <span className="muted small">{timeAgo(n.createdAt)}</span>
-                </span>
-                {!n.read && <span className="notification__dot" aria-label="Unread" />}
-              </button>
+              <NotificationItem notification={n} onOpen={open} />
             </li>
           ))}
         </ul>

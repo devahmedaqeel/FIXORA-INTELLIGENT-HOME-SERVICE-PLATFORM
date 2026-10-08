@@ -73,8 +73,13 @@ export async function notify(userId, { type, title, message, link = '', data = {
 
 export const notifyWithSms = (userId, payload) => notify(userId, payload, { channels: [emailChannel, smsChannel] });
 
+/** UI grouping for the notification center tabs (All/Bookings/Reviews/Account/System). */
+const CATEGORY_TO_UI_TAB = Object.freeze({ bookingUpdates: 'booking', reviewUpdates: 'review', accountUpdates: 'account' });
+const uiCategoryFor = (type) => CATEGORY_TO_UI_TAB[NOTIFICATION_TYPE_CATEGORY[type]] || 'system';
+
 export async function listForUser(userId) {
-  const items = await notificationRepository.findByUser(userId, 100);
+  const stored = await notificationRepository.findByUser(userId, 100);
+  const items = stored.map((n) => ({ ...n, category: uiCategoryFor(n.type) }));
   return { items, unreadCount: items.filter((n) => !n.read).length };
 }
 
