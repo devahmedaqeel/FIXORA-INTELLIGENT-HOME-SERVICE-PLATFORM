@@ -101,6 +101,32 @@ export const NOTIFICATION_TYPES = Object.freeze({
   COMPLAINT_UPDATE: 'complaint_update',
 });
 
+/** Which notification-preference toggle governs each notification type. */
+export const NOTIFICATION_TYPE_CATEGORY = Object.freeze({
+  [NOTIFICATION_TYPES.BOOKING_CREATED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.BOOKING_CONFIRMED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.BOOKING_REJECTED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.BOOKING_CANCELLED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.BOOKING_COMPLETED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.BOOKING_UPDATED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.NEW_REVIEW]: 'reviewUpdates',
+  [NOTIFICATION_TYPES.PROVIDER_VERIFIED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.PROVIDER_STATUS_CHANGED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMPLAINT_UPDATE]: 'accountUpdates',
+});
+
+/** Categories shown in settings; "promotional" has no sender yet — it only records consent. */
+export const NOTIFICATION_PREFERENCE_KEYS = Object.freeze(['bookingUpdates', 'reviewUpdates', 'accountUpdates', 'promotional']);
+
+export const DEFAULT_NOTIFICATION_PREFERENCES = Object.freeze({
+  bookingUpdates: true,
+  reviewUpdates: true,
+  accountUpdates: true,
+  promotional: true,
+  emailEnabled: true,
+  smsEnabled: false,
+});
+
 export const WEEKDAYS = Object.freeze([
   'sunday',
   'monday',

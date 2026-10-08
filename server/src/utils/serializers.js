@@ -3,6 +3,8 @@
  * same endpoint can safely serve anonymous visitors and the future mobile app.
  */
 
+import { DEFAULT_NOTIFICATION_PREFERENCES } from '../constants/index.js';
+
 export const toPublicProvider = (provider) => {
   if (!provider) return null;
   return {
@@ -82,6 +84,7 @@ export const toUserProfile = (user) =>
     address: user.address || '',
     defaultAreaId: user.defaultAreaId || '',
     photoURL: user.photoURL || '',
+    notificationPreferences: { ...DEFAULT_NOTIFICATION_PREFERENCES, ...(user.notificationPreferences || {}) },
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   };

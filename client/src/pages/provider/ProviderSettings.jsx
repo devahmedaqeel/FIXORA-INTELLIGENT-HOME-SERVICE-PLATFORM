@@ -1,5 +1,6 @@
 import PageHeader from '../../components/common/PageHeader';
 import AccountSettings from '../../components/dashboard/AccountSettings';
+import NotificationPreferences from '../../components/dashboard/NotificationPreferences';
 import Button from '../../components/common/Button';
 import ProviderVerificationBadge from '../../components/providers/ProviderVerificationBadge';
 import { useAuth } from '../../features/auth/auth.context';
@@ -28,6 +29,7 @@ export default function ProviderSettings() {
           </div>
         </div>
       </section>
+      <NotificationPreferences />
       <AccountSettings />
     </div>
   );

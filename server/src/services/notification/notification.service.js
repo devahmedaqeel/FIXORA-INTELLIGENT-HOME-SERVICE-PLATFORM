@@ -4,6 +4,7 @@ import { logger } from '../../utils/logger.js';
 import { nowIso } from '../../utils/time.js';
 import { emailChannel } from './channels/email.channel.js';
 import { smsChannel } from './channels/sms.channel.js';
+import { DEFAULT_NOTIFICATION_PREFERENCES, NOTIFICATION_TYPE_CATEGORY } from '../../constants/index.js';
 
 /*
  * Reusable notification service.
@@ -12,10 +13,8 @@ import { smsChannel } from './channels/sms.channel.js';
  * Delivery failures are logged and never break the calling business operation.
  */
 
-async function dispatchExternal(userId, { title, message }, channels) {
-  if (!channels.length) return;
-  const user = await userRepository.findById(userId);
-  if (!user) return;
+async function dispatchExternal(user, { title, message }, channels) {
+  if (!user || !channels.length) return;
   await Promise.all(
     channels.map(async (channel) => {
       try {
@@ -27,10 +26,27 @@ async function dispatchExternal(userId, { title, message }, channels) {
           await channel.send({ to: user.phone, text: `Fixora: ${message}` });
         }
       } catch (error) {
-        logger.warn(`Notification channel ${channel.name} failed for ${userId}: ${error.message}`);
+        logger.warn(`Notification channel ${channel.name} failed for ${user.id}: ${error.message}`);
       }
     }),
   );
+}
+
+/**
+ * Looks up the recipient's notification preferences and decides what, if anything, to send
+ * externally: the notification's category must be enabled, then each channel is filtered by
+ * its own opt-in (email defaults on, SMS defaults off).
+ */
+async function dispatchRespectingPreferences(userId, type, { title, message }, channels) {
+  const user = await userRepository.findById(userId).catch(() => null);
+  if (!user) return;
+  const prefs = { ...DEFAULT_NOTIFICATION_PREFERENCES, ...(user.notificationPreferences || {}) };
+  const category = NOTIFICATION_TYPE_CATEGORY[type];
+  if (category && prefs[category] === false) return;
+  const allowedChannels = channels.filter((channel) =>
+    channel.name === 'email' ? prefs.emailEnabled !== false : channel.name === 'sms' ? prefs.smsEnabled === true : true,
+  );
+  await dispatchExternal(user, { title, message }, allowedChannels);
 }
 
 export async function notify(userId, { type, title, message, link = '', data = {} }, { channels = [emailChannel] } = {}) {
@@ -47,7 +63,7 @@ export async function notify(userId, { type, title, message, link = '', data = {
       createdAt: nowIso(),
     });
     // External delivery is fire-and-forget so API latency is unaffected.
-    dispatchExternal(userId, { title, message }, channels).catch(() => {});
+    dispatchRespectingPreferences(userId, type, { title, message }, channels).catch(() => {});
     return notification;
   } catch (error) {
     logger.warn(`Failed to store notification for ${userId}: ${error.message}`);

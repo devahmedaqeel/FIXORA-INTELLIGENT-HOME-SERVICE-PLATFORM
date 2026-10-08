@@ -148,6 +148,10 @@ code {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+.divider-top {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+}
 .eyebrow {
   font-size: var(--text-xs);
   font-weight: 700;

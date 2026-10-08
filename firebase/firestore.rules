@@ -33,7 +33,8 @@ service cloud.firestore {
       allow create: if false;
       // Users may edit harmless profile fields only — never role or status.
       allow update: if (isOwner(userId) && isActive()
-                        && changesOnly(['displayName', 'phone', 'city', 'address', 'photoURL', 'defaultAreaId', 'updatedAt']))
+                        && changesOnly(['displayName', 'phone', 'city', 'address', 'photoURL', 'defaultAreaId',
+                                        'notificationPreferences', 'updatedAt']))
                     || isAdmin();
       allow delete: if isAdmin();
     }

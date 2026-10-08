@@ -8,6 +8,7 @@ import EmptyState from '../../components/common/EmptyState';
 import AreaPicker from '../../components/search/AreaPicker';
 import PhotoUpload from '../../components/dashboard/PhotoUpload';
 import AccountSettings from '../../components/dashboard/AccountSettings';
+import NotificationPreferences from '../../components/dashboard/NotificationPreferences';
 import AddressCard from '../../components/profile/AddressCard';
 import AddressForm from '../../components/profile/AddressForm';
 import { useAuth } from '../../features/auth/auth.context';
@@ -136,6 +137,7 @@ export default function CustomerProfile() {
         )}
       </section>
 
+      <NotificationPreferences />
       <AccountSettings />
 
       <Modal open={Boolean(addressModal)} onClose={() => setAddressModal(null)} title={addressModal === 'new' ? 'Add address' : 'Edit address'}>
