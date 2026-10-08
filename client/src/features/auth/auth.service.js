@@ -3,6 +3,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   updateProfile,
 } from 'firebase/auth';
@@ -43,3 +45,11 @@ export const signOutUser = () => signOut(auth);
 export const requestPasswordReset = (email) => sendPasswordResetEmail(auth, email.trim());
 
 export const resendVerificationEmail = () => (auth.currentUser ? sendEmailVerification(auth.currentUser) : Promise.resolve());
+
+export async function signInWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+  const credential = await signInWithPopup(auth, provider);
+  return credential.user;
+}
+

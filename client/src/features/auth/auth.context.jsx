@@ -52,6 +52,19 @@ export function AuthProvider({ children }) {
       async login(email, password) {
         return applySession(await authService.signIn(email, password));
       },
+      async loginWithGoogle() {
+        const fbUser = await authService.signInWithGoogle();
+        try {
+          const session = await authService.fetchSession();
+          return applySession(session);
+        } catch (error) {
+          if (error.errorCode === 'PROFILE_NOT_FOUND') {
+            setState((s) => ({ ...s, firebaseUser: fbUser, user: null, provider: null, needsProfile: true, loading: false }));
+            return { needsProfile: true, user: null };
+          }
+          throw error;
+        }
+      },
       async register(data) {
         registering.current = true;
         try {
