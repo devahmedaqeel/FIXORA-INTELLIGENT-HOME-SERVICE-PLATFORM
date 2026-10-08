@@ -1,209 +1,259 @@
 /*
  * Optional demo accounts (seeded only with `npm run seed:demo`).
- * All demo accounts share the password below — change or delete them before going live.
+ * Most demo accounts share the password below — change or delete them before going live.
+ * Three accounts use fixed, documented credentials for quick demo login (see FIXED_ACCOUNTS).
  * Areas are referenced as "City|Area name"; categories by name.
  *
- * Five providers below are hand-authored "flagship" profiles. The rest are generated from
- * templates so the marketplace has ~50 providers spread across every seeded city, with varied
- * prices, experience, verification status, ratings and review counts — not 50 identical clones.
+ * A handful of providers below are hand-authored "flagship" profiles. The rest are generated
+ * from templates so the marketplace has ~50 providers spread across every seeded UK city, with
+ * varied prices, experience, verification status, ratings and review counts — not 50 clones.
  */
 import { AREAS } from './areas.mjs';
 
 export const DEMO_PASSWORD = 'Demo@12345';
 
-export const DEMO_ADMIN = { email: 'admin@fixora.demo', displayName: 'Fixora Admin', phone: '03000000000' };
+/** Guaranteed, documented login credentials for quick demo access. */
+export const FIXED_ACCOUNTS = {
+  admin: { email: 'admin@fixora.com', password: 'Admin@123' },
+  customer: { email: 'customer@fixora.com', password: 'Customer@123' },
+  provider: { email: 'provider@fixora.com', password: 'Provider@123' },
+};
+
+export const DEMO_ADMIN = { email: FIXED_ACCOUNTS.admin.email, password: FIXED_ACCOUNTS.admin.password, displayName: 'Fixora Admin', phone: '02079460000' };
 
 const HAND_AUTHORED_CUSTOMERS = [
-  { key: 'ayesha', email: 'ayesha@fixora.demo', displayName: 'Ayesha Khan', phone: '03001234567', city: 'Mirpur', defaultArea: 'Mirpur|New Mirpur City' },
-  { key: 'bilal', email: 'bilal@fixora.demo', displayName: 'Bilal Ahmed', phone: '03211234567', city: 'Lahore', defaultArea: 'Lahore|Gulberg III' },
+  { key: 'james', email: FIXED_ACCOUNTS.customer.email, password: FIXED_ACCOUNTS.customer.password, displayName: 'James Wilson', phone: '07911123456', city: 'London', defaultArea: 'London|Westminster' },
+  { key: 'emily', email: 'emily.smith@fixora.demo', displayName: 'Emily Smith', phone: '07700900123', city: 'Manchester', defaultArea: 'Manchester|City Centre' },
+  { key: 'oliver', email: 'oliver.brown@fixora.demo', displayName: 'Oliver Brown', phone: '07700900456', city: 'Birmingham', defaultArea: 'Birmingham|City Centre' },
+  { key: 'sophie', email: 'sophie.williams@fixora.demo', displayName: 'Sophie Williams', phone: '07700900789', city: 'Edinburgh', defaultArea: 'Edinburgh|Old Town' },
 ];
 
 const HAND_AUTHORED_PROVIDERS = [
   {
-    key: 'usman',
-    email: 'usman.plumber@fixora.demo',
-    displayName: 'Usman Raza',
-    businessName: 'Raza Plumbing Works',
-    phone: '03451234567',
-    bio: 'Licensed plumber with 12 years of experience in residential plumbing across Mirpur. Leak detection, geyser installation and bathroom fittings done right the first time.',
-    experienceYears: 12,
+    key: 'daniel',
+    email: FIXED_ACCOUNTS.provider.email,
+    password: FIXED_ACCOUNTS.provider.password,
+    displayName: 'Daniel Harris',
+    businessName: 'London Plumbing Experts',
+    phone: '02079460958',
+    bio: 'Gas Safe registered plumber with 14 years of experience across London. Leak detection, boiler servicing and bathroom installations done right the first time.',
+    experienceYears: 14,
     verificationStatus: 'verified',
-    areas: ['Mirpur|New Mirpur City', 'Mirpur|Sector F-1', 'Mirpur|Sector F-3', 'Mirpur|Allama Iqbal Road'],
+    areas: ['London|Westminster', 'London|Camden', 'London|Islington', 'London|Kensington'],
     services: [
-      { category: 'Plumbing', title: 'Leak detection & repair', description: 'Find and fix leaking taps, pipes and joints.', price: 1500, pricingType: 'starting_from', duration: 60 },
-      { category: 'Plumbing', title: 'Geyser installation', description: 'Gas or electric geyser installation with pipe fitting.', price: 3500, pricingType: 'fixed', duration: 120 },
-      { category: 'Home Maintenance', title: 'Bathroom fittings', description: 'Install showers, mixers, commodes and accessories.', price: 1200, pricingType: 'hourly', duration: 60 },
+      { category: 'Plumbing', title: 'Leak detection & repair', description: 'Find and fix leaking taps, pipes and joints.', price: 70, pricingType: 'starting_from', duration: 60 },
+      { category: 'Heating & Boiler Repair', title: 'Boiler service', description: 'Annual boiler service and safety check.', price: 90, pricingType: 'fixed', duration: 60 },
+      { category: 'Bathroom & Kitchen Fitting', title: 'Bathroom fitting', description: 'Full bathroom suite installation.', price: 600, pricingType: 'starting_from', duration: 480 },
     ],
   },
   {
-    key: 'sana',
-    email: 'sana.cleaning@fixora.demo',
-    displayName: 'Sana Malik',
-    businessName: 'SparkleHome Cleaning',
-    phone: '03111234567',
-    bio: 'Professional home cleaning team using safe, eco-friendly products. Deep cleaning, sofa shampooing and move-in/move-out cleans.',
+    key: 'hannah',
+    email: 'hannah.clean@fixora.demo',
+    displayName: 'Hannah Taylor',
+    businessName: 'West London Cleaning Co.',
+    phone: '07700900234',
+    bio: 'Professional home cleaning team using eco-friendly products. Deep cleaning, end-of-tenancy and regular cleans across west London.',
     experienceYears: 6,
     verificationStatus: 'verified',
-    areas: ['Mirpur|New Mirpur City', 'Mirpur|Sector D-4', 'Mirpur|Mian Muhammad'],
+    areas: ['London|Kensington', 'London|Camden', 'London|Canary Wharf'],
     services: [
-      { category: 'Cleaning', title: 'Full home deep cleaning', description: 'Complete deep clean of a 3–5 room house.', price: 8000, pricingType: 'starting_from', duration: 240 },
-      { category: 'Cleaning', title: 'Sofa shampooing', description: 'Per seat sofa shampoo and stain removal.', price: 700, pricingType: 'fixed', duration: 60 },
+      { category: 'Cleaning', title: 'Regular home clean', description: 'Weekly or fortnightly home cleaning.', price: 60, pricingType: 'starting_from', duration: 120 },
+      { category: 'Deep Cleaning', title: 'End-of-tenancy deep clean', description: 'Full deep clean for moving in or out.', price: 150, pricingType: 'starting_from', duration: 240 },
     ],
   },
   {
-    key: 'hamza',
-    email: 'hamza.electric@fixora.demo',
-    displayName: 'Hamza Tariq',
-    businessName: 'Tariq Electric & AC',
-    phone: '03331234567',
-    bio: 'Electrician and AC technician. Wiring, DB box upgrades, UPS installation and complete AC servicing.',
+    key: 'liam',
+    email: 'liam.electric@fixora.demo',
+    displayName: 'Liam Walker',
+    businessName: 'Manchester Electrical Services',
+    phone: '01611234567',
+    bio: 'NICEIC-registered electrician covering Greater Manchester. Rewiring, consumer unit upgrades and fault finding.',
+    experienceYears: 10,
+    verificationStatus: 'verified',
+    areas: ['Manchester|City Centre', 'Manchester|Northern Quarter', 'Manchester|Didsbury'],
+    services: [
+      { category: 'Electrical', title: 'Electrical fault finding', description: 'Diagnose and repair tripping, short circuits and faulty sockets.', price: 65, pricingType: 'starting_from', duration: 60 },
+      { category: 'Electrical', title: 'Consumer unit upgrade', description: 'Fuse box replacement to current safety standard.', price: 350, pricingType: 'fixed', duration: 180 },
+    ],
+  },
+  {
+    key: 'grace',
+    email: 'grace.tutor@fixora.demo',
+    displayName: 'Grace Campbell',
+    businessName: '',
+    phone: '01311234567',
+    bio: 'MSc Mathematics, Edinburgh. Home tutor for GCSE and A-Level maths and physics for 9 years.',
     experienceYears: 9,
     verificationStatus: 'verified',
-    areas: ['Lahore|Gulberg III', 'Lahore|Model Town', 'Lahore|Johar Town', 'Lahore|Garden Town'],
-    services: [
-      { category: 'Electrical', title: 'Electrical fault finding', description: 'Diagnose and repair tripping, short circuits and faulty sockets.', price: 1000, pricingType: 'starting_from', duration: 60 },
-      { category: 'AC Repair', title: 'AC general service', description: 'Indoor and outdoor unit cleaning, gas pressure check.', price: 2500, pricingType: 'fixed', duration: 90 },
-      { category: 'AC Repair', title: 'AC gas refill', description: 'Leak check and refrigerant top-up.', price: 4500, pricingType: 'starting_from', duration: 90 },
-    ],
+    areas: ['Edinburgh|Old Town', 'Edinburgh|Leith'],
+    services: [{ category: 'Tutoring', title: 'Maths & Physics tuition', description: 'One-to-one home tuition, per hour.', price: 30, pricingType: 'hourly', duration: 60 }],
   },
   {
-    key: 'farah',
-    email: 'farah.tutor@fixora.demo',
-    displayName: 'Farah Siddiqui',
-    businessName: '',
-    phone: '03001112233',
-    bio: 'MSc Mathematics. Home tutor for Matric, FSc and O/A Level Maths and Physics.',
-    experienceYears: 8,
-    verificationStatus: 'verified',
-    areas: ['Islamabad|F-7', 'Islamabad|F-8', 'Islamabad|G-9', 'Islamabad|E-11'],
-    services: [{ category: 'Tutoring', title: 'Maths & Physics tuition', description: 'One-to-one home tuition, per hour.', price: 2000, pricingType: 'hourly', duration: 60 }],
-  },
-  {
-    key: 'kamran',
-    email: 'kamran.pending@fixora.demo',
-    displayName: 'Kamran Ali',
-    businessName: 'Ali Laptop Clinic',
-    phone: '03019998877',
-    bio: 'Laptop chip-level repair and upgrades.',
-    experienceYears: 4,
+    key: 'ryan',
+    email: 'ryan.pending@fixora.demo',
+    displayName: 'Ryan Murphy',
+    businessName: 'Belfast Home Repairs',
+    phone: '02890246609',
+    bio: 'General handyman and small repairs across Belfast.',
+    experienceYears: 3,
     verificationStatus: 'pending',
-    areas: ['Karachi|Clifton', 'Karachi|DHA Karachi'],
-    services: [{ category: 'Computer/Laptop Repair', title: 'Laptop diagnosis & repair', description: 'Hardware diagnosis, screen and keyboard replacement.', price: 1500, pricingType: 'starting_from', duration: 60 }],
+    areas: ['Belfast|City Centre', 'Belfast|Stranmillis'],
+    services: [{ category: 'Handyman', title: 'General handyman visit', description: 'Small repairs and fixture installation.', price: 45, pricingType: 'hourly', duration: 60 }],
   },
 ];
 
 /** Past completed bookings with reviews for the hand-authored providers, so ratings show up. */
 const HAND_AUTHORED_HISTORY = [
-  { customer: 'ayesha', provider: 'usman', service: 'Leak detection & repair', dayOffset: -14, startTime: '10:00', rating: 5, comment: 'Arrived on time and fixed the kitchen leak quickly. Very professional.' },
-  { customer: 'ayesha', provider: 'sana', service: 'Sofa shampooing', dayOffset: -9, startTime: '11:00', rating: 4, comment: 'Sofa looks new. Slightly late but great work.' },
-  { customer: 'bilal', provider: 'hamza', service: 'AC general service', dayOffset: -20, startTime: '14:00', rating: 5, comment: 'AC is cooling much better now. Recommended!' },
-  { customer: 'bilal', provider: 'hamza', service: 'Electrical fault finding', dayOffset: -6, startTime: '09:00', rating: 4, comment: 'Found the fault in the DB box. Fair price.' },
+  { customer: 'james', provider: 'daniel', service: 'Leak detection & repair', dayOffset: -14, startTime: '10:00', rating: 5, comment: 'Arrived on time and fixed the kitchen leak quickly. Very professional.' },
+  { customer: 'james', provider: 'hannah', service: 'End-of-tenancy deep clean', dayOffset: -9, startTime: '11:00', rating: 4, comment: 'Flat looked brand new. Slightly late but great work.' },
+  { customer: 'emily', provider: 'liam', service: 'Electrical fault finding', dayOffset: -20, startTime: '14:00', rating: 5, comment: 'Found the fault in minutes. Highly recommended!' },
+  { customer: 'emily', provider: 'liam', service: 'Consumer unit upgrade', dayOffset: -6, startTime: '09:00', rating: 4, comment: 'Clean job, explained everything clearly.' },
 ];
 
 /* ------------------------------------------------------------------ */
 /* Generated providers: spread remaining categories across every city  */
 /* ------------------------------------------------------------------ */
 
-const MALE_FIRST = ['Ahmed', 'Usman', 'Bilal', 'Hamza', 'Imran', 'Adeel', 'Shahzad', 'Waqar', 'Faisal', 'Zeeshan', 'Tariq', 'Asif', 'Naveed', 'Saqib', 'Rashid', 'Junaid', 'Umar', 'Noman', 'Sajid', 'Arslan', 'Fahad', 'Khalid', 'Rizwan', 'Danish', 'Shahbaz'];
-const FEMALE_FIRST = ['Sana', 'Farah', 'Ayesha', 'Hina', 'Mehwish', 'Saba', 'Nida', 'Rabia', 'Amna', 'Iqra', 'Sidra', 'Mariam', 'Komal', 'Fatima', 'Zainab'];
-const LAST_NAMES = ['Khan', 'Ali', 'Raza', 'Malik', 'Tariq', 'Siddiqui', 'Sheikh', 'Butt', 'Chaudhry', 'Baig', 'Qureshi', 'Hussain', 'Abbasi', 'Awan', 'Javed', 'Mahmood'];
+const MALE_FIRST = ['Jack', 'Thomas', 'George', 'Harry', 'Jacob', 'Charlie', 'Oscar', 'Leo', 'Freddie', 'Alfie', 'Henry', 'Joshua', 'Ethan', 'Lucas', 'Mason', 'Logan', 'Finlay', 'Rhys', 'Callum', 'Connor', 'Aaron', 'Dylan', 'Ewan', 'Owen', 'Declan'];
+const FEMALE_FIRST = ['Olivia', 'Amelia', 'Isla', 'Ava', 'Mia', 'Isabella', 'Sophia', 'Grace', 'Lily', 'Freya', 'Poppy', 'Charlotte', 'Evie', 'Ruby', 'Erin', 'Niamh', 'Aoife', 'Ffion', 'Megan', 'Catrin'];
+const LAST_NAMES = ['Smith', 'Jones', 'Taylor', 'Williams', 'Brown', 'Davies', 'Evans', 'Wilson', 'Thomas', 'Roberts', 'Walker', 'Robinson', 'Wright', 'Thompson', 'White', 'Edwards', 'Green', 'Murphy', 'Campbell', 'Stewart', 'Morrison', 'Reid', 'Kelly', 'Doyle'];
 
-/** One or two sample services per category. Prices scaled per provider so nobody is identical. */
+/** One or two sample services per category, priced in GBP. Prices scaled per provider so nobody is identical. */
 const PROFESSION = {
   Plumbing: {
     businessSuffix: 'Plumbing Services',
-    bioIntro: 'Professional plumber specialising in leak repairs, geyser installation and bathroom fittings.',
+    bioIntro: 'Professional plumber specialising in leak repairs, boiler-related plumbing and bathroom fittings.',
     services: [
-      { title: 'Leak detection & repair', description: 'Find and fix leaking taps, pipes and joints.', price: 1200, pricingType: 'starting_from', duration: 60 },
-      { title: 'Geyser installation', description: 'Gas or electric geyser installation with pipe fitting.', price: 3000, pricingType: 'fixed', duration: 120 },
+      { title: 'Leak detection & repair', description: 'Find and fix leaking taps, pipes and joints.', price: 70, pricingType: 'starting_from', duration: 60 },
+      { title: 'Tap & toilet installation', description: 'Supply and fit taps, toilets and basins.', price: 90, pricingType: 'fixed', duration: 90 },
     ],
   },
   Electrical: {
-    businessSuffix: 'Electric Services',
-    bioIntro: 'Licensed electrician for wiring, switchboard repair and UPS/inverter installation.',
+    businessSuffix: 'Electrical Services',
+    bioIntro: 'NICEIC-registered electrician for wiring, sockets and consumer unit upgrades.',
     services: [
-      { title: 'Electrical fault finding', description: 'Diagnose and repair tripping, short circuits and faulty sockets.', price: 1000, pricingType: 'starting_from', duration: 60 },
-      { title: 'Fan & light installation', description: 'Ceiling fan, light fixture and switchboard installation.', price: 800, pricingType: 'fixed', duration: 45 },
+      { title: 'Electrical fault finding', description: 'Diagnose and repair tripping, short circuits and faulty sockets.', price: 65, pricingType: 'starting_from', duration: 60 },
+      { title: 'Socket & lighting installation', description: 'Additional sockets, switches and light fittings.', price: 55, pricingType: 'fixed', duration: 45 },
+    ],
+  },
+  'Heating & Boiler Repair': {
+    businessSuffix: 'Heating & Gas Services',
+    bioIntro: 'Gas Safe registered engineer for boiler servicing, repairs and central heating faults.',
+    services: [
+      { title: 'Boiler service', description: 'Annual boiler service and safety check.', price: 85, pricingType: 'fixed', duration: 60 },
+      { title: 'Boiler repair', description: 'Diagnose and fix boiler breakdowns and heating faults.', price: 110, pricingType: 'starting_from', duration: 90 },
     ],
   },
   Cleaning: {
-    businessSuffix: 'Home Cleaning',
-    bioIntro: 'Professional home cleaning using safe, eco-friendly products.',
+    businessSuffix: 'Cleaning Services',
+    bioIntro: 'Professional home cleaning using eco-friendly products.',
     services: [
-      { title: 'Full home deep cleaning', description: 'Complete deep clean of a 3–5 room house.', price: 7000, pricingType: 'starting_from', duration: 240 },
-      { title: 'Kitchen deep cleaning', description: 'Degreasing and sanitising kitchen surfaces and cabinets.', price: 2500, pricingType: 'fixed', duration: 120 },
+      { title: 'Regular home clean', description: 'Weekly or fortnightly home cleaning.', price: 55, pricingType: 'starting_from', duration: 120 },
+      { title: 'One-off home clean', description: 'Single thorough clean of the whole home.', price: 75, pricingType: 'fixed', duration: 150 },
     ],
   },
-  Barber: {
-    businessSuffix: 'Grooming Services',
-    bioIntro: 'Experienced barber offering haircuts, shaves and grooming at home.',
+  'Deep Cleaning': {
+    businessSuffix: 'Deep Cleaning Services',
+    bioIntro: 'Intensive deep cleans for kitchens, bathrooms and end-of-tenancy moves.',
     services: [
-      { title: 'Haircut at home', description: 'Professional haircut with styling.', price: 500, pricingType: 'fixed', duration: 30 },
-      { title: 'Shave & grooming', description: 'Classic shave with facial grooming.', price: 400, pricingType: 'fixed', duration: 30 },
+      { title: 'End-of-tenancy deep clean', description: 'Full deep clean for moving in or out.', price: 140, pricingType: 'starting_from', duration: 240 },
+      { title: 'Kitchen deep clean', description: 'Degreasing and sanitising kitchen surfaces and appliances.', price: 90, pricingType: 'fixed', duration: 120 },
+    ],
+  },
+  Gardening: {
+    businessSuffix: 'Gardening Services',
+    bioIntro: 'Reliable gardener for lawn care, hedge trimming and garden tidy-ups.',
+    services: [
+      { title: 'Garden tidy-up', description: 'Lawn mowing, weeding and hedge trimming.', price: 50, pricingType: 'starting_from', duration: 90 },
+      { title: 'Lawn mowing (regular)', description: 'Fortnightly lawn mowing and edging.', price: 35, pricingType: 'fixed', duration: 45 },
+    ],
+  },
+  Handyman: {
+    businessSuffix: 'Handyman Services',
+    bioIntro: 'General handyman for repairs, fixture installation and odd jobs around the home.',
+    services: [
+      { title: 'General handyman visit', description: 'Small repairs and fixture installation.', price: 40, pricingType: 'hourly', duration: 60 },
+      { title: 'Furniture assembly', description: 'Flat-pack furniture assembly and fitting.', price: 45, pricingType: 'fixed', duration: 60 },
+    ],
+  },
+  Carpentry: {
+    businessSuffix: 'Carpentry Services',
+    bioIntro: 'Skilled carpenter for furniture repair, fitted wardrobes and custom woodwork.',
+    services: [
+      { title: 'Furniture repair', description: 'Repair of chairs, tables, wardrobes and cabinets.', price: 60, pricingType: 'starting_from', duration: 90 },
+      { title: 'Door fitting', description: 'Internal door supply and fitting.', price: 80, pricingType: 'fixed', duration: 90 },
+    ],
+  },
+  'Painting & Decorating': {
+    businessSuffix: 'Painting & Decorating',
+    bioIntro: 'Professional decorator for interior and exterior painting and wallpapering.',
+    services: [
+      { title: 'Room painting (per room)', description: 'Two coats of emulsion, walls and ceiling.', price: 180, pricingType: 'starting_from', duration: 300 },
+      { title: 'Wallpapering (per room)', description: 'Wallpaper hanging and wall preparation.', price: 150, pricingType: 'starting_from', duration: 240 },
+    ],
+  },
+  Roofing: {
+    businessSuffix: 'Roofing Services',
+    bioIntro: 'Experienced roofer for repairs, re-tiling and guttering.',
+    services: [
+      { title: 'Roof repair', description: 'Fix leaks, loose tiles and flashing.', price: 150, pricingType: 'starting_from', duration: 120 },
+      { title: 'Gutter cleaning & repair', description: 'Clear blockages and fix guttering.', price: 90, pricingType: 'fixed', duration: 90 },
+    ],
+  },
+  Locksmith: {
+    businessSuffix: 'Locksmith Services',
+    bioIntro: '24-hour locksmith for lockouts, lock changes and UPVC door repairs.',
+    services: [
+      { title: 'Emergency lockout', description: 'Non-destructive entry and lock repair.', price: 70, pricingType: 'starting_from', duration: 45 },
+      { title: 'Lock change', description: 'Supply and fit new door locks.', price: 60, pricingType: 'fixed', duration: 45 },
     ],
   },
   'Appliance Repair': {
     businessSuffix: 'Appliance Repair',
-    bioIntro: 'Appliance technician repairing washing machines, fridges and microwaves.',
+    bioIntro: 'Appliance engineer repairing washing machines, fridges, ovens and dishwashers.',
     services: [
-      { title: 'Washing machine repair', description: 'Diagnosis and repair of top-load and front-load machines.', price: 1500, pricingType: 'starting_from', duration: 60 },
-      { title: 'Refrigerator repair', description: 'Cooling issues, compressor and thermostat repair.', price: 2000, pricingType: 'starting_from', duration: 90 },
+      { title: 'Washing machine repair', description: 'Diagnosis and repair of washing machines.', price: 75, pricingType: 'starting_from', duration: 60 },
+      { title: 'Oven & cooker repair', description: 'Diagnosis and repair of ovens and cookers.', price: 80, pricingType: 'starting_from', duration: 60 },
     ],
   },
-  'AC Repair': {
-    businessSuffix: 'AC & Refrigeration',
-    bioIntro: 'AC technician for installation, gas refilling and inverter AC repair.',
+  'Bathroom & Kitchen Fitting': {
+    businessSuffix: 'Bathroom & Kitchen Fitting',
+    bioIntro: 'Full bathroom and kitchen installation and refits.',
     services: [
-      { title: 'AC general service', description: 'Indoor and outdoor unit cleaning, gas pressure check.', price: 2200, pricingType: 'fixed', duration: 90 },
-      { title: 'AC gas refill', description: 'Leak check and refrigerant top-up.', price: 4000, pricingType: 'starting_from', duration: 90 },
-    ],
-  },
-  Carpentry: {
-    businessSuffix: 'Carpenter Works',
-    bioIntro: 'Skilled carpenter for furniture repair, door fitting and custom woodwork.',
-    services: [
-      { title: 'Furniture repair', description: 'Repair of chairs, tables, wardrobes and cabinets.', price: 1000, pricingType: 'starting_from', duration: 90 },
-      { title: 'Door & lock fitting', description: 'Door installation, hinge and lock repair.', price: 1200, pricingType: 'fixed', duration: 60 },
-    ],
-  },
-  Painting: {
-    businessSuffix: 'Painter Services',
-    bioIntro: 'Professional painter for interior and exterior walls, distemper and polish.',
-    services: [
-      { title: 'Room painting (per room)', description: 'Two coats of emulsion paint, walls and ceiling.', price: 6000, pricingType: 'starting_from', duration: 300 },
-      { title: 'Wall texture & finish', description: 'Decorative wall texture and putty finish.', price: 4500, pricingType: 'starting_from', duration: 240 },
-    ],
-  },
-  Tutoring: {
-    businessSuffix: '',
-    bioIntro: 'Home tutor for school and O/A Level students.',
-    services: [
-      { title: 'Maths & Science tuition', description: 'One-to-one home tuition, per hour.', price: 1800, pricingType: 'hourly', duration: 60 },
-      { title: 'English & Language tuition', description: 'Reading, writing and grammar coaching.', price: 1500, pricingType: 'hourly', duration: 60 },
+      { title: 'Bathroom fitting', description: 'Full bathroom suite installation.', price: 650, pricingType: 'starting_from', duration: 480 },
+      { title: 'Kitchen fitting', description: 'Full kitchen units and worktop installation.', price: 900, pricingType: 'starting_from', duration: 600 },
     ],
   },
   'Pest Control': {
     businessSuffix: 'Pest Control',
-    bioIntro: 'Pest control technician for termite, cockroach and mosquito treatments.',
+    bioIntro: 'Pest control technician for mice, wasps, rats and other household pests.',
     services: [
-      { title: 'General pest treatment', description: 'Cockroach, ant and mosquito spray treatment.', price: 3000, pricingType: 'starting_from', duration: 90 },
-      { title: 'Termite treatment', description: 'Pre- and post-construction termite control.', price: 8000, pricingType: 'starting_from', duration: 180 },
+      { title: 'General pest treatment', description: 'Treatment for mice, ants and common household pests.', price: 90, pricingType: 'starting_from', duration: 60 },
+      { title: 'Wasp nest removal', description: 'Safe removal of wasp and hornet nests.', price: 70, pricingType: 'fixed', duration: 45 },
     ],
   },
-  'Home Maintenance': {
-    businessSuffix: 'Home Maintenance',
-    bioIntro: 'General handyman for fixtures, minor masonry and seasonal upkeep.',
+  'Moving & Removals': {
+    businessSuffix: 'Removals',
+    bioIntro: 'Man-and-van removals for flats, houses and single-item moves.',
     services: [
-      { title: 'Handyman visit (hourly)', description: 'General repairs, fixture installation and small jobs.', price: 900, pricingType: 'hourly', duration: 60 },
-      { title: 'Shelf & fixture mounting', description: 'Mount shelves, curtain rods and wall fixtures.', price: 700, pricingType: 'fixed', duration: 45 },
+      { title: 'Man and van (half day)', description: 'Van and driver for local moves, half day.', price: 180, pricingType: 'starting_from', duration: 240 },
+      { title: 'Single item delivery', description: 'Collection and delivery of a single large item.', price: 60, pricingType: 'fixed', duration: 90 },
     ],
   },
-  'Computer/Laptop Repair': {
-    businessSuffix: 'Computer Repair',
-    bioIntro: 'Computer technician for laptop and PC repair, upgrades and virus removal.',
+  Tutoring: {
+    businessSuffix: '',
+    bioIntro: 'Home tutor for GCSE, A-Level and primary school subjects.',
     services: [
-      { title: 'Laptop diagnosis & repair', description: 'Hardware diagnosis, screen and keyboard replacement.', price: 1500, pricingType: 'starting_from', duration: 60 },
-      { title: 'Windows installation & setup', description: 'OS installation, driver and software setup.', price: 1200, pricingType: 'fixed', duration: 90 },
+      { title: 'Maths & Science tuition', description: 'One-to-one home tuition, per hour.', price: 28, pricingType: 'hourly', duration: 60 },
+      { title: 'English tuition', description: 'Reading, writing and grammar coaching.', price: 25, pricingType: 'hourly', duration: 60 },
+    ],
+  },
+  'Beauty & Salon': {
+    businessSuffix: 'Hair & Beauty',
+    bioIntro: 'Mobile hairdresser and beauty therapist, visiting clients at home.',
+    services: [
+      { title: "Haircut at home", description: 'Wash, cut and style.', price: 35, pricingType: 'fixed', duration: 60 },
+      { title: 'Manicure', description: 'Nail shaping, cuticle care and polish.', price: 25, pricingType: 'fixed', duration: 45 },
     ],
   },
 };
@@ -247,12 +297,12 @@ const GENERATED_PROVIDERS = Array.from({ length: GENERATED_PROVIDER_COUNT }, (_,
     category,
     title: s.title,
     description: s.description,
-    price: Math.round((s.price * priceFactor) / 50) * 50,
+    price: Math.max(10, Math.round((s.price * priceFactor) / 5) * 5),
     pricingType: s.pricingType,
     duration: s.duration,
   }));
   const key = `gen${i}`;
-  const phone = `03${String(100000000 + i * 137).padStart(9, '0').slice(-9)}`;
+  const phone = `07${String(700000000 + i * 137).padStart(9, '0').slice(-9)}`;
 
   return {
     key,
@@ -281,7 +331,7 @@ const GENERATED_CUSTOMERS = Array.from({ length: GENERATED_CUSTOMER_COUNT }, (_,
   const city = pick(CITY_LIST, i * 3 + 1);
   const areaNames = CITY_AREAS[city];
   const key = `cust${i}`;
-  const phone = `03${String(200000000 + i * 211).padStart(9, '0').slice(-9)}`;
+  const phone = `07${String(800000000 + i * 211).padStart(9, '0').slice(-9)}`;
   return {
     key,
     email: `${key}@fixora.demo`,

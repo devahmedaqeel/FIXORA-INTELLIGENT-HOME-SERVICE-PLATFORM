@@ -7,7 +7,7 @@
  */
 import { AREAS } from './data/areas.mjs';
 import { CATEGORIES } from './data/categories.mjs';
-import { DEMO_ADMIN, DEMO_CUSTOMERS, DEMO_HISTORY, DEMO_PASSWORD, DEMO_PROVIDERS } from './data/demo.mjs';
+import { DEMO_ADMIN, DEMO_CUSTOMERS, DEMO_HISTORY, DEMO_PASSWORD, DEMO_PROVIDERS, FIXED_ACCOUNTS } from './data/demo.mjs';
 import { areaId, assertServerConfig, categoryId, ensureAuthUser, getDb, nowIso, ukDate, writeInBatches } from './seedUtils.mjs';
 
 const withDemo = process.argv.includes('--demo');
@@ -69,7 +69,7 @@ async function seedDemo(db) {
   const uids = {};
 
   // Admin
-  const adminAuth = await ensureAuthUser({ email: DEMO_ADMIN.email, password: DEMO_PASSWORD, displayName: DEMO_ADMIN.displayName });
+  const adminAuth = await ensureAuthUser({ email: DEMO_ADMIN.email, password: DEMO_ADMIN.password || DEMO_PASSWORD, displayName: DEMO_ADMIN.displayName });
   await db.collection('users').doc(adminAuth.uid).set(
     { uid: adminAuth.uid, email: DEMO_ADMIN.email, displayName: DEMO_ADMIN.displayName, role: 'admin', status: 'active', phone: DEMO_ADMIN.phone, city: '', address: '', photoURL: '', defaultAreaId: '', createdAt: ts, updatedAt: ts },
     { merge: true },
@@ -77,7 +77,7 @@ async function seedDemo(db) {
 
   // Customers
   for (const c of DEMO_CUSTOMERS) {
-    const user = await ensureAuthUser({ email: c.email, password: DEMO_PASSWORD, displayName: c.displayName });
+    const user = await ensureAuthUser({ email: c.email, password: c.password || DEMO_PASSWORD, displayName: c.displayName });
     uids[c.key] = user.uid;
     await db.collection('users').doc(user.uid).set(
       { uid: user.uid, email: c.email, displayName: c.displayName, role: 'customer', status: 'active', phone: c.phone, city: c.city, address: '', photoURL: '', defaultAreaId: resolveArea(c.defaultArea).id, createdAt: ts, updatedAt: ts },
@@ -89,7 +89,7 @@ async function seedDemo(db) {
   // Providers, services, availability
   const serviceIds = {};
   for (const p of DEMO_PROVIDERS) {
-    const user = await ensureAuthUser({ email: p.email, password: DEMO_PASSWORD, displayName: p.displayName });
+    const user = await ensureAuthUser({ email: p.email, password: p.password || DEMO_PASSWORD, displayName: p.displayName });
     uids[p.key] = user.uid;
     const areas = p.areas.map(resolveArea);
     const categoryIds = [...new Set(p.services.map((s) => categoryId(s.category)))];
@@ -228,8 +228,10 @@ async function seedDemo(db) {
   }
 
   console.log(`✔ demo data: 1 admin, ${DEMO_CUSTOMERS.length} customers, ${DEMO_PROVIDERS.length} providers, ${DEMO_HISTORY.length} reviewed bookings`);
-  console.log(`  All demo accounts use the password: ${DEMO_PASSWORD}`);
-  console.log(`  Admin: ${DEMO_ADMIN.email} · Customer: ${DEMO_CUSTOMERS[0].email} · Provider: ${DEMO_PROVIDERS[0].email}`);
+  console.log(`  Quick login — Admin: ${FIXED_ACCOUNTS.admin.email} / ${FIXED_ACCOUNTS.admin.password}`);
+  console.log(`  Quick login — Customer: ${FIXED_ACCOUNTS.customer.email} / ${FIXED_ACCOUNTS.customer.password}`);
+  console.log(`  Quick login — Provider: ${FIXED_ACCOUNTS.provider.email} / ${FIXED_ACCOUNTS.provider.password}`);
+  console.log(`  All other demo accounts use the password: ${DEMO_PASSWORD}`);
 }
 
 async function main() {
