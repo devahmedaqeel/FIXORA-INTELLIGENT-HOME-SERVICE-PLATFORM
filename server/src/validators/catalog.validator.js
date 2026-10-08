@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { requiredText, trimmed, postalCode, paginationQuery, booleanString } from './common.validator.js';
+import { PAKISTAN_PROVINCES } from '../constants/index.js';
 
 /* ---------- Categories ---------- */
 
@@ -24,16 +25,6 @@ export const updateCategorySchema = z
 export const listCategoriesQuery = z.object({ includeInactive: booleanString.optional() });
 
 /* ---------- Areas ---------- */
-
-export const PAKISTAN_PROVINCES = [
-  'Punjab',
-  'Sindh',
-  'Khyber Pakhtunkhwa',
-  'Balochistan',
-  'Islamabad Capital Territory',
-  'Azad Jammu and Kashmir',
-  'Gilgit-Baltistan',
-];
 
 const areaFields = {
   areaName: requiredText('Area name', 2, 100),

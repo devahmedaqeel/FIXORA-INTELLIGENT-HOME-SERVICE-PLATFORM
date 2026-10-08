@@ -18,6 +18,19 @@ export const COLLECTIONS = Object.freeze({
 });
 
 export const ROLES = Object.freeze({ CUSTOMER: 'customer', PROVIDER: 'provider', ADMIN: 'admin' });
+
+export const PAKISTAN_PROVINCES = Object.freeze([
+  'Punjab',
+  'Sindh',
+  'Khyber Pakhtunkhwa',
+  'Balochistan',
+  'Islamabad Capital Territory',
+  'Azad Jammu and Kashmir',
+  'Gilgit-Baltistan',
+]);
+
+export const ADDRESS_LABELS = Object.freeze(['home', 'work', 'other']);
+export const MAX_SAVED_ADDRESSES = 10;
 export const SELF_REGISTER_ROLES = [ROLES.CUSTOMER, ROLES.PROVIDER];
 
 export const ACCOUNT_STATUS = Object.freeze({ ACTIVE: 'active', SUSPENDED: 'suspended', DELETED: 'deleted' });

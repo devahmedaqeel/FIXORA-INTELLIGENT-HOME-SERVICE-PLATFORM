@@ -12,6 +12,12 @@ export const getSavedProviderIds = () => api.get('/customers/saved-providers/ids
 export const saveProvider = (id) => api.post(`/customers/saved-providers/${id}`);
 export const unsaveProvider = (id) => api.delete(`/customers/saved-providers/${id}`);
 
+/* Addresses */
+export const listAddresses = () => api.get('/customers/addresses');
+export const addAddress = (data) => api.post('/customers/addresses', data);
+export const updateAddress = (id, data) => api.put(`/customers/addresses/${id}`, data);
+export const deleteAddress = (id) => api.delete(`/customers/addresses/${id}`);
+
 /* Notifications */
 export const listNotifications = () => api.get('/notifications');
 export const markNotificationRead = (id) => api.patch(`/notifications/${id}/read`);

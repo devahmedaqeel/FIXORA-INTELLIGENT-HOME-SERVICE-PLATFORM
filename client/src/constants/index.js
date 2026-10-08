@@ -60,6 +60,14 @@ export const PAKISTAN_PROVINCES = Object.freeze([
   'Gilgit-Baltistan',
 ]);
 
+export const PROVINCE_OPTIONS = Object.freeze(PAKISTAN_PROVINCES.map((p) => ({ value: p, label: p })));
+
+export const ADDRESS_LABEL_OPTIONS = Object.freeze([
+  { value: 'home', label: 'Home' },
+  { value: 'work', label: 'Work' },
+  { value: 'other', label: 'Other' },
+]);
+
 export const WEEKDAYS = Object.freeze([
   { key: 'monday', label: 'Monday' },
   { key: 'tuesday', label: 'Tuesday' },

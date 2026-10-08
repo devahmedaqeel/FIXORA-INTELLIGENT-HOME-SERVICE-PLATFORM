@@ -41,7 +41,7 @@ service cloud.firestore {
     // ---------- customers (saved providers etc.) ----------
     match /customers/{customerId} {
       allow read: if isOwner(customerId) || isAdmin();
-      allow update: if (isOwner(customerId) && isCustomer() && changesOnly(['savedProviderIds', 'updatedAt'])) || isAdmin();
+      allow update: if (isOwner(customerId) && isCustomer() && changesOnly(['savedProviderIds', 'addresses', 'updatedAt'])) || isAdmin();
       allow create, delete: if isAdmin();
     }
 

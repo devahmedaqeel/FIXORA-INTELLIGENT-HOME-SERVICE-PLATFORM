@@ -1,8 +1,9 @@
+import { randomUUID } from 'node:crypto';
 import { bookingRepository, customerRepository, providerRepository, reviewRepository, userRepository } from '../repositories/index.js';
 import { ApiError } from '../utils/ApiError.js';
 import { nowIso, todayLocal } from '../utils/time.js';
 import { toPublicProvider, toPublicReview } from '../utils/serializers.js';
-import { BOOKING_STATUS } from '../constants/index.js';
+import { BOOKING_STATUS, MAX_SAVED_ADDRESSES } from '../constants/index.js';
 import { isPubliclyVisible } from './provider.service.js';
 
 async function getCustomerRecord(uid) {
@@ -90,4 +91,52 @@ export async function unsaveProvider(uid, providerId) {
 
 export async function getSavedProviderIds(uid) {
   return (await getCustomerRecord(uid)).savedProviderIds || [];
+}
+
+/* ------------------------------------------------------------------ */
+/* Saved addresses                                                     */
+/* ------------------------------------------------------------------ */
+
+const withSingleDefault = (addresses, defaultId) => addresses.map((a) => ({ ...a, isDefault: a.id === defaultId }));
+
+export async function listAddresses(uid) {
+  return (await getCustomerRecord(uid)).addresses || [];
+}
+
+export async function addAddress(uid, input) {
+  const customer = await getCustomerRecord(uid);
+  const addresses = customer.addresses || [];
+  if (addresses.length >= MAX_SAVED_ADDRESSES) throw ApiError.badRequest(`You can save up to ${MAX_SAVED_ADDRESSES} addresses`);
+
+  const created = { ...input, id: randomUUID(), isDefault: false };
+  let updated = [...addresses, created];
+  if (input.isDefault || addresses.length === 0) updated = withSingleDefault(updated, created.id);
+
+  await customerRepository.update(uid, { addresses: updated, updatedAt: nowIso() });
+  return updated.find((a) => a.id === created.id);
+}
+
+export async function updateAddress(uid, addressId, input) {
+  const customer = await getCustomerRecord(uid);
+  const addresses = customer.addresses || [];
+  if (!addresses.some((a) => a.id === addressId)) throw ApiError.notFound('Address not found');
+
+  let updated = addresses.map((a) => (a.id === addressId ? { ...a, ...input, id: addressId } : a));
+  if (input.isDefault) updated = withSingleDefault(updated, addressId);
+
+  await customerRepository.update(uid, { addresses: updated, updatedAt: nowIso() });
+  return updated.find((a) => a.id === addressId);
+}
+
+export async function deleteAddress(uid, addressId) {
+  const customer = await getCustomerRecord(uid);
+  const addresses = customer.addresses || [];
+  const target = addresses.find((a) => a.id === addressId);
+  if (!target) throw ApiError.notFound('Address not found');
+
+  let remaining = addresses.filter((a) => a.id !== addressId);
+  if (target.isDefault && remaining.length > 0) remaining = withSingleDefault(remaining, remaining[0].id);
+
+  await customerRepository.update(uid, { addresses: remaining, updatedAt: nowIso() });
+  return remaining;
 }
