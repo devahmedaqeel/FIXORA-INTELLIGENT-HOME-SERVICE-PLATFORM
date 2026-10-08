@@ -76,7 +76,7 @@ export default function CancelBookingDialog({ bookingId, open, onClose, onCancel
               {needsAck && (
                 <label className="checkbox">
                   <input type="checkbox" checked={acknowledged} onChange={(e) => setAcknowledged(e.target.checked)} />
-                  <span>I understand this is a late cancellation{decision.fee > 0 ? ` and a fee of Rs ${decision.fee} applies` : ''}.</span>
+                  <span>I understand this is a late cancellation{decision.fee > 0 ? ` and a fee of £${decision.fee} applies` : ''}.</span>
                 </label>
               )}
             </>

@@ -37,14 +37,14 @@ export function createTestContext() {
   };
 
   const seedUser = (uid, role, extra = {}) => {
-    auth.addUser(uid, `${uid}@test.pk`);
+    auth.addUser(uid, `${uid}@test.co.uk`);
     db.seed('users', uid, {
       uid,
-      email: `${uid}@test.pk`,
+      email: `${uid}@test.co.uk`,
       displayName: extra.displayName || uid,
       role,
       status: 'active',
-      phone: '03001234567',
+      phone: '07911123456',
       city: '',
       address: '',
       photoURL: '',

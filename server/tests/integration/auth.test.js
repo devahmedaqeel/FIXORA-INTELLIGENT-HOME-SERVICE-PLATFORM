@@ -9,13 +9,13 @@ describe('registration & login', () => {
   });
 
   test('1. customer registration creates user and customer records', async () => {
-    ctx.auth.addUser('newcust', 'newcust@test.pk');
-    const res = await ctx.as('newcust').post('/api/auth/register', { role: 'customer', displayName: 'New Customer', phone: '0300 1234567' });
+    ctx.auth.addUser('newcust', 'newcust@test.co.uk');
+    const res = await ctx.as('newcust').post('/api/auth/register', { role: 'customer', displayName: 'New Customer', phone: '07911 123456' });
     assert.equal(res.status, 201);
     assert.equal(res.body.success, true);
     assert.equal(res.body.data.user.role, 'customer');
     assert.equal(ctx.db.read('users', 'newcust').role, 'customer');
-    assert.equal(ctx.db.read('users', 'newcust').phone, '03001234567');
+    assert.equal(ctx.db.read('users', 'newcust').phone, '07911123456');
     assert.ok(ctx.db.read('customers', 'newcust'));
   });
 

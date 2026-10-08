@@ -219,7 +219,7 @@ export class FakeAuth {
   async verifyIdToken(token) {
     const match = /^token-(.+)$/.exec(token || '');
     if (!match) throw new Error('invalid token');
-    const user = this.users.get(match[1]) || { uid: match[1], email: `${match[1]}@test.pk` };
+    const user = this.users.get(match[1]) || { uid: match[1], email: `${match[1]}@test.co.uk` };
     return { uid: user.uid, email: user.email, email_verified: true };
   }
 
