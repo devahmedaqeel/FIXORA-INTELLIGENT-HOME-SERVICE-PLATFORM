@@ -26,3 +26,7 @@ export const getSettings = () => api.get('/admin/settings');
 export const updateSettings = (data) => api.put('/admin/settings', data);
 
 export const getReportSummary = (months) => api.get('/admin/reports/summary', { params: { months } });
+
+export const listAdmins = () => api.get('/admin/admins');
+export const listPendingInvites = () => api.get('/admin/invites');
+export const createAdminInvite = (email) => api.post('/admin/invites', { email });

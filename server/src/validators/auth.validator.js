@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { SELF_REGISTER_ROLES } from '../constants/index.js';
 import { requiredText, optionalPhone } from './common.validator.js';
 
+export const adminSignupSchema = z.object({ token: z.string().trim().min(10).max(200) }).strict();
+
 /**
  * Registration completes a Firebase Auth account by creating the Firestore profile.
  * Only customer/provider can be self-assigned — admins are created via the create-admin script.

@@ -5,6 +5,7 @@ import * as reviewService from '../services/review.service.js';
 import * as complaintService from '../services/complaint.service.js';
 import * as settingsService from '../services/settings.service.js';
 import * as auditLogService from '../services/auditLog.service.js';
+import * as adminInviteService from '../services/adminInvite.service.js';
 import { AUDIT_ACTIONS } from '../constants/index.js';
 
 const paged = (res, { items, meta }) => sendSuccess(res, { data: items, meta });
@@ -71,6 +72,13 @@ const pickPaymentSettings = (s) => ({
 export const getPaymentSettings = asyncHandler(async (_req, res) =>
   sendSuccess(res, { data: pickPaymentSettings(await settingsService.getSettings()) }),
 );
+/* Admin team (invite-based admin onboarding) */
+export const listAdmins = asyncHandler(async (_req, res) => sendSuccess(res, { data: await adminService.listAdminAccounts() }));
+export const createInvite = asyncHandler(async (req, res) =>
+  sendSuccess(res, { data: await adminInviteService.createInvite(req.user, req.body.email), message: 'Invite created', statusCode: 201 }),
+);
+export const listInvites = asyncHandler(async (_req, res) => sendSuccess(res, { data: await adminInviteService.listPendingInvites() }));
+
 export const updatePaymentSettings = asyncHandler(async (req, res) => {
   const saved = await settingsService.updateSettings(req.body, req.user.uid);
   await auditLogService.record({

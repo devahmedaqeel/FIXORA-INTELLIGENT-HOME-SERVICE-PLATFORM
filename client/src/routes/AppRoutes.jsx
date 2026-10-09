@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PublicLayout from '../layouts/PublicLayout';
 import AuthLayout from '../layouts/AuthLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
+import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
 import GuestRoute from './GuestRoute';
 import Loader from '../components/common/Loader';
@@ -57,6 +58,9 @@ const ProviderComplaints = page(() => import('../pages/provider/ProviderComplain
 const ProviderOnboarding = page(() => import('../pages/provider/ProviderOnboarding'));
 
 // Admin
+const AdminLogin = page(() => import('../pages/admin/AdminLogin'));
+const AdminSignup = page(() => import('../pages/admin/AdminSignup'));
+const AdminTeam = page(() => import('../pages/admin/AdminTeam'));
 const AdminDashboard = page(() => import('../pages/admin/AdminDashboard'));
 const ManageUsers = page(() => import('../pages/admin/ManageUsers'));
 const ManageCustomers = page(() => import('../pages/admin/ManageCustomers'));
@@ -141,28 +145,36 @@ export default function AppRoutes() {
           </Route>
         </Route>
 
-        <Route path="admin" element={<ProtectedRoute roles={['admin']} />}>
-          <Route element={<DashboardLayout />}>
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<ManageUsers />} />
-            <Route path="customers" element={<ManageCustomers />} />
-            <Route path="providers" element={<ManageProviders />} />
-            <Route path="provider-verification" element={<ProviderVerification />} />
-            <Route path="categories" element={<ManageCategories />} />
-            <Route path="areas" element={<ManageAreas />} />
-            <Route path="bookings" element={<ManageBookings />} />
-            <Route path="reviews" element={<ManageReviews />} />
-            <Route path="complaints" element={<ManageComplaints />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="chatbot-queries" element={<ChatbotQueries />} />
-            <Route path="payments" element={<AdminPayments />} />
-            <Route path="commissions" element={<AdminCommissions />} />
-            <Route path="commissions/:id" element={<AdminCommissionDetail />} />
-            <Route path="financial-reports" element={<AdminFinancialReports />} />
-            <Route path="audit-logs" element={<AdminAuditLogs />} />
-            <Route path="payment-settings" element={<AdminPaymentSettings />} />
-            <Route path="settings" element={<AdminSettings />} />
+        {/* Admin portal — entirely separate auth pages and layout from customer/provider. */}
+        <Route path="admin">
+          <Route element={<GuestRoute />}>
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="signup" element={<AdminSignup />} />
+          </Route>
+          <Route element={<ProtectedRoute roles={['admin']} loginPath="/admin/login" />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="team" element={<AdminTeam />} />
+              <Route path="users" element={<ManageUsers />} />
+              <Route path="customers" element={<ManageCustomers />} />
+              <Route path="providers" element={<ManageProviders />} />
+              <Route path="provider-verification" element={<ProviderVerification />} />
+              <Route path="categories" element={<ManageCategories />} />
+              <Route path="areas" element={<ManageAreas />} />
+              <Route path="bookings" element={<ManageBookings />} />
+              <Route path="reviews" element={<ManageReviews />} />
+              <Route path="complaints" element={<ManageComplaints />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="chatbot-queries" element={<ChatbotQueries />} />
+              <Route path="payments" element={<AdminPayments />} />
+              <Route path="commissions" element={<AdminCommissions />} />
+              <Route path="commissions/:id" element={<AdminCommissionDetail />} />
+              <Route path="financial-reports" element={<AdminFinancialReports />} />
+              <Route path="audit-logs" element={<AdminAuditLogs />} />
+              <Route path="payment-settings" element={<AdminPaymentSettings />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

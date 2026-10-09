@@ -25,6 +25,7 @@ export const NAVIGATION = {
   ],
   admin: [
     { to: '/admin/dashboard', label: 'Dashboard', icon: 'grid' },
+    { to: '/admin/team', label: 'Admin team', icon: 'users' },
     { to: '/admin/provider-verification', label: 'Verification', icon: 'shield' },
     { to: '/admin/users', label: 'Users', icon: 'users' },
     { to: '/admin/customers', label: 'Customers', icon: 'user' },

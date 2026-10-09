@@ -207,3 +207,9 @@ export async function resolveChatbotQuery(admin, id, { resolved, adminNote = '' 
   if (!query) throw ApiError.notFound('Chatbot query not found');
   return chatbotQueryRepository.update(id, { resolved, adminNote, reviewedBy: admin.uid, reviewedAt: nowIso() });
 }
+
+/* ---------- Admin team ---------- */
+
+export async function listAdminAccounts() {
+  return (await userRepository.findByRole(ROLES.ADMIN)).map(toUserProfile);
+}

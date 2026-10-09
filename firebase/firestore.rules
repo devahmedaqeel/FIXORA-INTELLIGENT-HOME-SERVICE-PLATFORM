@@ -162,6 +162,13 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ---------- admin invites (one-time tokens; redeemed server-side via the Admin SDK) ----------
+    // No client — including an admin's own browser — may read or write these directly; the
+    // signup flow exchanges a token for the admin role only through POST /api/auth/admin-signup.
+    match /adminInvites/{token} {
+      allow read, write: if false;
+    }
+
     // Deny everything not matched above.
     match /{document=**} {
       allow read, write: if false;

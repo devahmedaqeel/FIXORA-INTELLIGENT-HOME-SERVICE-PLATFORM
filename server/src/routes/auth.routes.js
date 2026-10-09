@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { authenticateUser, verifyFirebaseToken } from '../middleware/auth.middleware.js';
 import { validate } from '../middleware/validate.middleware.js';
 import { authLimiter } from '../middleware/rateLimit.middleware.js';
-import { registerSchema } from '../validators/auth.validator.js';
+import { registerSchema, adminSignupSchema } from '../validators/auth.validator.js';
 import * as controller from '../controllers/auth.controller.js';
 
 /*
@@ -14,6 +14,7 @@ const router = Router();
 
 router.use(authLimiter);
 router.post('/register', verifyFirebaseToken, validate({ body: registerSchema }), controller.register);
+router.post('/admin-signup', verifyFirebaseToken, validate({ body: adminSignupSchema }), controller.adminSignup);
 router.post('/verify', authenticateUser, controller.verify);
 
 export default router;

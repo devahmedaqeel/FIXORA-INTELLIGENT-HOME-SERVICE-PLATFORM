@@ -4,10 +4,12 @@ import Sidebar from '../components/layout/Sidebar';
 import DashboardHeader from '../components/layout/DashboardHeader';
 import MobileNavigation from '../components/layout/MobileNavigation';
 import ChatbotWidget from '../components/chatbot/ChatbotWidget';
+import { useMetaRobots } from '../hooks/useMetaRobots';
 
-/** Shell for customer, provider and admin areas: sidebar, header, bottom nav (mobile), assistant. */
+/** Shell for the customer and provider areas: sidebar, header, bottom nav (mobile), assistant. */
 export default function DashboardLayout() {
   const [navOpen, setNavOpen] = useState(false);
+  useMetaRobots();
   return (
     <div className="dash-shell">
       <a href="#main" className="skip-link">

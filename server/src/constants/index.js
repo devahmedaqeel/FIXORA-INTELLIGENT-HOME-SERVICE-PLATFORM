@@ -19,7 +19,11 @@ export const COLLECTIONS = Object.freeze({
   PAYMENTS: 'payments',
   COMMISSIONS: 'commissions',
   AUDIT_LOGS: 'auditLogs',
+  ADMIN_INVITES: 'adminInvites',
 });
+
+/** How long an admin invite link stays redeemable. */
+export const ADMIN_INVITE_EXPIRY_HOURS = 48;
 
 export const ROLES = Object.freeze({ CUSTOMER: 'customer', PROVIDER: 'provider', ADMIN: 'admin' });
 
@@ -121,6 +125,8 @@ export const AUDIT_ACTIONS = Object.freeze({
   COMMISSION_DISPUTED: 'commission_disputed',
   COMMISSION_MARKED_OVERDUE: 'commission_marked_overdue',
   PAYMENT_SETTINGS_UPDATED: 'payment_settings_updated',
+  ADMIN_INVITE_CREATED: 'admin_invite_created',
+  ADMIN_INVITE_REDEEMED: 'admin_invite_redeemed',
 });
 
 export const COMPLAINT_TYPES = Object.freeze(['booking', 'provider', 'payment', 'platform']);

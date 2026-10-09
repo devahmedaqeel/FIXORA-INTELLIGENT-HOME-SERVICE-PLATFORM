@@ -52,6 +52,23 @@ export function AuthProvider({ children }) {
       async login(email, password) {
         return applySession(await authService.signIn(email, password));
       },
+      /** Signs in via the same Firebase flow as login(), then rejects (and signs out) anyone whose server-assigned role isn't admin. */
+      async adminLogin(email, password) {
+        const session = await authService.signIn(email, password);
+        if (session.user.role !== 'admin') {
+          await authService.signOutUser();
+          throw Object.assign(new Error('This account is not an administrator.'), { errorCode: 'NOT_ADMIN' });
+        }
+        return applySession(session);
+      },
+      async adminSignup(data) {
+        registering.current = true;
+        try {
+          return applySession(await authService.adminSignup(data));
+        } finally {
+          registering.current = false;
+        }
+      },
       async loginWithGoogle() {
         const fbUser = await authService.signInWithGoogle();
         try {

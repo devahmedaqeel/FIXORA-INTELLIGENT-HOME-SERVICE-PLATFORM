@@ -10,6 +10,7 @@ import {
   updateSettingsSchema,
   chatbotQueriesQuery,
   resolveChatbotQuerySchema,
+  createInviteSchema,
 } from '../validators/admin.validator.js';
 import { adminListBookingsQuery, updateBookingStatusSchema } from '../validators/booking.validator.js';
 import { moderateReviewSchema, updateComplaintSchema, listComplaintsQuery } from '../validators/feedback.validator.js';
@@ -73,6 +74,10 @@ router.patch('/complaints/:id', validate({ params: idParams, body: updateComplai
 
 router.get('/chatbot-queries', validate({ query: chatbotQueriesQuery }), controller.listChatbotQueries);
 router.patch('/chatbot-queries/:id', validate({ params: idParams, body: resolveChatbotQuerySchema }), controller.resolveChatbotQuery);
+
+router.get('/admins', controller.listAdmins);
+router.post('/invites', validate({ body: createInviteSchema }), controller.createInvite);
+router.get('/invites', controller.listInvites);
 
 router.get('/settings', controller.getSettings);
 router.put('/settings', validate({ body: updateSettingsSchema }), controller.updateSettings);

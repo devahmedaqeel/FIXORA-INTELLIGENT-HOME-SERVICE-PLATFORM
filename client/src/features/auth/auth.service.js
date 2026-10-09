@@ -38,6 +38,23 @@ export async function signIn(email, password) {
   return api.post('/auth/verify');
 }
 
+/**
+ * Admin accounts are never created by this call alone — the server only grants role: admin
+ * when `token` matches a valid, unused, unexpired invite issued by an existing admin for
+ * this exact email (see POST /api/auth/admin-signup). Everything else about account creation
+ * mirrors registerAccount(), including rolling back the Firebase user if the server rejects it.
+ */
+export async function adminSignup({ email, password, displayName, token }) {
+  const credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+  try {
+    await updateProfile(credential.user, { displayName });
+    return await api.post('/auth/admin-signup', { token });
+  } catch (error) {
+    await credential.user.delete().catch(() => {});
+    throw error;
+  }
+}
+
 export const fetchSession = () => api.post('/auth/verify');
 
 export const signOutUser = () => signOut(auth);

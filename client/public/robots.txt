@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /customer
+Disallow: /provider
+Disallow: /unauthorized
+
+Sitemap: https://fixora.com/sitemap.xml

@@ -17,3 +17,4 @@ export { settingsRepository } from './settings.repository.js';
 export { paymentRepository } from './payment.repository.js';
 export { commissionRepository } from './commission.repository.js';
 export { auditLogRepository } from './auditLog.repository.js';
+export { adminInviteRepository } from './adminInvite.repository.js';
