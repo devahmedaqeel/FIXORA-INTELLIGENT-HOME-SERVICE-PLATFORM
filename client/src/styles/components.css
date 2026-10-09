@@ -181,6 +181,33 @@ textarea.field__control {
 .field--error .field__control {
   border-color: var(--danger);
 }
+.field__input-wrap {
+  position: relative;
+  display: flex;
+}
+.field__input-wrap .field__control {
+  padding-right: 44px;
+}
+.field__toggle-visibility {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  color: var(--muted);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.field__toggle-visibility:hover {
+  color: var(--ink);
+}
+.field__toggle-visibility:focus-visible {
+  outline: 3px solid var(--primary-ring);
+  outline-offset: -3px;
+}
 .field__hint {
   font-size: var(--text-xs);
   color: var(--muted);

@@ -13,6 +13,21 @@ async function start() {
     logger.info(`AI chatbot provider: ${env.ai.provider}; email provider: ${env.notifications.emailProvider}; payments: ${env.payment.provider}`);
   });
 
+  // Without this, a port conflict crashes as an unhandled 'error' event with a raw Node
+  // stack trace, and under `node --watch` leaves the process hung ("waiting for file
+  // changes") with no indication a second instance is already running on this port.
+  server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+      logger.error(
+        `Port ${env.port} is already in use — another instance of this server (or something else) is already running. ` +
+          `Stop it first, e.g. on Windows: netstat -ano | findstr :${env.port}  then  taskkill /PID <pid> /F`,
+      );
+      process.exit(1);
+    }
+    logger.error(`Server failed to start: ${error.message}`);
+    process.exit(1);
+  });
+
   const shutdown = (signal) => {
     logger.info(`${signal} received, shutting down`);
     server.close(() => process.exit(0));

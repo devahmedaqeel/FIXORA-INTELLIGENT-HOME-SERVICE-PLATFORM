@@ -55,10 +55,12 @@ async function request(method, path, { body, params, auth: withAuth = true, raw 
   }
 
   let payload = null;
+  let unparseableBody = false;
   try {
     payload = await response.json();
   } catch {
     payload = null;
+    unparseableBody = true;
   }
 
   if (!response.ok || payload?.success === false) {
@@ -69,7 +71,12 @@ async function request(method, path, { body, params, auth: withAuth = true, raw 
         return raw || mock.raw ? mock.data : mock.data;
       }
     }
-    throw new ApiError(payload?.message || `Request failed (${response.status})`, {
+    // The real API always responds with JSON (see server error.middleware.js). A response
+    // body that fails to parse means the request never reached it — e.g. the backend isn't
+    // running and the Vite dev proxy returned its own plain-text error — not an application
+    // error, so say that plainly instead of a bare, unexplained "Request failed (500)".
+    const message = payload?.message || (unparseableBody ? 'Cannot reach the Fixora server. Check your connection and try again.' : `Request failed (${response.status})`);
+    throw new ApiError(message, {
       status: response.status,
       errorCode: payload?.errorCode || 'REQUEST_FAILED',
       details: payload?.details,
