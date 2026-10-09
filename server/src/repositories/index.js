@@ -14,3 +14,6 @@ export { messageRepository } from './message.repository.js';
 export { notificationRepository } from './notification.repository.js';
 export { chatbotQueryRepository } from './chatbotQuery.repository.js';
 export { settingsRepository } from './settings.repository.js';
+export { paymentRepository } from './payment.repository.js';
+export { commissionRepository } from './commission.repository.js';
+export { auditLogRepository } from './auditLog.repository.js';

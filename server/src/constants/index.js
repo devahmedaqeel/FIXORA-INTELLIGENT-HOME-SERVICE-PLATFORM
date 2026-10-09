@@ -16,6 +16,9 @@ export const COLLECTIONS = Object.freeze({
   NOTIFICATIONS: 'notifications',
   CHATBOT_QUERIES: 'chatbotQueries',
   SETTINGS: 'settings',
+  PAYMENTS: 'payments',
+  COMMISSIONS: 'commissions',
+  AUDIT_LOGS: 'auditLogs',
 });
 
 export const ROLES = Object.freeze({ CUSTOMER: 'customer', PROVIDER: 'provider', ADMIN: 'admin' });
@@ -73,6 +76,53 @@ export const PAYMENT_STATUS = Object.freeze({
 
 export const REVIEW_STATUS = Object.freeze({ PUBLISHED: 'published', REMOVED: 'removed' });
 
+/** Methods a customer/provider can record when confirming a cash/bank-transfer payment. */
+export const PAYMENT_METHODS = Object.freeze(['cash', 'bank_transfer', 'other']);
+
+/**
+ * Lifecycle of the per-booking `payments/{bookingId}` record. Both parties confirm
+ * independently; the record only becomes `paid` once both flags are set, which is the
+ * single trigger for automatic, idempotent commission creation (see commission.service.js).
+ */
+export const PAYMENT_CONFIRMATION_STATUS = Object.freeze({
+  PENDING: 'pending',
+  CUSTOMER_CONFIRMED: 'customer_confirmed',
+  PROVIDER_CONFIRMED: 'provider_confirmed',
+  PAID: 'paid',
+  DISPUTED: 'disputed',
+  PARTIALLY_PAID: 'partially_paid',
+  REFUNDED: 'refunded',
+});
+
+/** Lifecycle of the per-booking `commissions/{bookingId}` record. */
+export const COMMISSION_STATUS = Object.freeze({
+  DUE: 'due',
+  PARTIALLY_PAID: 'partially_paid',
+  UNDER_REVIEW: 'under_review',
+  PAID: 'paid',
+  REJECTED: 'rejected',
+  OVERDUE: 'overdue',
+  DISPUTED: 'disputed',
+  WAIVED: 'waived',
+});
+
+/** Every financial state transition is written here for a tamper-evident trail. */
+export const AUDIT_ACTIONS = Object.freeze({
+  PAYMENT_CUSTOMER_CONFIRMED: 'payment_customer_confirmed',
+  PAYMENT_PROVIDER_CONFIRMED: 'payment_provider_confirmed',
+  PAYMENT_DISPUTED: 'payment_disputed',
+  PAYMENT_DISPUTE_RESOLVED: 'payment_dispute_resolved',
+  COMMISSION_CREATED: 'commission_created',
+  COMMISSION_PAYMENT_SUBMITTED: 'commission_payment_submitted',
+  COMMISSION_VERIFIED: 'commission_verified',
+  COMMISSION_REJECTED: 'commission_rejected',
+  COMMISSION_PARTIALLY_PAID: 'commission_partially_paid',
+  COMMISSION_WAIVED: 'commission_waived',
+  COMMISSION_DISPUTED: 'commission_disputed',
+  COMMISSION_MARKED_OVERDUE: 'commission_marked_overdue',
+  PAYMENT_SETTINGS_UPDATED: 'payment_settings_updated',
+});
+
 export const COMPLAINT_TYPES = Object.freeze(['booking', 'provider', 'payment', 'platform']);
 export const COMPLAINT_STATUS = Object.freeze({
   OPEN: 'open',
@@ -93,6 +143,15 @@ export const NOTIFICATION_TYPES = Object.freeze({
   PROVIDER_STATUS_CHANGED: 'provider_status_changed',
   COMPLAINT_UPDATE: 'complaint_update',
   NEW_MESSAGE: 'new_message',
+  PAYMENT_CONFIRMATION_NEEDED: 'payment_confirmation_needed',
+  PAYMENT_CONFIRMED: 'payment_confirmed',
+  PAYMENT_DISPUTED: 'payment_disputed',
+  COMMISSION_DUE: 'commission_due',
+  COMMISSION_SUBMITTED: 'commission_submitted',
+  COMMISSION_VERIFIED: 'commission_verified',
+  COMMISSION_REJECTED: 'commission_rejected',
+  COMMISSION_OVERDUE: 'commission_overdue',
+  COMMISSION_WAIVED: 'commission_waived',
 });
 
 /** Which notification-preference toggle governs each notification type. */
@@ -108,6 +167,29 @@ export const NOTIFICATION_TYPE_CATEGORY = Object.freeze({
   [NOTIFICATION_TYPES.PROVIDER_VERIFIED]: 'accountUpdates',
   [NOTIFICATION_TYPES.PROVIDER_STATUS_CHANGED]: 'accountUpdates',
   [NOTIFICATION_TYPES.COMPLAINT_UPDATE]: 'accountUpdates',
+  [NOTIFICATION_TYPES.PAYMENT_CONFIRMATION_NEEDED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.PAYMENT_CONFIRMED]: 'bookingUpdates',
+  [NOTIFICATION_TYPES.PAYMENT_DISPUTED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_DUE]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_SUBMITTED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_VERIFIED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_REJECTED]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_OVERDUE]: 'accountUpdates',
+  [NOTIFICATION_TYPES.COMMISSION_WAIVED]: 'accountUpdates',
+});
+
+/** Visual/sort priority for the notification center; financial events default to high. */
+export const NOTIFICATION_PRIORITY = Object.freeze({ HIGH: 'high', MEDIUM: 'medium', LOW: 'low' });
+export const NOTIFICATION_TYPE_PRIORITY = Object.freeze({
+  [NOTIFICATION_TYPES.COMMISSION_OVERDUE]: NOTIFICATION_PRIORITY.HIGH,
+  [NOTIFICATION_TYPES.COMMISSION_DUE]: NOTIFICATION_PRIORITY.HIGH,
+  [NOTIFICATION_TYPES.PAYMENT_DISPUTED]: NOTIFICATION_PRIORITY.HIGH,
+  [NOTIFICATION_TYPES.COMMISSION_REJECTED]: NOTIFICATION_PRIORITY.HIGH,
+  [NOTIFICATION_TYPES.COMMISSION_SUBMITTED]: NOTIFICATION_PRIORITY.MEDIUM,
+  [NOTIFICATION_TYPES.PAYMENT_CONFIRMATION_NEEDED]: NOTIFICATION_PRIORITY.MEDIUM,
+  [NOTIFICATION_TYPES.COMMISSION_VERIFIED]: NOTIFICATION_PRIORITY.MEDIUM,
+  [NOTIFICATION_TYPES.PAYMENT_CONFIRMED]: NOTIFICATION_PRIORITY.MEDIUM,
+  [NOTIFICATION_TYPES.COMMISSION_WAIVED]: NOTIFICATION_PRIORITY.MEDIUM,
 });
 
 /** Categories shown in settings; "promotional" has no sender yet — it only records consent. */
@@ -145,6 +227,17 @@ export const DEFAULT_SETTINGS = Object.freeze({
   supportEmail: 'support@fixora.com',
   supportPhone: '+44 20 7946 0000',
   platformName: 'Fixora',
+  commissionRatePercent: 10,
+  commissionPaymentDeadlineDays: 7,
+  businessPaymentAccount: {
+    accountName: 'Fixora Services Ltd',
+    bankName: 'Barclays',
+    sortCode: '20-00-00',
+    accountNumber: '00000000',
+    iban: '',
+    swiftBic: '',
+  },
+  enabledCommissionPaymentMethods: { bank_transfer: true, cash: true, other: true },
 });
 
 export const DEFAULT_COUNTRY = 'United Kingdom';

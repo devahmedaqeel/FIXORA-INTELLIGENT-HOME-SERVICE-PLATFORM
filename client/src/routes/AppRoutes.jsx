@@ -49,6 +49,8 @@ const ProviderBookings = page(() => import('../pages/provider/ProviderBookings')
 const ProviderBookingDetails = page(() => import('../pages/provider/ProviderBookingDetails'));
 const ProviderReviews = page(() => import('../pages/provider/ProviderReviews'));
 const ProviderEarnings = page(() => import('../pages/provider/ProviderEarnings'));
+const ProviderCommissions = page(() => import('../pages/provider/ProviderCommissions'));
+const ProviderCommissionDetails = page(() => import('../pages/provider/ProviderCommissionDetails'));
 const ProviderSettings = page(() => import('../pages/provider/ProviderSettings'));
 const ProviderNotifications = page(() => import('../pages/provider/ProviderNotifications'));
 const ProviderComplaints = page(() => import('../pages/provider/ProviderComplaints'));
@@ -68,6 +70,12 @@ const ManageComplaints = page(() => import('../pages/admin/ManageComplaints'));
 const Reports = page(() => import('../pages/admin/Reports'));
 const ChatbotQueries = page(() => import('../pages/admin/ChatbotQueries'));
 const AdminSettings = page(() => import('../pages/admin/AdminSettings'));
+const AdminPayments = page(() => import('../pages/admin/AdminPayments'));
+const AdminCommissions = page(() => import('../pages/admin/AdminCommissions'));
+const AdminCommissionDetail = page(() => import('../pages/admin/AdminCommissionDetail'));
+const AdminFinancialReports = page(() => import('../pages/admin/AdminFinancialReports'));
+const AdminAuditLogs = page(() => import('../pages/admin/AdminAuditLogs'));
+const AdminPaymentSettings = page(() => import('../pages/admin/AdminPaymentSettings'));
 
 export default function AppRoutes() {
   return (
@@ -87,8 +95,8 @@ export default function AppRoutes() {
         </Route>
 
         <Route element={<GuestRoute />}>
+          <Route path="login" element={<Login />} />
           <Route element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
@@ -125,6 +133,8 @@ export default function AppRoutes() {
             <Route path="bookings/:id" element={<ProviderBookingDetails />} />
             <Route path="reviews" element={<ProviderReviews />} />
             <Route path="earnings" element={<ProviderEarnings />} />
+            <Route path="commissions" element={<ProviderCommissions />} />
+            <Route path="commissions/:id" element={<ProviderCommissionDetails />} />
             <Route path="settings" element={<ProviderSettings />} />
             <Route path="notifications" element={<ProviderNotifications />} />
             <Route path="complaints" element={<ProviderComplaints />} />
@@ -146,6 +156,12 @@ export default function AppRoutes() {
             <Route path="complaints" element={<ManageComplaints />} />
             <Route path="reports" element={<Reports />} />
             <Route path="chatbot-queries" element={<ChatbotQueries />} />
+            <Route path="payments" element={<AdminPayments />} />
+            <Route path="commissions" element={<AdminCommissions />} />
+            <Route path="commissions/:id" element={<AdminCommissionDetail />} />
+            <Route path="financial-reports" element={<AdminFinancialReports />} />
+            <Route path="audit-logs" element={<AdminAuditLogs />} />
+            <Route path="payment-settings" element={<AdminPaymentSettings />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Route>

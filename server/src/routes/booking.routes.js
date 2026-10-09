@@ -11,9 +11,11 @@ import {
   paymentStatusSchema,
 } from '../validators/booking.validator.js';
 import { createMessageSchema } from '../validators/message.validator.js';
+import { confirmPaymentSchema, disputePaymentSchema } from '../validators/finance.validator.js';
 import { ROLES } from '../constants/index.js';
 import * as controller from '../controllers/booking.controller.js';
 import * as messageController from '../controllers/message.controller.js';
+import * as paymentController from '../controllers/payment.controller.js';
 
 const router = Router();
 
@@ -37,6 +39,26 @@ router.patch(
 );
 router.get('/:id/cancellation-preview', requireCustomer, validate({ params: idParams }), controller.cancellationPreview);
 router.patch('/:id/cancel', requireCustomer, validate({ params: idParams, body: cancelBookingSchema }), controller.cancel);
+
+router.get('/:id/payment', validate({ params: idParams }), paymentController.getForBooking);
+router.patch(
+  '/:id/payment/customer-confirm',
+  requireCustomer,
+  validate({ params: idParams, body: confirmPaymentSchema }),
+  paymentController.customerConfirm,
+);
+router.patch(
+  '/:id/payment/provider-confirm',
+  requireRole(ROLES.PROVIDER),
+  validate({ params: idParams, body: confirmPaymentSchema }),
+  paymentController.providerConfirm,
+);
+router.post(
+  '/:id/payment/dispute',
+  requireRole(ROLES.CUSTOMER, ROLES.PROVIDER),
+  validate({ params: idParams, body: disputePaymentSchema }),
+  paymentController.dispute,
+);
 
 router.get('/:id/messages', validate({ params: idParams }), messageController.list);
 router.post(

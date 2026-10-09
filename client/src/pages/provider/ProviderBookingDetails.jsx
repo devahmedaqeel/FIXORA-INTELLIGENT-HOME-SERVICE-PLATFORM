@@ -8,6 +8,7 @@ import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import BookingDetailsView from '../../components/booking/BookingDetailsView';
+import PaymentConfirmationCard from '../../components/booking/PaymentConfirmationCard';
 import MessageThread from '../../components/booking/MessageThread';
 import { useAsync } from '../../hooks/useAsync';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
@@ -66,6 +67,8 @@ export default function ProviderBookingDetails() {
         }
       />
       <BookingDetailsView booking={booking} perspective="provider" />
+
+      <PaymentConfirmationCard booking={booking} perspective="provider" />
 
       <MessageThread bookingId={booking.id} counterpartName={booking.customerName} />
 

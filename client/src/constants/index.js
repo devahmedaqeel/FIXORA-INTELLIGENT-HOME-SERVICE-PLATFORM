@@ -28,6 +28,41 @@ export const BOOKING_STATUS_TONES = Object.freeze({
 
 export const PAYMENT_STATUS_LABELS = Object.freeze({ unpaid: 'Unpaid', paid: 'Paid', refunded: 'Refunded', cash: 'Cash' });
 
+export const PAYMENT_METHOD_LABELS = Object.freeze({ cash: 'Cash', bank_transfer: 'Bank transfer', other: 'Other' });
+export const PAYMENT_METHOD_OPTIONS = Object.freeze(Object.entries(PAYMENT_METHOD_LABELS).map(([value, label]) => ({ value, label })));
+
+export const PAYMENT_CONFIRMATION_LABELS = Object.freeze({
+  pending: 'Pending',
+  customer_confirmed: 'Customer confirmed',
+  provider_confirmed: 'Provider confirmed',
+  paid: 'Paid',
+  disputed: 'Disputed',
+  partially_paid: 'Partially paid',
+  refunded: 'Refunded',
+});
+
+export const COMMISSION_STATUS_LABELS = Object.freeze({
+  due: 'Due',
+  partially_paid: 'Partially paid',
+  under_review: 'Under review',
+  paid: 'Paid',
+  rejected: 'Rejected',
+  overdue: 'Overdue',
+  disputed: 'Disputed',
+  waived: 'Waived',
+});
+
+export const COMMISSION_STATUS_TONES = Object.freeze({
+  due: 'warning',
+  partially_paid: 'warning',
+  under_review: 'info',
+  paid: 'success',
+  rejected: 'danger',
+  overdue: 'danger',
+  disputed: 'danger',
+  waived: 'neutral',
+});
+
 export const PRICING_TYPES = Object.freeze([
   { value: 'fixed', label: 'Fixed price' },
   { value: 'starting_from', label: 'Starting from' },

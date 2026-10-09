@@ -9,7 +9,7 @@ import BookingStatusBadge from '../../components/booking/BookingStatusBadge';
 import { useAsync } from '../../hooks/useAsync';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { getAdminDashboard } from '../../services/admin.service';
-import { formatDate, timeAgo } from '../../utils/format';
+import { formatDate, formatGBP, timeAgo } from '../../utils/format';
 
 export default function AdminDashboard() {
   useDocumentTitle('Admin dashboard');
@@ -17,6 +17,7 @@ export default function AdminDashboard() {
   if (loading) return <Loader label="Loading platform overview…" />;
   if (error) return <ErrorMessage error={error} onRetry={reload} />;
   const s = data.stats;
+  const f = data.financial;
 
   return (
     <div className="stack stack--xl">
@@ -33,6 +34,21 @@ export default function AdminDashboard() {
         <StatCard label="Reviews" value={s.totalReviews} icon="star" to="/admin/reviews" />
         <StatCard label="Open complaints" value={s.openComplaints} hint={`${s.totalComplaints} total`} icon="alert" tone="danger" to="/admin/complaints" />
         <StatCard label="Unanswered chatbot queries" value={s.unansweredQueries} icon="message" tone="warning" to="/admin/chatbot-queries" />
+      </StatGrid>
+
+      <div className="section__head">
+        <h2>Financial overview</h2>
+        <Link to="/admin/financial-reports" className="small">
+          Full report
+        </Link>
+      </div>
+      <StatGrid>
+        <StatCard label="Total commission generated" value={formatGBP(f.totalCommissionGBP)} icon="wallet" tone="accent" to="/admin/commissions" />
+        <StatCard label="Collected" value={formatGBP(f.totalCollectedGBP)} icon="check-circle" tone="success" />
+        <StatCard label="Outstanding" value={formatGBP(f.totalOutstandingGBP)} icon="alert" tone="warning" to="/admin/commissions?status=due" />
+        <StatCard label="Overdue" value={f.overdueCount} icon="alert" tone="danger" to="/admin/commissions?status=overdue" />
+        <StatCard label="Awaiting verification" value={f.underReviewCount} icon="file" tone="info" to="/admin/commissions?status=under_review" />
+        <StatCard label="Disputed payments/commissions" value={f.disputedCount} icon="alert" tone="danger" to="/admin/payments?status=disputed" />
       </StatGrid>
 
       <div className="dash-columns">

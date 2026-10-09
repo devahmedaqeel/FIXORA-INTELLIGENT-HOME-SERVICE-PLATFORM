@@ -17,8 +17,22 @@ import { createAreaSchema, updateAreaSchema, searchAreasQuery } from '../validat
 import { z } from 'zod';
 import { REVIEW_STATUS } from '../constants/index.js';
 import { paginationQuery } from '../validators/common.validator.js';
+import {
+  listPaymentsQuery,
+  resolveDisputeSchema,
+  listCommissionsQuery,
+  verifyCommissionSchema,
+  rejectCommissionSchema,
+  partialPaymentSchema,
+  waiveCommissionSchema,
+  listAuditLogsQuery,
+  paymentSettingsSchema,
+} from '../validators/finance.validator.js';
 import * as controller from '../controllers/admin.controller.js';
 import * as catalogController from '../controllers/catalog.controller.js';
+import * as paymentController from '../controllers/payment.controller.js';
+import * as commissionController from '../controllers/commission.controller.js';
+import * as auditLogController from '../controllers/auditLog.controller.js';
 import reportsRouter from '../reports/reports.routes.js';
 
 const router = Router();
@@ -62,6 +76,21 @@ router.patch('/chatbot-queries/:id', validate({ params: idParams, body: resolveC
 
 router.get('/settings', controller.getSettings);
 router.put('/settings', validate({ body: updateSettingsSchema }), controller.updateSettings);
+router.get('/payment-settings', controller.getPaymentSettings);
+router.put('/payment-settings', validate({ body: paymentSettingsSchema }), controller.updatePaymentSettings);
+
+router.get('/payments', validate({ query: listPaymentsQuery }), paymentController.listAll);
+router.post('/payments/:id/resolve-dispute', validate({ params: idParams, body: resolveDisputeSchema }), paymentController.resolveDispute);
+
+router.get('/commissions', validate({ query: listCommissionsQuery }), commissionController.listAll);
+router.get('/commissions/:id', validate({ params: idParams }), commissionController.getDetail);
+router.post('/commissions/:id/verify', validate({ params: idParams, body: verifyCommissionSchema }), commissionController.verify);
+router.post('/commissions/:id/reject', validate({ params: idParams, body: rejectCommissionSchema }), commissionController.reject);
+router.post('/commissions/:id/partial-payment', validate({ params: idParams, body: partialPaymentSchema }), commissionController.recordPartialPayment);
+router.post('/commissions/:id/waive', validate({ params: idParams, body: waiveCommissionSchema }), commissionController.waive);
+
+router.get('/financial-reports', commissionController.financialOverview);
+router.get('/audit-logs', validate({ query: listAuditLogsQuery }), auditLogController.listAll);
 
 router.use('/reports', reportsRouter);
 

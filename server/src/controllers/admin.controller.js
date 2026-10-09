@@ -4,6 +4,8 @@ import * as bookingService from '../services/booking.service.js';
 import * as reviewService from '../services/review.service.js';
 import * as complaintService from '../services/complaint.service.js';
 import * as settingsService from '../services/settings.service.js';
+import * as auditLogService from '../services/auditLog.service.js';
+import { AUDIT_ACTIONS } from '../constants/index.js';
 
 const paged = (res, { items, meta }) => sendSuccess(res, { data: items, meta });
 
@@ -57,3 +59,26 @@ export const getSettings = asyncHandler(async (_req, res) => sendSuccess(res, { 
 export const updateSettings = asyncHandler(async (req, res) =>
   sendSuccess(res, { data: await settingsService.updateSettings(req.body, req.user.uid), message: 'Settings saved' }),
 );
+
+/* Payment settings (commission rate, deadline, business bank account) */
+const pickPaymentSettings = (s) => ({
+  commissionRatePercent: s.commissionRatePercent,
+  commissionPaymentDeadlineDays: s.commissionPaymentDeadlineDays,
+  businessPaymentAccount: s.businessPaymentAccount,
+  enabledCommissionPaymentMethods: s.enabledCommissionPaymentMethods,
+});
+
+export const getPaymentSettings = asyncHandler(async (_req, res) =>
+  sendSuccess(res, { data: pickPaymentSettings(await settingsService.getSettings()) }),
+);
+export const updatePaymentSettings = asyncHandler(async (req, res) => {
+  const saved = await settingsService.updateSettings(req.body, req.user.uid);
+  await auditLogService.record({
+    action: AUDIT_ACTIONS.PAYMENT_SETTINGS_UPDATED,
+    actorId: req.user.uid,
+    actorRole: req.user.role,
+    actorName: req.user.displayName,
+    details: `Payment settings updated: ${Object.keys(req.body).join(', ')}`,
+  });
+  sendSuccess(res, { data: pickPaymentSettings(saved), message: 'Payment settings saved' });
+});

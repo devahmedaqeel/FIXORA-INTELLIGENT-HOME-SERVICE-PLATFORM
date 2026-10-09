@@ -23,6 +23,7 @@ import {
 } from '../constants/index.js';
 import * as notificationService from './notification/notification.service.js';
 import { getAvailability } from './availability.service.js';
+import { getFinancialOverview } from './commission.service.js';
 
 /* ---------- Dashboard ---------- */
 
@@ -60,6 +61,7 @@ export async function getDashboardStats() {
 
   const recentBookings = await bookingRepository.findWhere([], { orderBy: ['createdAt', 'desc'], limit: 6 });
   const pendingQueue = (await providerRepository.findByStatus(VERIFICATION_STATUS.PENDING)).slice(0, 5).map(toPrivateProvider);
+  const financial = await getFinancialOverview();
 
   return {
     stats: {
@@ -77,6 +79,7 @@ export async function getDashboardStats() {
       totalComplaints,
       unansweredQueries,
     },
+    financial: financial.totals,
     recentBookings,
     pendingProviders: pendingQueue,
   };

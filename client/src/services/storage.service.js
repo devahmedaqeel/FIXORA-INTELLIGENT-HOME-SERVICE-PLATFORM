@@ -35,6 +35,11 @@ export function uploadVerificationDocument(uid, file) {
   return upload(`verification/${uid}/${safeName(file.name)}`, file);
 }
 
+export function uploadCommissionProof(uid, bookingId, file) {
+  assertFile(file, { types: DOC_TYPES, maxMb: 5 });
+  return upload(`commissions/${uid}/${bookingId}/${safeName(file.name)}`, file);
+}
+
 export async function deleteStoredFile(path) {
   if (!storage || !path) return;
   await deleteObject(ref(storage, path)).catch(() => {});

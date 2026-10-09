@@ -5,6 +5,7 @@ import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import BookingDetailsView from '../../components/booking/BookingDetailsView';
+import PaymentConfirmationCard from '../../components/booking/PaymentConfirmationCard';
 import MessageThread from '../../components/booking/MessageThread';
 import CancelBookingDialog from '../../components/booking/CancelBookingDialog';
 import ReviewForm from '../../components/reviews/ReviewForm';
@@ -58,6 +59,8 @@ export default function BookingDetails() {
           </>
         }
       />
+
+      <PaymentConfirmationCard booking={booking} perspective="customer" />
 
       <MessageThread bookingId={booking.id} counterpartName={booking.providerName} />
 

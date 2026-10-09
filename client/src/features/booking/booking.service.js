@@ -11,3 +11,8 @@ export const cancelBooking = (id, { reason, acknowledgeLateCancellation }) =>
 
 export const listBookingMessages = (id) => api.get(`/bookings/${id}/messages`);
 export const sendBookingMessage = (id, text) => api.post(`/bookings/${id}/messages`, { text });
+
+export const getBookingPayment = (id) => api.get(`/bookings/${id}/payment`);
+export const confirmPaymentAsCustomer = (id, data) => api.patch(`/bookings/${id}/payment/customer-confirm`, data);
+export const confirmPaymentAsProvider = (id, data) => api.patch(`/bookings/${id}/payment/provider-confirm`, data);
+export const disputeBookingPayment = (id, reason) => api.post(`/bookings/${id}/payment/dispute`, { reason });
