@@ -6,6 +6,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
 import GuestRoute from './GuestRoute';
+import AdminGuestRoute from './AdminGuestRoute';
 import Loader from '../components/common/Loader';
 
 /* Pages are code-split per route. */
@@ -147,7 +148,7 @@ export default function AppRoutes() {
 
         {/* Admin portal — entirely separate auth pages and layout from customer/provider. */}
         <Route path="admin">
-          <Route element={<GuestRoute />}>
+          <Route element={<AdminGuestRoute />}>
             <Route path="login" element={<AdminLogin />} />
             <Route path="signup" element={<AdminSignup />} />
           </Route>
