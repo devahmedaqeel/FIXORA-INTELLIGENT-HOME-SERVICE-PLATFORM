@@ -9,12 +9,16 @@
 * **Area / postcode search** — database-driven UK locations (area, city, district, province, postcode); no map APIs
 * **Booking & scheduling** — weekly availability, days off, slot generation from service duration, transactional **double-booking prevention**
 * **Cancellation policy** — free until a configurable cutoff (default 2 hours), then warn / fee / block
+* **Messaging** — in-thread customer ↔ provider chat scoped to a single booking
 * **Reviews & ratings** — only after completed bookings, one per booking, averages maintained transactionally
-* **Provider tools** — profile, photo & document uploads, services and prices, availability, booking management, earnings
-* **Admin panel** — users, providers & verification, categories, areas, bookings, reviews, complaints, reports, chatbot queries, platform settings
+* **Provider tools** — guided onboarding wizard, profile, photo & document uploads, services and prices, availability, booking management, earnings, commissions
+* **Independent admin portal** — its own layout, login and signup, completely separate from the customer/provider dashboards (see [Admin portal](#admin-portal) below)
+* **Financial management** — dual customer/provider payment confirmation, automatic idempotent commission calculation, provider payment submission with proof upload, admin verification/rejection/partial-payment/waiver, a full immutable audit log, and financial reports
+* **Admin panel** — users, customers, providers & verification, categories, areas, bookings, reviews, complaints, payments, commissions, audit logs, reports, chatbot queries, platform & payment settings
 * **AI chatbot** — FAQ answers offline, personal booking/earnings answers scoped to the signed-in user, optional OpenAI / Anthropic / Gemini, logged fallbacks with human-support handoff
 * **Notifications** — in-app notifications with pluggable email/SMS channels
 * **Firebase backend** — Authentication, Cloud Firestore, Storage, security rules and indexes
+* **SEO-aware** — public pages stay indexable (`robots.txt` / `sitemap.xml`); every private dashboard (admin, customer, provider) is served with `noindex, nofollow`
 * **Mobile-ready API** — all business rules live in the REST API so a future mobile app can reuse it as-is
 
 ## Technology
@@ -32,10 +36,11 @@
 Fixora/
 ├── client/            React web app (Vite)
 │   └── src/
-│       ├── components/  common · layout · providers · booking · reviews · chatbot · search · charts · dashboard
+│       ├── components/  common · layout · admin · providers · booking · reviews · chatbot · search · charts · dashboard
 │       ├── features/    auth · booking · providers · reviews · chatbot (API + domain helpers)
 │       ├── pages/       public · customer · provider · admin
-│       ├── layouts/ routes/ hooks/ services/ context/ constants/ utils/ styles/
+│       ├── layouts/     PublicLayout · AuthLayout · DashboardLayout (customer/provider) · AdminLayout (admin, independent)
+│       ├── routes/ hooks/ services/ context/ constants/ utils/ styles/
 │       └── firebase.js
 ├── server/            Express REST API
 │   ├── src/
@@ -75,7 +80,7 @@ npm run create-admin -- --email you@example.com --password "StrongPass123" --nam
 npm run dev
 ```
 
-Quick demo login (created by `seed:demo`): `admin@fixora.com` / `Admin@123`, `customer@fixora.com` / `Customer@123`, `provider@fixora.com` / `Provider@123`. Every other seeded account uses the password `Demo@12345`.
+Quick demo login (created by `seed:demo`): `admin@fixora.com` / `Admin@123` at **`/admin/login`**, `customer@fixora.com` / `Customer@123` and `provider@fixora.com` / `Provider@123` at `/login`. Every other seeded account uses the password `Demo@12345`.
 
 Full step-by-step instructions, including Firebase console setup, optional AI/email/payment integrations and deployment: **[docs/SETUP.md](docs/SETUP.md)**.
 
@@ -92,6 +97,22 @@ Full step-by-step instructions, including Firebase console setup, optional AI/em
 | `npm run create-admin -- --email … --password …` | Create or promote an admin |
 | `npm run deploy:rules` | Deploy Firestore/Storage rules and indexes |
 
+## Admin portal
+
+The admin portal is a fully independent application area — separate layout, separate `/admin/login` and `/admin/signup`, no shared UI with the customer/provider dashboards, and `noindex, nofollow` on every page.
+
+**The admin role can never be self-assigned.** Public registration only ever accepts `role: customer` or `role: provider` (enforced server-side, not just hidden in the UI). There are exactly two ways to create an admin account:
+
+1. **First admin (trusted operator, CLI only):**
+   ```bash
+   npm run create-admin -- --email you@example.com --password "StrongPass123" --name "Your Name"
+   ```
+   Runs with the Firebase Admin SDK directly — never exposed over HTTP.
+
+2. **Every admin after that (invite-based, in-app):** an existing admin opens `/admin/team`, enters an email, and gets a one-time signup link. That link is valid for **48 hours**, works **exactly once**, and is **locked to the exact email it was issued for** — the server verifies all of this inside a Firestore transaction before granting the role, so a token can never be redeemed twice even under concurrent requests. The underlying invite record itself is unreadable by any client, including an admin's own browser; redemption only ever happens through the Admin SDK on the server.
+
+Admin login re-verifies the role server-side after every sign-in and signs the user straight back out if the account isn't an admin — a customer or provider credential cannot get into the admin portal even momentarily.
+
 ## Documentation
 
 * [Setup](docs/SETUP.md) — local development, Firebase, environment variables, seeding, build
@@ -101,7 +122,8 @@ Full step-by-step instructions, including Firebase console setup, optional AI/em
 
 ## Security notes
 
-* Roles are read from Firestore on every request; the client cannot assign or escalate roles.
+* Roles are read from Firestore on every request; the client cannot assign or escalate roles. The admin role specifically can only be granted via the CLI script or a verified single-use invite (see [Admin portal](#admin-portal)).
 * Secrets live only in `.env` files (git-ignored). Firebase web config is public by design; the Admin private key and AI/payment keys are server-only.
-* Firestore and Storage rules deny by default and never use `allow read, write: if true`.
+* Firestore and Storage rules deny by default and never use `allow read, write: if true`. Financial collections (`payments`, `commissions`, `auditLogs`, `adminInvites`) are writable only by the server's Admin SDK — a provider cannot flip their own commission to "paid" from DevTools, and nobody can read an invite token directly from Firestore.
+* Payment status is never inferred from a provider marking a job "completed" — it requires explicit, independent confirmation from both the customer and the provider before a commission is even generated.
 * Inputs are validated with strict schemas; unknown fields are rejected. Errors never leak stack traces.
