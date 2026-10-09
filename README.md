@@ -2,6 +2,17 @@
 
 **Intelligent Home Service Platform** — a full-stack marketplace connecting customers in the United Kingdom with verified local home-service providers: plumbers, electricians, cleaners, heating engineers, carpenters, painters, tutors and more.
 
+## Quick links (after `npm run dev`)
+
+Run `npm run dev` from the project root first (starts the API on :5000 and the web app on :5173) — then open either portal directly:
+
+| | |
+|---|---|
+| 🔐 **Admin portal** | [http://localhost:5173/admin/login](http://localhost:5173/admin/login) — separate login, separate layout from the public/customer site. Demo: `admin@fixora.com` / `Admin@123` |
+| 🌐 **Customer / provider site** | [http://localhost:5173/](http://localhost:5173/) — public marketplace, customer & provider sign-in is at `/login`. Demo: `customer@fixora.com` / `Customer@123` or `provider@fixora.com` / `Provider@123` |
+
+These are two completely separate areas of the app — the admin portal has its own layout, sidebar and auth, and is never reachable from the public site's sign-in page. See [Admin portal](#admin-portal) below for how admin accounts are created securely.
+
 ## Features
 
 * **Customer marketplace** — search by service category plus area name or postcode, compare ratings and prices, save favourites
